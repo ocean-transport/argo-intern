@@ -1,0 +1,18 @@
+name: argo # can choose any name
+channels:
+  - conda-forge
+dependencies:
+  # These packages are required if you want your environment to show up in jupyterlab
+  - python
+  - ipywidgets
+  # Commonly used packaged by oceanographers
+  - xarray
+  - numpy
+  - scipy
+  - dask
+  - netcdf4
+  - pandas
+  - matplotlib
+  - argopy
+  - xrft
+  - cartopy
