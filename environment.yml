@@ -16,3 +16,4 @@ dependencies:
   - argopy
   - xrft
   - cartopy
+  - cmocean
