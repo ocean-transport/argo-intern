@@ -74,4 +74,7 @@ def float_load(float_id):
     levels = list(range(0, 1500))
     afloat_interp = afloat_prof.argo.interp_std_levels(levels)
     
-    return afloat_interp
+    TEMP_afloat = afloat.TEMP
+    SAL_afloat = afloat.PSAL
+    
+    return afloat_interp, TEMP_afloat, SAL_afloat
