@@ -1,48 +1,128 @@
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-import random
 import xrft
+import scipy
 
-def spectral_plot_example(da, points, modes, slope, a_start, k_start):
-    a_li=np.zeros((modes,1))
-    k_li=np.zeros((modes,1))
-    y_li=np.zeros((points,modes))
-    y_funct=np.zeros((points,1))
-
-    a_li[0,0]=a_start
-    k_li[0,0]=k_start
-
-    for n in range(0,modes-1):
-        this_a=a_li[n,0]
-        next_a=int(this_a+slope)
-        a_li[n+1,0]=next_a
-
-        this_k=k_li[n,0]
-        next_k=int(this_k+1)
-        k_li[n+1,0]=next_k
+def spectral_funct(points, modes, slope, xmax):
+    k_ar=np.logspace(0,2,modes)
+    a_ar=np.sqrt(0.01*k_ar**(slope/2))
+    y_ar=np.zeros((points,modes))
+    signal_ar=np.zeros((points,1))
+    
+    x=np.linspace(0,xmax,num=points)
+    
+    for n in range(0,modes):
+        y_ar[:,n] = np.sin(k_ar[n]*x+np.random.uniform(0,6,size=1))*a_ar[n]
         
-    x = np.linspace(0, 2*np.pi, num=points)
+    signal=y_ar.sum(axis=1)
+    
+    signal_da=xr.DataArray(signal, dims=['points'], coords={'points':x})
+    signal_spec=xrft.power_spectrum(signal_da,dim='points')
+    
+    plt.figure(figsize=(25,3))
+    plt.subplot(1,2,1)
+    plt.plot(x,signal,color='black')
+    plt.title("Signal (slope={})".format(slope))
+    
+    plt.subplot(1,2,2)
+    signal_spec.plot()
+    plt.plot(k_ar/(2*np.pi),(xmax/np.pi)*a_ar**2)
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.title("Power Spectrum (slope={})".format(slope))
+    plt.xlabel("Wavenumber, log(1/$\lambda$)")
+    plt.ylabel("Amplitude, log(a**2)")
+    plt.subplots_adjust(hspace=0.2)
+    
+def spectral_filtered_1(points, modes, slope, xmax, sigma):
+    k_ar=np.logspace(0,2,modes)
+    a_ar=np.sqrt(0.01*k_ar**(slope/2))
+    y_ar=np.zeros((points,modes))
+    signal=np.zeros((points,1))
+
+    x=np.linspace(0,xmax,num=points)
 
     for n in range(0,modes):
-        y_li[:,n] = np.sin(int(k_li[n])*x)*int(a_li[n])
+        y_ar[:,n] = np.sin(k_ar[n]*x+np.random.uniform(0,6,size=1))*a_ar[n]
 
-    y_funct = y_li.sum(axis=1)
+    signal=y_ar.sum(axis=1)
+    signal_da=xr.DataArray(signal, dims=['points'], coords={'points':x})
+    signal_spec=xrft.power_spectrum(signal_da,dim='points')
 
+    filtered = scipy.ndimage.gaussian_filter1d(signal, sigma=sigma, mode='wrap')
+    filtered_da=xr.DataArray(filtered, dims=['points'],coords={'points':x})
+    filtered_spec=xrft.power_spectrum(filtered_da,dim='points')
+
+    #Plot 1: SIGNAL
+    plt.figure(figsize=(15,5))
+    plt.subplot(2,2,1)
+    plt.plot(x,signal,color='black')
+    plt.title("Signal (slope={})".format(slope))
+
+    #Plot 2: SIGNAL SPECTRUM
+    plt.subplot(2,2,2)
+    signal_spec.plot()
+    plt.plot(k_ar/(2*np.pi),(xmax/np.pi)*a_ar**2)
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.title("Signal Power Spectrum (slope={})".format(slope))
+    plt.xlabel("Wavenumber, log(1/$\lambda$)")
+    plt.ylabel("Amplitude, log(a**2)")
+
+    #Plot 3: FILTER
+    plt.subplot(2,2,3)
+    plt.plot(filtered,color='red',linewidth=3)
+    plt.plot(signal, color='black')
+    plt.title("Gaussian Filter ($\sigma$={})".format(sigma))
+
+    #Plot 4: FILTER SPECTRUM
+    plt.subplot(2,2,4)
+    filtered_spec.plot()
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.title("Filtered Power Spectrum")
+    plt.xlabel("Wavenumber, log(1/$\lambda$)")
+    plt.ylabel("Amplitude, log(a**2)")
+
+    plt.subplots_adjust(wspace=0.6,hspace=0.6)
+    
+def spectral_filtered_2(points, modes, slope, xmax, sigma):
+    k_ar=np.logspace(0,2,modes)
+    a_ar=np.sqrt(0.01*k_ar**(slope/2))
+    y_ar=np.zeros((points,modes))
+    signal=np.zeros((points,1))
+
+    x=np.linspace(0,xmax,num=points)
+
+    for n in range(0,modes):
+        y_ar[:,n] = np.sin(k_ar[n]*x+np.random.uniform(0,6,size=1))*a_ar[n]
+
+    signal=y_ar.sum(axis=1)
+    signal_da=xr.DataArray(signal, dims=['points'], coords={'points':x})
+    signal_spec=xrft.power_spectrum(signal_da,dim='points')
+
+    filtered = scipy.ndimage.gaussian_filter1d(signal, sigma=sigma, mode='wrap')
+    filtered_da=xr.DataArray(filtered, dims=['points'],coords={'points':x})
+    filtered_spec=xrft.power_spectrum(filtered_da,dim='points')
+
+    #Plot 1: SIGNALS
+    plt.figure(figsize=(25,5))
     plt.subplot(1,2,1)
-    plt.plot(x,y_funct, color='black')
-    plt.title("Signal")
+    plt.plot(filtered,color='red',linewidth=3)
+    plt.plot(signal, color='black')
+    plt.title("Signal (slope={}), Gaussian Filter ($\sigma$={})".format(slope,sigma))
     
-    da_funct = xr.DataArray(y_funct, dims=['points'], coords={'points':x})
-    da_spec = xrft.power_spectrum(da_funct, dim='points')
+    #Plot 2: SPECTRUMS
     plt.subplot(1,2,2)
-    da_spec.plot()
-    plt.xlim(7,10)
-    plt.title("Sepctral Curve")
-    
-def spectral_plot(da, dim):
-    da_spec = xrft.power_spectrum(da, dim=dim)
-    da_spec.plot()
+    signal_spec.plot(color='black')
+    filtered_spec.plot(color='red')
+    plt.plot(k_ar/(2*np.pi),(xmax/np.pi)*a_ar**2,color='orange')
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.title("Signal Spectrum (black), Filtered Spectrum (red)")
+    plt.xlabel("Wavenumber, log(1/$\lambda$)")
+    plt.ylabel("Amplitude, log(a**2)")
     
 def filter_plot(da):
     signal = da
