@@ -35,7 +35,8 @@ def spectral_funct(points, modes, slope, xmax):
     plt.ylabel("Amplitude, log(a**2)")
     plt.subplots_adjust(hspace=0.2)
     
-def spectral_filtered_1(points, modes, slope, xmax, sigma):
+def spectral_filtered_1(points, modes, slope, xmax,sigma):
+    
     k_ar=np.logspace(0,2,modes)
     a_ar=np.sqrt(0.01*k_ar**(slope/2))
     y_ar=np.zeros((points,modes))
@@ -49,16 +50,18 @@ def spectral_filtered_1(points, modes, slope, xmax, sigma):
     signal=y_ar.sum(axis=1)
     signal_da=xr.DataArray(signal, dims=['points'], coords={'points':x})
     signal_spec=xrft.power_spectrum(signal_da,dim='points')
-
+    
     filtered = scipy.ndimage.gaussian_filter1d(signal, sigma=sigma, mode='wrap')
     filtered_da=xr.DataArray(filtered, dims=['points'],coords={'points':x})
     filtered_spec=xrft.power_spectrum(filtered_da,dim='points')
+    anom=signal-filtered
 
-    #Plot 1: SIGNAL
-    plt.figure(figsize=(15,5))
+    #Plot 1: SIGNAL + FILTER
+    plt.figure(figsize=(30,10))
     plt.subplot(2,2,1)
-    plt.plot(x,signal,color='black')
-    plt.title("Signal (slope={})".format(slope))
+    plt.plot(signal,color='black')
+    plt.plot(filtered,color='red',linewidth=3)
+    plt.title("Signal and Filtered (slope={}, $\sigma$={})".format(slope,sigma))
 
     #Plot 2: SIGNAL SPECTRUM
     plt.subplot(2,2,2)
@@ -70,11 +73,11 @@ def spectral_filtered_1(points, modes, slope, xmax, sigma):
     plt.xlabel("Wavenumber, log(1/$\lambda$)")
     plt.ylabel("Amplitude, log(a**2)")
 
-    #Plot 3: FILTER
+    #Plot 3: SIGNAL + ANOM
     plt.subplot(2,2,3)
-    plt.plot(filtered,color='red',linewidth=3)
+    plt.plot(anom, color='blue')
     plt.plot(signal, color='black')
-    plt.title("Gaussian Filter ($\sigma$={})".format(sigma))
+    plt.title("Signal and Anomaly (slope={})".format(slope))
 
     #Plot 4: FILTER SPECTRUM
     plt.subplot(2,2,4)
@@ -85,7 +88,7 @@ def spectral_filtered_1(points, modes, slope, xmax, sigma):
     plt.xlabel("Wavenumber, log(1/$\lambda$)")
     plt.ylabel("Amplitude, log(a**2)")
 
-    plt.subplots_adjust(wspace=0.6,hspace=0.6)
+    plt.subplots_adjust(wspace=0.2,hspace=0.2)
     
 def spectral_filtered_2(points, modes, slope, xmax, sigma):
     k_ar=np.logspace(0,2,modes)
