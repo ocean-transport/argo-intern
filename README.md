@@ -1,6 +1,12 @@
-# argo-intern
-Andrew's project
+# argo-intern repo
 
-The goal of this project is to analyze and map ocean layering using the Argo dataset. 
+This project centers around observational analysis of ocean turbulance by examining the vertical profiles of tracers sampled by the Argo program, namely temperature and salinity. During SUMMER 2022 we used a filtering approach to analyze temperature profiles in four geographic regions, and we will expand this analysis to include other tracers and a broader geographic region this academic year.
 
-I'm working on transfering my notes into GitHub but in the meantime, here is the link to the Google Drive folder where I've been keeping notes/tasks so far: https://drive.google.com/drive/folders/1l9k8r2vYSy4OqiZzdPEey8rFKP15d-f7?usp=sharing
+Deliverables from the SUMMER 2022 internship include:
+- NSF REU program report: https://drive.google.com/file/d/1PwGQGwtfNmC4u-Aa9Ksgs1lp7pNNw8Na/view?usp=sharing 
+- Undergrad research poster: https://drive.google.com/file/d/1yR-SXTa-P-rAtq51_dbznIdjRXb99P40/view?usp=sharing 
+
+Deliverables from FALL 2022 and SPRING 2023 will include:
+- AGU Fall Conference poster:
+- Climate School researcy symposium poster: (?)
+- paper:
