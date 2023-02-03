@@ -17,3 +17,6 @@ dependencies:
   - xrft
   - cartopy
   - cmocean
+  - tensorflow
+  - glidertools
+  - jax
