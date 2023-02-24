@@ -7,6 +7,6 @@ Deliverables from the SUMMER 2022 internship include:
 - Undergrad research poster: https://drive.google.com/file/d/1yR-SXTa-P-rAtq51_dbznIdjRXb99P40/view?usp=sharing 
 
 Deliverables from FALL 2022 and SPRING 2023 will include:
-- AGU Fall Conference poster:
+- AGU Fall Conference poster: https://drive.google.com/file/d/1qfc_E5rqcrxjbszG99ZZlXQ-80urHta7/view?usp=sharing
 - Climate School research symposium poster:
 - paper:
