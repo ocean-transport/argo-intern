@@ -3,6 +3,74 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import xrft
 import scipy
+import scipy.ndimage as filter
+
+
+##ARGO FUNCTIONS##
+def get_ds_interp(ds,depth_min,depth_max,sample_max):
+    median_dp=ds.PRES.where(ds.PRES<depth_max).where(ds.PRES>depth_min).diff('N_LEVELS').median('N_LEVELS')
+    ind_rate=median_dp.where(median_dp<sample_max,drop=True).N_PROF
+    ds_sel=ds.sel(N_PROF=ind_rate)
+    ds_interp=ds_sel.argo.interp_std_levels(np.arange(depth_min,depth_max,2))
+    ds_interp=ds_interp.sortby(ds_interp.N_PROF)
+    
+    number=np.arange(0,len(ds_interp.N_PROF))
+    ds_interp.coords['N_PROF_NEW']=xr.DataArray(number,dims=ds_interp.N_PROF.dims)
+    return ds_interp
+
+def get_ds_filt(ds_interp,first,last,num,variable='TEMP'):
+    temp_sigmas=np.logspace(first,last,num)
+    sigmas=np.empty(num)
+    
+    for n,sig in enumerate(temp_sigmas):
+        sigmas[n]=sig/4/np.sqrt(12)
+    
+    temp=np.zeros((ds_interp.N_PROF.shape[0],ds_interp.PRES_INTERPOLATED.shape[0],num))
+    for n in range(0,num):
+        temp[:,:,n]=filter.gaussian_filter1d(ds_interp[variable],sigma=sigmas[n],mode='nearest')
+
+    ds_filt=xr.DataArray(temp,dims=['N_PROF','PRES_INTERPOLATED','FILT_SCALE'],
+             coords={'N_PROF':ds_interp.N_PROF,'PRES_INTERPOLATED':ds_interp.PRES_INTERPOLATED,'FILT_SCALE':sigmas})
+    
+    number=np.arange(0,len(ds_filt.N_PROF))
+    ds_filt['N_PROF_NEW']=xr.DataArray(number,dims=ds_filt.N_PROF.dims)
+    return ds_filt
+
+def get_var(ds_interp,ds_filt,variable='TEMP'):
+    var=np.zeros(len(ds_filt.FILT_SCALE))
+    for n,sig in enumerate(ds_filt.FILT_SCALE):
+        prof=ds_filt.sel(FILT_SCALE=sig)
+        var[n]=(prof-ds_interp[variable]).var()
+    return var
+
+##GLIDER FUNCTIONS##
+def glider_ds_filt(ds_interp,first,last,num,variable='CT'):
+    temp_sigmas=np.logspace(first,last,num)
+    sigmas=np.empty(num)
+    for n,sig in enumerate(temp_sigmas):
+        sigmas[n]=sig/4/np.sqrt(12)
+        
+    temp_filt=np.zeros((ds_interp.ctd_pressure.shape[0],ds_interp.dives.shape[0],num))
+    for n in range(0,num):
+        temp_filt[:,:,n]=filter.gaussian_filter1d(ds_interp[variable],sigma=sigmas[n],mode='nearest')
+    ds_filt=xr.DataArray(temp_filt,dims=['ctd_pressure','dives','filt_scale'],
+        coords={'ctd_pressure':ds_interp.ctd_pressure,'dives':ds_interp.dives,'filt_scale':sigmas})
+    return ds_filt
+
+def glider_var(ds_interp,ds_filt,variable='CT'):
+    var=np.zeros(len(ds_filt.filt_scale))
+    for n,sig in enumerate(ds_filt.filt_scale):
+        prof_filt=ds_filt.sel(filt_scale=sig)
+        var[n]=(prof_filt-ds_interp.CT).var()
+    return var
+
+
+
+
+
+
+
+
 
 def spectral_funct(points, modes, slope, xmax):
     k_ar=np.logspace(0,2,modes)
@@ -115,7 +183,7 @@ def spectral_filtered_2(points, slope, xmax, L_filter):
     signal_da=xr.DataArray(signal, dims=['points'], coords={'points':x})
     signal_spec=xrft.power_spectrum(signal_da,dim='points')
 
-    filtered = scipy.ndimage.gaussian_filterN1d(signal, sigma=sigma, mode='wrap')
+    filtered = scipy.ndimage.gaussian_filter1d(signal, sigma=sigma, mode='wrap')
     filtered_da=xr.DataArray(filtered, dims=['points'],coords={'points':x})
     filtered_spec=xrft.power_spectrum(filtered_da,dim='points')
 
