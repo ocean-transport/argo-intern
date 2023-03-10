@@ -7,6 +7,17 @@ import scipy
 import matplotlib
 
 def get_ds_interp(ds,depth_min,depth_max,sample_max):
+    
+    '''Takes an Argo xarray with sampled pressure and:
+    1) only selects profiles that sample at a rate equal to or greater than sample_max
+    2) interpolates the pressure to a 2m grid.
+    3) returns an xarray with all profiles that meet the sample rate interpolated at 2m, with a new dimension PRES_INTERPOLATED
+    
+    ds: xarray dataset with dimensions PRES, N_LEVELS, N_PROF; pressure PRES
+    depth_min: shallowest depth selected[m]
+    depth_max: deepest depth selected [m]
+    sample_max: minimum sample rate [m]'''
+    
     median_dp=ds.PRES.where(ds.PRES<depth_max).where(ds.PRES>depth_min).diff('N_LEVELS').median('N_LEVELS')
     ind_rate=median_dp.where(median_dp<sample_max,drop=True).N_PROF
     ds_sel=ds.sel(N_PROF=ind_rate)
@@ -18,6 +29,15 @@ def get_ds_interp(ds,depth_min,depth_max,sample_max):
     return ds_interp
 
 def get_mask(ds, scale, dim2='PRES_INTERPOLATED', bound=False):
+    
+    '''Takes an xarray and returns a 1d np array with length of dim2 that contains:
+    1) bound=False: ones
+    2) bound=True: zeroes (the length of scale) at the top and bottom of a profile, and ones between.
+    
+    ds: xarray dataset with pressure dimension
+    scale: int/float, used to determine the amount of pressures that will go to zero
+    dim2: pressure dimension, defualt=PRES_INTERPOLATED
+    bound: will boundary regions become zeros?, default=False'''
     
     if bound==False:
         mask = np.ones((len(ds[dim2])))
@@ -35,6 +55,13 @@ def get_mask(ds, scale, dim2='PRES_INTERPOLATED', bound=False):
 
 def get_lfilters(first, last, num, log=False):
     
+    '''Takes two boundaries and arrays the provided num of scales between them on either a lin or log scale. Returns a 1d np array with length num. All values are in METERS.
+    
+    first: int/float, first scale
+    last: int/float, last scale
+    num: int/float, number of scales in array
+    log: arrays on either a linspace (default) or logspace(==True)'''
+    
     if log==False:
         lfilters = np.linspace(first, last, num)
         
@@ -47,6 +74,12 @@ def get_lfilters(first, last, num, log=False):
 
 def get_nfilter(ds, lfilter, dim2='PRES_INTERPOLATED'):
     
+    '''Takes an xarray (to determine dx) and a filter scale in meters. Returns the corresponding filter scale in gridpoints.
+    
+    ds: xarray dataset with pressure dimension
+    lfilter: filter scale in METERS
+    dim2: pressure dimension, default=PRES_INTERPOLATED'''
+    
     dx = (ds[dim2].isel({dim2:1})-ds[dim2].isel({dim2:0})).values
     sigmafilter = lfilter/np.sqrt(12)
     nfilter = sigmafilter/dx
@@ -55,10 +88,10 @@ def get_nfilter(ds, lfilter, dim2='PRES_INTERPOLATED'):
 
 def get_filt_prof(prof, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True):
     
+    '''Takes a profile and a filter scale and returns '''
+    
     mask = get_mask(prof, lfilter, dim2=dim2, bound=bound)
-    
     nfilter = get_nfilter(prof, lfilter, dim2=dim2)
-    
     prof_filt = filter.gaussian_filter1d(prof, sigma=nfilter, mode='wrap')
     
     return prof_filt
@@ -84,7 +117,7 @@ def get_filt_single(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTE
 def get_filt_multi(ds, first, last, num, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False, log=False):
     
     lfilters = get_lfilters(first=first, last=last, num=num, log=log)
-    mask = get_mask(ds, lfilters[-1], dim2=dim2, bound=bound)
+    mask = get_mask(ds, last, dim2=dim2, bound=bound)
     
     temp=np.zeros((ds[dim1].shape[0],ds[dim2].shape[0],num))
     for n in range(0,num):
