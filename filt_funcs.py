@@ -53,6 +53,17 @@ def get_nfilter(ds, lfilter, dim2='PRES_INTERPOLATED'):
     
     return nfilter
 
+def get_filt_prof(prof, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True):
+    
+    mask = get_mask(prof, lfilter, dim2=dim2, bound=bound)
+    
+    nfilter = get_nfilter(prof, lfilter, dim2=dim2)
+    
+    prof_filt = filter.gaussian_filter1d(prof, sigma=nfilter, mode='wrap')
+    
+    return prof_filt
+
+
 def get_filt_single(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False):
     
     mask = get_mask(ds, lfilter, dim2=dim2, bound=bound)
@@ -73,6 +84,7 @@ def get_filt_single(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTE
 def get_filt_multi(ds, first, last, num, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False, log=False):
     
     lfilters = get_lfilters(first=first, last=last, num=num, log=log)
+    mask = get_mask(ds, lfilters[-1], dim2=dim2, bound=bound)
     
     temp=np.zeros((ds[dim1].shape[0],ds[dim2].shape[0],num))
     for n in range(0,num):
