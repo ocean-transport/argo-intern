@@ -36,7 +36,7 @@ def get_mask(ds, scale, dim2='PRES_INTERPOLATED', bound=False):
     
     ds: xarray dataset with pressure dimension
     scale: int/float, used to determine the amount of pressures that will go to zero
-    dim2: pressure dimension, defualt=PRES_INTERPOLATED
+    dim2: pressure dimension, filtering occurs along this dimension, defualt=PRES_INTERPOLATED
     bound: will boundary regions become zeros?, default=False'''
     
     if bound==False:
@@ -55,7 +55,7 @@ def get_mask(ds, scale, dim2='PRES_INTERPOLATED', bound=False):
 
 def get_lfilters(first, last, num, log=False):
     
-    '''Takes two boundaries and arrays the provided num of scales between them on either a lin or log scale. Returns a 1d np array with length num. All values are in METERS.
+    '''Takes two boundaries and arrays the provided num of scales between them on either a lin or log scale. Returns a 1d np array with length num. All values are in meters.
     
     first: int/float, first scale
     last: int/float, last scale
@@ -77,8 +77,8 @@ def get_nfilter(ds, lfilter, dim2='PRES_INTERPOLATED'):
     '''Takes an xarray (to determine dx) and a filter scale in meters. Returns the corresponding filter scale in gridpoints.
     
     ds: xarray dataset with pressure dimension
-    lfilter: filter scale in METERS
-    dim2: pressure dimension, default=PRES_INTERPOLATED'''
+    lfilter: filter scale in meters
+    dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED'''
     
     dx = (ds[dim2].isel({dim2:1})-ds[dim2].isel({dim2:0})).values
     sigmafilter = lfilter/np.sqrt(12)
@@ -86,11 +86,16 @@ def get_nfilter(ds, lfilter, dim2='PRES_INTERPOLATED'):
     
     return nfilter
 
-def get_filt_prof(prof, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True):
+def get_filt_prof(prof, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED'):
     
-    '''Takes a profile and a filter scale and returns '''
+    '''Takes a profile and a filter scale and returns 1d np array with the length of dim2.
     
-    mask = get_mask(prof, lfilter, dim2=dim2, bound=bound)
+    prof: 1d np array or single xarray profile
+    lfilter: filter scale in meters
+    variable: coordinate to filter, default=TEMP
+    dim1: profile dimension, default=N_PROF
+    dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED'''
+    
     nfilter = get_nfilter(prof, lfilter, dim2=dim2)
     prof_filt = filter.gaussian_filter1d(prof, sigma=nfilter, mode='wrap')
     
@@ -98,6 +103,15 @@ def get_filt_prof(prof, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTE
 
 
 def get_filt_single(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False):
+    
+    '''Takes an xarray and a filter scale and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted and MASK for the boundary correction.
+    
+    ds: xarray dataset with pressure dimension
+    lfilter: filter scale in meters
+    variable: coordinate to filter, default=TEMP
+    dim1: profile dimension, default=N_PROF
+    dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
+    bound: bound: will boundary regions become zeros?, default=False'''
     
     mask = get_mask(ds, lfilter, dim2=dim2, bound=bound)
     
@@ -115,6 +129,18 @@ def get_filt_single(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTE
     return ds_filt
 
 def get_filt_multi(ds, first, last, num, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False, log=False):
+    
+    '''Takes an xarray and a filter scale and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted, MASK for the boundary correction, and FILT_SCALE for filter scales.
+    
+    ds: xarray dataset with pressure dimension
+    first: int/float, first scale
+    last: int/float, last scale
+    num: into/float, number of scales
+    variable: coordinate to filter, default=TEMP
+    dim1: profile dimension, default=N_PROF
+    dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
+    bound: bound: will boundary regions become zeros?, default=False
+    log: arrays on either a linspace (default) or logspace(==True)'''
     
     lfilters = get_lfilters(first=first, last=last, num=num, log=log)
     mask = get_mask(ds, last, dim2=dim2, bound=bound)
