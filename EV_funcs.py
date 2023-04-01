@@ -8,13 +8,13 @@ import matplotlib
 
 import filt_funcs as ff
 
-def get_mean_variance(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED'):
+def get_mean_variance(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED'):
     
     '''Takes an xarray and a filter scale in meters and returns an array of the filtered signal, squared.
     
     ds: xarray dataset with profiles and pressure dimensions
     lfilter: filter scale in meters
-    variable: coordinate to filter, default=TEMP
+    variable: coordinate to filter, default=CT
     dim1: profile dimension, default=N_PROF
     dim2: pressure dimension, default=PRES_INTERPOLATED'''
     
@@ -24,13 +24,13 @@ def get_mean_variance(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_IN
     return ds_mean_variance
 
 
-def get_total_variance(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED'):
+def get_total_variance(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED'):
     
     '''Takes an xarray and a filter scale in meters and returns an array of the squared signal, filtered.
     
     ds: xarray dataset with profiles and pressure dimensions
     lfilter: filter scale in meters
-    variable: coordinate to square, default=TEMP
+    variable: coordinate to square, default=CT
     dim1: profile dimension, default=N_PROF
     dim2: pressure dimension, default=PRES_INTERPOLATED'''
     
@@ -40,13 +40,13 @@ def get_total_variance(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_I
     return ds_total_variance
 
 
-def get_eddy_variance(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED'):
+def get_eddy_variance(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED'):
     
     '''Takes an xarray and a filter scale in meters and returns an array of the difference between the signal squared then filtered, and the signal filtered then squared. (This quantity we're currently defining as 'EKE')
     
     ds: xarray dataset with profiles and pressure dimensions
     lfilter: filter scale in meters
-    variable: coordinate to filter, default=TEMP
+    variable: coordinate to filter, default=CT
     dim1: profile dimension, default=N_PROF
     dim2: pressure dimension, default=PRES_INTERPOLATED'''
     

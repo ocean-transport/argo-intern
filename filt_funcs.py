@@ -86,13 +86,13 @@ def get_nfilter(ds, lfilter, dim2='PRES_INTERPOLATED'):
     
     return nfilter
 
-def get_filt_prof(prof, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED'):
+def get_filt_prof(prof, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED'):
     
-    '''Takes a profile and a filter scale and returns 1d np array with the length of dim2.
+    '''Takes a profile and a filter scale in meters and returns 1d np array with the length of dim2.
     
     prof: 1d np array or single xarray profile
     lfilter: filter scale in meters
-    variable: coordinate to filter, default=TEMP
+    variable: coordinate to filter, default=CT
     dim1: profile dimension, default=N_PROF
     dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED'''
     
@@ -102,13 +102,13 @@ def get_filt_prof(prof, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTE
     return prof_filt
 
 
-def get_filt_single(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False):
+def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False):
     
-    '''Takes an xarray and a filter scale and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted and MASK for the boundary correction.
+    '''Takes an xarray and a filter scale in meters and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted and MASK for the boundary correction.
     
     ds: xarray dataset with pressure dimension
     lfilter: filter scale in meters
-    variable: coordinate to filter, default=TEMP
+    variable: coordinate to filter, default=CT
     dim1: profile dimension, default=N_PROF
     dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
     bound: bound: will boundary regions become zeros?, default=False'''
@@ -128,15 +128,15 @@ def get_filt_single(ds, lfilter, variable='TEMP', dim1='N_PROF', dim2='PRES_INTE
     
     return ds_filt
 
-def get_filt_multi(ds, first, last, num, variable='TEMP', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False, log=False):
+def get_filt_multi(ds, first, last, num, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False, log=False):
     
-    '''Takes an xarray and a filter scale and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted, MASK for the boundary correction, and FILT_SCALE for filter scales.
+    '''Takes an xarray and a filter scale in meters and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted, MASK for the boundary correction, and FILT_SCALE for filter scales.
     
     ds: xarray dataset with pressure dimension
     first: int/float, first scale
     last: int/float, last scale
     num: into/float, number of scales
-    variable: coordinate to filter, default=TEMP
+    variable: coordinate to filter, default=CT
     dim1: profile dimension, default=N_PROF
     dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
     bound: bound: will boundary regions become zeros?, default=False
