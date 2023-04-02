@@ -97,7 +97,7 @@ def get_filt_prof(prof, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED'''
     
     nfilter = get_nfilter(prof, lfilter, dim2=dim2)
-    prof_filt = filter.gaussian_filter1d(prof, sigma=nfilter, mode='wrap')
+    prof_filt = filter.gaussian_filter1d(prof, sigma=nfilter, mode='nearest')
     
     return prof_filt
 
@@ -118,7 +118,7 @@ def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     nfilter = get_nfilter(ds, lfilter, dim2=dim2)
     
     temp = np.zeros((ds[dim1].shape[0], ds[dim2].shape[0]))
-    temp[:,:] = filter.gaussian_filter1d(ds[variable], sigma=nfilter, mode='wrap')
+    temp[:,:] = filter.gaussian_filter1d(ds[variable], sigma=nfilter, mode='nearest')
     
     ds_filt = xr.DataArray(temp, dims=['N_PROF', 'PRES_INTERPOLATED'], coords={'N_PROF':ds[dim1], 'PRES_INTERPOLATED':ds[dim2]})
     
