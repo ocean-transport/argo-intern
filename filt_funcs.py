@@ -6,20 +6,20 @@ import scipy.ndimage as filter
 import scipy
 import matplotlib
 
-def get_ds_interp(ds,depth_min,depth_max,sample_max):
+def get_ds_interp(ds,depth_min,depth_max,sample_rate):
     
     '''Takes an Argo xarray with sampled pressure and:
-    1) only selects profiles that sample at a rate equal to or greater than sample_max
+    1) only selects profiles that sample at a rate equal to or greater than sample_rate
     2) interpolates the pressure to a 2m grid.
     3) returns an xarray with all profiles that meet the sample rate interpolated at 2m, with a new dimension PRES_INTERPOLATED
     
     ds: xarray dataset with dimensions PRES, N_LEVELS, N_PROF; pressure PRES
     depth_min: shallowest depth selected[m]
     depth_max: deepest depth selected [m]
-    sample_max: minimum sample rate [m]'''
+    sample_rate: minimum sample rate [m]'''
     
     median_dp=ds.PRES.where(ds.PRES<depth_max).where(ds.PRES>depth_min).diff('N_LEVELS').median('N_LEVELS')
-    ind_rate=median_dp.where(median_dp<sample_max,drop=True).N_PROF
+    ind_rate=median_dp.where(median_dp<sample_rate,drop=True).N_PROF
     ds_sel=ds.sel(N_PROF=ind_rate)
     ds_interp=ds_sel.argo.interp_std_levels(np.arange(depth_min,depth_max,2))
     ds_interp=ds_interp.sortby(ds_interp.N_PROF)
