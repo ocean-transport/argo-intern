@@ -1,3 +1,5 @@
+#EDDY VARIANCE FUNCTIONS
+
 import xarray as xr
 import matplotlib.pyplot as plt
 import numpy as np
@@ -59,14 +61,31 @@ def get_EV(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', 
 
 def get_NEV(ds,ds_EV,variable,dim1='N_PROF',dim2='PRES_INTERPOLATED',coarsen_scale=40):
     
+    '''Takes an xarray and its eddy variance and returns an array of the square root of the eddy variance divided by the density gradient squared. We refer to this as the 'isopycnal displacement' term.
+    
+    ds: xarray dataset with profiles and pressure dimensions
+    ds_EV: xarray dataset of the eddy variance of ds, averaged over all profiles
+    variable: coordinate to filter
+    dim1: profile dimension, default=N_PROF
+    dim2: pressure dimension, default=PRES_INTERPOLATED
+    coarsen_scale: level of smoothing that will be applied to density gradient
+    '''
+    
     return ((ds_EV/ get_drho_dz(ds, variable=variable, dim2=dim2, coarsen_scale=coarsen_scale).mean({dim1})**2)**(1/2))
 
 
-def get_drho_dz (ds, variable, dim2='PRES_INTERPOLATED',coarsen_scale=5):
+def get_drho_dz (ds, variable, coarsen_scale, dim2='PRES_INTERPOLATED'):
+    '''Takes an xarray and returns the density gradient, coarsened by the coarsen_scale.
+    NOTE: I haven't figured out how to completely remove the pressure dimension from being implicit in this function. If ds has a pressure dimension different than PRES_INTERPOLATED, this function will not work properly.
+    
+    ds: xarray dataset with profiles and pressure dimensions
+    variable: coordinate to filter
+    coarsen_scale: level of smoothing to apply
+    dim2: pressure dimension, default=PRES_INTERPOLATED
+    '''
+    
     coarsened_rho = ds[variable].coarsen(PRES_INTERPOLATED=coarsen_scale).mean()
-    
     drho_dz_coarsened = coarsened_rho.diff(dim2)/(2*coarsen_scale)
-    
     drho_dz = drho_dz_coarsened.interp(PRES_INTERPOLATED=ds[dim2])
     
     return drho_dz

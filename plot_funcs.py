@@ -13,8 +13,14 @@ import EV_funcs as ef
 
 
 def mult_mean(ds_li, variable, dim1='N_PROF'):
-    mean_li=[]
+    '''Takes a list of xarrays and returns a list of xarrays with the mean value along the pressure dimension.
     
+    ds_li: a list of one or more xarrays
+    variable: coordinate to take the mean of
+    dim1: profile dimension, along which the mean will be taken
+    '''
+    
+    mean_li=[]
     for n in range(0,len(ds_li)):
         mean = ds_li[n][variable].mean({dim1})
         mean_li.append(mean)
@@ -22,8 +28,17 @@ def mult_mean(ds_li, variable, dim1='N_PROF'):
     return mean_li
 
 def mult_EV(ds_li, lfilter, variable, dim1='N_PROF', dim2='PRES_INTERPOLATED',bound=True):
-    EV_li = []
+    '''Takes a list of xarrays and returns a list of xarrays of eddy variance, using the ef.get_EV function.
     
+    ds_li: a list of one or more xarrays
+    lfilter: filter scale in meters
+    variable: coordinate to take the eddy variance of
+    dim1: profile dimension, default is N_PROF
+    dim2: pressure dimension, default is PRES_INTERPOLATED
+    bound: will boundary regions become zeros?, default=False
+    '''
+    
+    EV_li = []
     for n in range(0,len(ds_li)):
         EV = ef.get_EV(ds=ds_li[n],lfilter=lfilter,variable=variable,dim1=dim1,dim2=dim2,bound=bound)
         EV_li.append(EV)
@@ -31,8 +46,17 @@ def mult_EV(ds_li, lfilter, variable, dim1='N_PROF', dim2='PRES_INTERPOLATED',bo
     return EV_li
 
 def mult_NEV(ds_li, ds_EV_li, variable, dim1='N_PROF', dim2='PRES_INTERPOLATED', coarsen_scale=40):
-    NEV_li=[]
+    '''Takes a list of xarrays and a list of eddy variance xarrays and returns a list of xarrays of normalized eddy variance, using the ef.get_NEV function. We also refer to this as normalized eddy variance.
     
+    ds_li: a list of one or more xarrays
+    ds_EV_li: a list of one or more xarrays of eddy variance
+    variable: coordinate to take the eddy variance of
+    dim1: profile dimension, default is N_PROF
+    dim2: pressure dimension, default is PRES_INTERPOLATED
+    coarsen_scale: level of smoothing that will be applied to density gradient
+    '''
+    
+    NEV_li=[]
     for n in range(0,len(ds_li)):
         NEV=ef.get_NEV(ds=ds_li[n], ds_EV=ds_EV_li[n], variable=variable, dim1=dim1, dim2=dim2, coarsen_scale=coarsen_scale)
         NEV_li.append(NEV)
@@ -40,7 +64,12 @@ def mult_NEV(ds_li, ds_EV_li, variable, dim1='N_PROF', dim2='PRES_INTERPOLATED',
     return NEV_li
 
 def plot_quad(ds_li,labels=None, bound=True):
+    '''Takes a list of xarrays and returns 4 plots of mean density, isopycnal displacement, mean spice, and variance of spice. It calculates these values using the pf.mult_mean, pf.mult_EV, and pf.mult_NEV functions.
     
+    ds_li: a list of one or more xarrays
+    labels: a list of labels in the same order as ds_li, shown in the legend
+    bound: will boundary regions become zeros?, default=False 
+    '''
     density_mean_li = mult_mean(ds_li,variable='SIG0')
     density_EV_li = mult_EV(ds_li,100,variable='SIG0',bound=bound)
     density_NEV_li = mult_NEV(ds_li,density_EV_li,variable='SIG0')
@@ -101,12 +130,20 @@ def plot_quad(ds_li,labels=None, bound=True):
     
     
 def postobox(lon, lat):
+    '''Takes a longitude and latitude pair and returns a box containing these values.
+    '''
+    
     y_box = [lat[0], lat[0], lat[1], lat[1], lat[0]]
     x_box = [lon[0], lon[1], lon[1], lon[0], lon[0]]
     
     return x_box, y_box
 
 def plot_map(box_li,stats='binned_stats.nc'):
+    '''Takes a list of boxes and returns a map of these boxes plotted over EKE.
+    
+    box_li: list of one or more 'boxes' (in the form [lon_min,lon_max,lat_min,lat_max])
+    stats: data for EKE, default is file Dhruv provided
+    '''
     
     # visualization
     import matplotlib.colors as colors
@@ -155,6 +192,11 @@ def plot_map(box_li,stats='binned_stats.nc'):
     
     
 def TS_grids(Taxis, Saxis):
+    '''Takes an axis for each of temperature and salinity, and returns a grid for temperature and salinity.
+    
+    Taxis: list in the form [temp_min, temp_max, points]
+    Saxis: list in the form [sal_min, sal_max, points]
+    '''
     Taxis = numpy.linspace(Taxis[0],Taxis[1],Taxis[2])
     Saxis = numpy.linspace(Saxis[0],Saxis[1],Saxis[2])
     Tgrid, Sgrid = np.meshgrid(Taxis, Saxis)
@@ -163,12 +205,27 @@ def TS_grids(Taxis, Saxis):
 
 
 def rhospice_grids(Tgrid, Sgrid):
+    '''Takes a grid for each of temeprature and salinity, and returns a grid for density and spice.
+    
+    Tgrid: array of temperature values
+    Sgrid: array of salinity values
+    '''
+    
     rho_grid = gsw.rho(Sgrid, Tgrid, 0)
     spice_grid = gsw.spiciness0(Sgrid, Tgrid)
     
     return rho_grid, spice_grid
 
 def plot_TS(ds_li, Taxis, Saxis, variable1='CT', variable2='SA'):
+    '''Takes a list of xarrays, temperature values, and salinity values and returns a T-S plot.
+    
+    ds_li:a list of one or more xarrays
+    Taxis: list in the form [temp_min, temp_max, points]
+    Saxis: list in the form [sal_min, sal_max, points]
+    variable1: temperature coordinate
+    variable2: salinity coordinate
+    '''
+    
     Tgrid, Sgrid = TS_grids(Taxis=Taxis, Saxis=Saxis)
     rho_grid, spice_grid = rhospice_grids(Tgrid, Sgrid)
     
