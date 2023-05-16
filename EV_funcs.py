@@ -40,7 +40,7 @@ def get_total_variance(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INT
     return ds_total_variance
 
 
-def get_eddy_variance(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False):
+def get_EV(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False):
     
     '''Takes an xarray and a filter scale in meters and returns an array of the difference between the signal squared then filtered, and the signal filtered then squared. (This quantity we're currently defining as 'EKE')
     
@@ -54,19 +54,19 @@ def get_eddy_variance(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTE
     ds_total_variance = get_total_variance(ds, lfilter, variable=variable, dim1=dim1, dim2=dim2, bound=bound)
     ds_eddy_variance = ds_total_variance - ds_mean_variance
     
-    return ds_eddy_variance
+    return ds_eddy_variance.mean({'N_PROF'})
 
 
-def get_NEV(ds,ds_EV,variable,coarsen_scale=40):
+def get_NEV(ds,ds_EV,variable,dim1='N_PROF',dim2='PRES_INTERPOLATED',coarsen_scale=40):
     
-    return ((ds_EV.mean('N_PROF')/ get_drho_dz(ds, variable=variable, coarsen_scale=coarsen_scale).mean('N_PROF')**2)**(1/2))
+    return ((ds_EV/ get_drho_dz(ds, variable=variable, dim2=dim2, coarsen_scale=coarsen_scale).mean({dim1})**2)**(1/2))
 
 
-def get_drho_dz (ds, variable, coarsen_scale=5):
+def get_drho_dz (ds, variable, dim2='PRES_INTERPOLATED',coarsen_scale=5):
     coarsened_rho = ds[variable].coarsen(PRES_INTERPOLATED=coarsen_scale).mean()
     
-    drho_dz_coarsened = coarsened_rho.diff('PRES_INTERPOLATED')/(2*coarsen_scale)
+    drho_dz_coarsened = coarsened_rho.diff(dim2)/(2*coarsen_scale)
     
-    drho_dz = drho_dz_coarsened.interp(PRES_INTERPOLATED=ds.PRES_INTERPOLATED)
+    drho_dz = drho_dz_coarsened.interp(PRES_INTERPOLATED=ds[dim2])
     
     return drho_dz
