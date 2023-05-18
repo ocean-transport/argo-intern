@@ -7,9 +7,12 @@ import argopy
 import scipy.ndimage as filter
 import scipy
 import matplotlib
+import gsw
+from cmocean import cm as cmo
 
 import filt_funcs as ff
 import EV_funcs as ef
+import density_funcs as df
 
 
 def mult_mean(ds_li, variable, dim1='N_PROF'):
@@ -197,8 +200,8 @@ def TS_grids(Taxis, Saxis):
     Taxis: list in the form [temp_min, temp_max, points]
     Saxis: list in the form [sal_min, sal_max, points]
     '''
-    Taxis = numpy.linspace(Taxis[0],Taxis[1],Taxis[2])
-    Saxis = numpy.linspace(Saxis[0],Saxis[1],Saxis[2])
+    Taxis = np.linspace(Taxis[0],Taxis[1],Taxis[2])
+    Saxis = np.linspace(Saxis[0],Saxis[1],Saxis[2])
     Tgrid, Sgrid = np.meshgrid(Taxis, Saxis)
     
     return Tgrid, Sgrid
@@ -222,8 +225,8 @@ def plot_TS(ds_li, Taxis, Saxis, variable1='CT', variable2='SA'):
     ds_li:a list of one or more xarrays
     Taxis: list in the form [temp_min, temp_max, points]
     Saxis: list in the form [sal_min, sal_max, points]
-    variable1: temperature coordinate
-    variable2: salinity coordinate
+    variable1: temperature coordinate, default is CT
+    variable2: salinity coordinate, default is SA
     '''
     
     Tgrid, Sgrid = TS_grids(Taxis=Taxis, Saxis=Saxis)
@@ -241,3 +244,54 @@ def plot_TS(ds_li, Taxis, Saxis, variable1='CT', variable2='SA'):
     
     plt.ylabel('Temperature (°C)')
     plt.xlabel('Salinity (g/kg)')
+    
+    
+    
+    
+def plot_depth_profs(ds_z, ds_rho, variable1='CT', variable2='SIG0', dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED', dim3='rho_grid'):
+    '''Takes two xarrays, one in depth space and the other in density space, and returns a plot with 3 panels: density plotted in depth, variable2 plotted in depth, and variable1 plotted in density.
+    
+    ds_z: xarray wtih PRES_INTERPOLATED coordinate
+    ds_rho: xarray with rho_grid coordinate
+    variable1: variable to be plotted in colorbar, default is CT
+    variable2: density variable, default is SIG0
+    dim1: profile dimension, default is N_PROF_NEW (to make x axis continuous)
+    dim2: pressure dimension, default is PRES_INTERPOLATED
+    dim3: density dimension, default is rho_grid
+    '''
+    
+    levels = np.linspace(ds_z[variable2].min(), ds_z[variable2].max(), 7)
+    
+    plt.figure(figsize=(10,12))
+    
+    plt.subplot(4,1,1)
+    ds_z[variable2].plot(y=dim2, x=dim1, cmap=cmo.dense, rasterized=True)
+    ds_z[variable2].plot.contour(y=dim2, x=dim1, levels=levels, colors='w', linewidths=0.5)
+    plt.gca().invert_yaxis()
+    plt.ylabel(dim2)
+    plt.xlabel(dim1)
+    plt.title('DEPTH SPACE: Density with Density Contours')
+        
+    plt.subplot(4,1,2)
+    ds_z[variable1].plot(y=dim2,x=dim1, cmap=cmo.thermal, rasterized=True, cbar_kwargs={'label': 'Temperature [$^o$C]'})
+    ds_z[variable2].plot.contour(y=dim2,x=dim1,levels=levels, colors='b', linewidths=0.5)
+    plt.gca().invert_yaxis()
+    plt.ylabel(dim2)
+    plt.xlabel(dim1)
+    plt.title('DEPTH SPACE: Temperature with Density Contours')
+        
+    plt.subplot(4,1,3)
+    ds_rho[variable1].plot(y=dim3, x=dim1, cmap=cmo.thermal, rasterized=True, cbar_kwargs={'label': 'Temperature [$^o$C]'})
+    plt.hlines(levels, ds_z.N_PROF_NEW.values.min(), ds_z.N_PROF_NEW.values.max(), linewidths=0.5, colors='b')
+    plt.ylim(ds_z[variable2].min(), ds_z[variable2].max())
+    plt.gca().invert_yaxis()
+    plt.ylabel(variable2)
+    plt.xlabel(dim1)
+    plt.title('DENSITY SPACE: Temperature with Density Contours')
+    
+    plt.subplot(4,1,4)
+    #this will be spice anomaly
+    plt.title('ISOPYCNAL DEPTH: Spice Anomaly with Density Contours')
+    
+    plt.subplots_adjust(hspace=0.5)
+    

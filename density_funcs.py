@@ -16,14 +16,23 @@ import EV_funcs as ef
 import plot_funcs as pf
 
 
-def func_var_int(ds, var, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED', flag='group'):
+def func_var_int(ds, variable, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED', flag='group'):
+    '''Takes an xarray and density grid, and returns an xarray in density space, with respect to the given variable
+    
+    ds: xarray in depth space
+    variable: variable along which to convert to density
+    rho_grid: density grid
+    dim1: profiles dimension, default is N_PROF_NEW
+    dim2: pressure dimension, default is PRES_INTERPOLATED
+    flag: not totally sure
+    '''
     
     N_PROF_num = ds[dim1].values
     
     rho = ds.SIG0
     rho_nonan = rho.where(~np.isnan(rho), drop=True)
     
-    var_nonan = ds[var].where(~np.isnan(rho), drop=True)
+    var_nonan = ds[variable].where(~np.isnan(rho), drop=True)
     
     var_nonan2 = var_nonan.where(~np.isnan(var_nonan), drop=True)
     
@@ -40,11 +49,18 @@ def func_var_int(ds, var, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED',
     
     return xr.DataArray(var_tilde.reshape((-1,1)),
                         dims = ['rho_grid', dim1],
-                        coords = {'rho_grid': rho_grid, dim1: [N_PROF_num]}).rename(var)
+                        coords = {'rho_grid': rho_grid, dim1: [N_PROF_num]}).rename(variable)
 
 
 
 def interpolate2density(ds_z, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED'):
+    '''Takes an xarray in depth space and returns an xarray in density space, using the density grid provided.
+    
+    ds_z: xarray in depth space
+    rho_grid: density grid that depth will be interpolated to
+    dim1: profiles dimension, default is N_PROF_NEW to make plotting easier down the road
+    dim2: pressure dimension, default is PRES_INTERPOLATED
+    '''
     
     N_PROF_ind = 0
     pres_tilde_xr  = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), dim2,rho_grid)
