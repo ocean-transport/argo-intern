@@ -214,7 +214,7 @@ def rhospice_grids(Tgrid, Sgrid):
     Sgrid: array of salinity values
     '''
     
-    rho_grid = gsw.rho(Sgrid, Tgrid, 0)
+    rho_grid = gsw.sigma0(Sgrid, Tgrid)
     spice_grid = gsw.spiciness0(Sgrid, Tgrid)
     
     return rho_grid, spice_grid
@@ -262,9 +262,9 @@ def plot_depth_profs(ds_z, ds_rho, variable1='CT', variable2='SIG0', dim1='N_PRO
     
     levels = np.linspace(ds_z[variable2].min(), ds_z[variable2].max(), 7)
     
-    plt.figure(figsize=(10,12))
+    plt.figure(figsize=(10,10))
     
-    plt.subplot(4,1,1)
+    plt.subplot(3,1,1)
     ds_z[variable2].plot(y=dim2, x=dim1, cmap=cmo.dense, rasterized=True)
     ds_z[variable2].plot.contour(y=dim2, x=dim1, levels=levels, colors='w', linewidths=0.5)
     plt.gca().invert_yaxis()
@@ -272,7 +272,7 @@ def plot_depth_profs(ds_z, ds_rho, variable1='CT', variable2='SIG0', dim1='N_PRO
     plt.xlabel(dim1)
     plt.title('DEPTH SPACE: Density with Density Contours')
         
-    plt.subplot(4,1,2)
+    plt.subplot(3,1,2)
     ds_z[variable1].plot(y=dim2,x=dim1, cmap=cmo.thermal, rasterized=True, cbar_kwargs={'label': 'Temperature [$^o$C]'})
     ds_z[variable2].plot.contour(y=dim2,x=dim1,levels=levels, colors='b', linewidths=0.5)
     plt.gca().invert_yaxis()
@@ -280,18 +280,20 @@ def plot_depth_profs(ds_z, ds_rho, variable1='CT', variable2='SIG0', dim1='N_PRO
     plt.xlabel(dim1)
     plt.title('DEPTH SPACE: Temperature with Density Contours')
         
-    plt.subplot(4,1,3)
+    plt.subplot(3,1,3)
     ds_rho[variable1].plot(y=dim3, x=dim1, cmap=cmo.thermal, rasterized=True, cbar_kwargs={'label': 'Temperature [$^o$C]'})
-    plt.hlines(levels, ds_z.N_PROF_NEW.values.min(), ds_z.N_PROF_NEW.values.max(), linewidths=0.5, colors='b')
+    plt.hlines(levels, ds_z[dim1].values.min(), ds_z[dim1].values.max(), linewidths=0.5, colors='b')
     plt.ylim(ds_z[variable2].min(), ds_z[variable2].max())
     plt.gca().invert_yaxis()
     plt.ylabel(variable2)
     plt.xlabel(dim1)
     plt.title('DENSITY SPACE: Temperature with Density Contours')
     
+    '''
     plt.subplot(4,1,4)
     #this will be spice anomaly
     plt.title('ISOPYCNAL DEPTH: Spice Anomaly with Density Contours')
+    '''
     
     plt.subplots_adjust(hspace=0.5)
     

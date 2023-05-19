@@ -53,7 +53,7 @@ def func_var_int(ds, variable, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTERPOLA
 
 
 
-def interpolate2density(ds_z, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED'):
+def interpolate2density_prof(ds_z, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED'):
     '''Takes an xarray in depth space and returns an xarray in density space, using the density grid provided.
     
     ds_z: xarray in depth space
@@ -77,6 +77,38 @@ def interpolate2density(ds_z, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTERPOLAT
         SA_tilde_xr    = xr.concat([SA_tilde_xr , func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SA', rho_grid)], dim=dim1)
         SIG0_tilde_xr  = xr.concat([SIG0_tilde_xr , func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG0', rho_grid)], dim=dim1)
         SPICE_tilde_xr = xr.concat([SPICE_tilde_xr , func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE', rho_grid)], dim=dim1)
+    
+
+    ds_rho = xr.merge([pres_tilde_xr, CT_tilde_xr,
+                             SA_tilde_xr, SIG0_tilde_xr, SPICE_tilde_xr])
+    
+    return ds_rho
+
+
+def interpolate2density_dist(ds_z, rho_grid, dim1='distance', dim2='PRES_INTERPOLATED'):
+    '''Takes an xarray in depth space and returns an xarray in density space, using the density grid provided.
+    
+    ds_z: xarray in depth space
+    rho_grid: density grid that depth will be interpolated to
+    dim1: distance dimension, default is distance to make plotting easier down the road
+    dim2: pressure dimension, default is PRES_INTERPOLATED
+    '''
+    
+    distance_ind = 0
+    pres_tilde_xr  = func_var_int(ds_z.isel(distance=distance_ind), dim2,rho_grid)
+    CT_tilde_xr    = func_var_int(ds_z.isel(distance=distance_ind), 'CT',rho_grid)
+    SA_tilde_xr    = func_var_int(ds_z.isel(distance=distance_ind), 'SA', rho_grid)
+    SIG0_tilde_xr  = func_var_int(ds_z.isel(distance=distance_ind), 'SIG0', rho_grid)
+    SPICE_tilde_xr = func_var_int(ds_z.isel(distance=distance_ind), 'SPICE', rho_grid)
+
+    for N_PROF_ind in range(1, len(ds_z.distance)):
+        if np.mod(distance_ind, 50)==0:
+            print(distance_ind)
+        pres_tilde_xr  = xr.concat([pres_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), dim2, rho_grid)], dim=dim1)
+        CT_tilde_xr    = xr.concat([CT_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'CT', rho_grid)], dim=dim1)
+        SA_tilde_xr    = xr.concat([SA_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'SA', rho_grid)], dim=dim1)
+        SIG0_tilde_xr  = xr.concat([SIG0_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'SIG0', rho_grid)], dim=dim1)
+        SPICE_tilde_xr = xr.concat([SPICE_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'SPICE', rho_grid)], dim=dim1)
     
 
     ds_rho = xr.merge([pres_tilde_xr, CT_tilde_xr,
