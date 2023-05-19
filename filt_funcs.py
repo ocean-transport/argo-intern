@@ -1,3 +1,5 @@
+#FILTERING FUNCTIONS
+
 import xarray as xr
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5,6 +7,51 @@ import argopy
 import scipy.ndimage as filter
 import scipy
 import matplotlib
+import gsw
+
+from argopy import DataFetcher as ArgoDataFetcher
+argo_loader = ArgoDataFetcher()
+argo_loader
+
+
+def get_float(float_ID,sample_min):
+    ds=argo_loader.float(float_ID)
+    print('loading points complete')
+    
+    ds=ds.to_xarray()
+    print('to xarray complete')
+    
+    ds=ds.argo.teos10(['CT','SA','SIG0'])
+    ds=ds.argo.point2profile()
+    print('point to profile complete')
+    
+    ds_interp=get_ds_interp(ds,0,2000,sample_min)
+    print('interpolation complete')
+    
+    ds_interp['SPICE'] = gsw.spiciness0(ds_interp.SA,ds_interp.CT).rename('SPICE')
+    print('adding spice complete')
+        
+    return ds_interp
+
+def get_box(box,sample_min):
+    ds=argo_loader.region(box)
+    print('loading points complete')
+    
+    ds=ds.to_xarray()
+    print('to xarray complete')
+    
+    ds=ds.argo.teos10(['CT','SA','SIG0'])
+    ds=ds.argo.point2profile()
+    print('point to profile complete')
+    
+    ds_interp=get_ds_interp(ds,0,2000,sample_min)
+    print('interpolation complete')
+    
+    ds_interp['SPICE'] = gsw.spiciness0(ds_interp.SA,ds_interp.CT).rename('SPICE')
+    print('adding spice complete')
+        
+    return ds_interp
+
 
 def get_ds_interp(ds,depth_min,depth_max,sample_rate):
     
@@ -111,7 +158,7 @@ def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     variable: coordinate to filter, default=CT
     dim1: profile dimension, default=N_PROF
     dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
-    bound: bound: will boundary regions become zeros?, default=False'''
+    bound: will boundary regions become zeros?, default=False'''
     
     mask = get_mask(ds, lfilter, dim2=dim2, bound=bound)
     
@@ -139,7 +186,7 @@ def get_filt_multi(ds, first, last, num, variable='CT', dim1='N_PROF', dim2='PRE
     variable: coordinate to filter, default=CT
     dim1: profile dimension, default=N_PROF
     dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
-    bound: bound: will boundary regions become zeros?, default=False
+    bound: will boundary regions become zeros?, default=False
     log: arrays on either a linspace (default) or logspace(==True)'''
     
     lfilters = get_lfilters(first=first, last=last, num=num, log=log)
