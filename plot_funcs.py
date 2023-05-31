@@ -9,6 +9,7 @@ import scipy
 import matplotlib
 import gsw
 from cmocean import cm as cmo
+from scipy import interpolate
 
 import filt_funcs as ff
 import EV_funcs as ef
@@ -296,26 +297,44 @@ def plot_TS(ds_li, Taxis, Saxis, variable1='CT', variable2='SA'):
     plt.ylabel('Temperature (°C)')
     plt.xlabel('Salinity (g/kg)')
     
+
+def func_var_int_pmean(ds, Pmean_smooth, Pmax, variable='SPICE', dim1='N_PROF_NEW',): 
+    Pmean_grid = np.linspace(0,Pmax,Pmax//2)
+    
+    ds_nonan = ds[variable].where(~np.isnan(ds[variable]) & ~np.isnan(Pmean_smooth), drop=True)
+    
+    Pmean_nonan = Pmean_smooth.where(~np.isnan(ds[variable]) & ~np.isnan(Pmean_smooth), drop=True)
+    
+    if len(ds_nonan) > 2:
+       
+        f = interpolate.PchipInterpolator(Pmean_nonan.values, ds_nonan.values , extrapolate=False)
+        
+        ds_on_Pmean = f(Pmean_grid)
+            
+        
+    else:
+        ds_on_Pmean = np.nan*Pmean_grid
+    
+    return xr.DataArray(ds_on_Pmean.reshape((-1,1)),
+                        dims = ['Pmean', dim1],
+                        coords = {'Pmean': Pmean_grid, dim1: [ds[dim1].values]}).rename(variable)
     
     
+def plot_depth_profs(ds_z, ds_rho, roll, Pmax, variable1='CT', variable2='SIG0', variable3='SPICE', dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED', dim3='rho_grid'):
     
-def plot_depth_profs(ds_z, ds_rho, variable1='CT', variable2='SIG0', dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED', dim3='rho_grid'):
-    '''Takes two xarrays, one in depth space and the other in density space, and returns a plot with 3 panels: density plotted in depth, variable2 plotted in depth, and variable1 plotted in density.
+    levels = np.linspace(ds_z[variable2].min(), ds_z[variable2].max(), 8)
     
-    ds_z: xarray wtih PRES_INTERPOLATED coordinate
-    ds_rho: xarray with rho_grid coordinate
-    variable1: variable to be plotted in colorbar, default is CT
-    variable2: density variable, default is SIG0
-    dim1: profile dimension, default is N_PROF_NEW (to make x axis continuous)
-    dim2: pressure dimension, default is PRES_INTERPOLATED
-    dim3: density dimension, default is rho_grid
-    '''
+    N_PROF_NEW_ind = 0
+    Pmean_smooth = ds_rho[dim2].mean(dim1).rolling({dim3:roll}, center=True).mean()
+    Spice_on_Pmean = func_var_int_pmean(ds_rho.isel({dim1:N_PROF_NEW_ind}), Pmean_smooth, Pmax, variable=variable3, dim1=dim1)
     
-    levels = np.linspace(ds_z[variable2].min(), ds_z[variable2].max(), 7)
+    for N_PROF_NEW_ind in range(1, len(ds_rho[dim1])):
+        Spice_on_Pmean = xr.concat([Spice_on_Pmean, func_var_int_pmean(ds_rho.isel({dim1:N_PROF_NEW_ind}), Pmean_smooth, Pmax, variable=variable3, dim1=dim1)]
+                              , dim=dim1)
     
-    plt.figure(figsize=(10,10))
+    plt.figure(figsize=(10,12))
     
-    plt.subplot(3,1,1)
+    plt.subplot(4,1,1)
     ds_z[variable2].plot(y=dim2, x=dim1, cmap=cmo.dense, rasterized=True)
     ds_z[variable2].plot.contour(y=dim2, x=dim1, levels=levels, colors='w', linewidths=0.5)
     plt.gca().invert_yaxis()
@@ -323,7 +342,7 @@ def plot_depth_profs(ds_z, ds_rho, variable1='CT', variable2='SIG0', dim1='N_PRO
     plt.xlabel(dim1)
     plt.title('DEPTH SPACE: Density with Density Contours')
         
-    plt.subplot(3,1,2)
+    plt.subplot(4,1,2)
     ds_z[variable1].plot(y=dim2,x=dim1, cmap=cmo.thermal, rasterized=True, cbar_kwargs={'label': 'Temperature [$^o$C]'})
     ds_z[variable2].plot.contour(y=dim2,x=dim1,levels=levels, colors='b', linewidths=0.5)
     plt.gca().invert_yaxis()
@@ -331,7 +350,7 @@ def plot_depth_profs(ds_z, ds_rho, variable1='CT', variable2='SIG0', dim1='N_PRO
     plt.xlabel(dim1)
     plt.title('DEPTH SPACE: Temperature with Density Contours')
         
-    plt.subplot(3,1,3)
+    plt.subplot(4,1,3)
     ds_rho[variable1].plot(y=dim3, x=dim1, cmap=cmo.thermal, rasterized=True, cbar_kwargs={'label': 'Temperature [$^o$C]'})
     plt.hlines(levels, ds_z[dim1].values.min(), ds_z[dim1].values.max(), linewidths=0.5, colors='b')
     plt.ylim(ds_z[variable2].min(), ds_z[variable2].max())
@@ -340,11 +359,13 @@ def plot_depth_profs(ds_z, ds_rho, variable1='CT', variable2='SIG0', dim1='N_PRO
     plt.xlabel(dim1)
     plt.title('DENSITY SPACE: Temperature with Density Contours')
     
-    '''
     plt.subplot(4,1,4)
-    #this will be spice anomaly
+    Spice_on_Pmean.plot(rasterized=True, vmin=-1, vmax=1, cmap=cmo.balance, cbar_kwargs={'label': 'Spice Anomaly [kg m$^{-3}$]'})
+    plt.hlines(Pmean_smooth.sel(rho_grid=levels, method='nearest').values,0,ds_z[dim1].values.max(), linewidths=0.5, colors='b')
+    plt.gca().invert_yaxis()
+    plt.ylabel('Mean Isopycnal Depth (m)')
+    plt.xlabel(dim1)
     plt.title('ISOPYCNAL DEPTH: Spice Anomaly with Density Contours')
-    '''
     
     plt.subplots_adjust(hspace=0.5)
     
