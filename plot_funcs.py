@@ -141,7 +141,7 @@ def postobox(lon, lat):
     
     return x_box, y_box
 
-def plot_map(box_li,stats='binned_stats.nc'):
+def plot_box(box_li,stats='binned_stats.nc'):
     '''Takes a list of boxes and returns a map of these boxes plotted over EKE.
     
     box_li: list of one or more 'boxes' (in the form [lon_min,lon_max,lat_min,lat_max])
@@ -184,6 +184,57 @@ def plot_map(box_li,stats='binned_stats.nc'):
     #plt.plot(postobox(lon, lat), color='red')
     for n in range(0,len(box_li)):
         ax.plot(postobox(box_li[n][:2],box_li[n][2:])[0],postobox(box_li[n][:2], box_li[n][2:])[1], color='black',transform=ccrs.PlateCarree(),lw=2)
+
+    # add land and coastline
+    ax.add_feature(cfeature.LAND, facecolor='grey', zorder=1)
+    ax.add_feature(cfeature.COASTLINE, linewidth=0.25, zorder=1)
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="3%", pad=0.05, axes_class=plt.Axes)
+    cb = fig.colorbar(pcm, cax=cax);
+    cb.ax.set_ylabel(r'EKE [$m^2/s^2$]');
+
+def plot_dist(ds, lon='LONGITUDE', lat='LATITUDE',stats='binned_stats.nc'):
+    '''Takes a list of boxes and returns a map of these boxes plotted over EKE.
+    
+    box_li: list of one or more 'boxes' (in the form [lon_min,lon_max,lat_min,lat_max])
+    stats: data for EKE, default is file Dhruv provided
+    '''
+    
+    # visualization
+    import matplotlib.colors as colors
+    from mpl_toolkits.axes_grid1 import make_axes_locatable
+    from matplotlib.ticker import MaxNLocator
+    import cartopy.crs as ccrs
+    from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
+    import cartopy.feature as cfeature
+    import cmocean
+    
+    ds_stats = xr.open_dataset(stats)
+
+    x_c = ds_stats.lon
+    y_c = ds_stats.lat
+    # get 1st and 99th percentiles of values to plot to get a useful range for the colorscale
+    EKE= ds_stats.EKE
+    v1,v2 = np.nanpercentile(EKE.T,[1,99])
+
+    fig = plt.figure(dpi=100)
+    ax = fig.add_subplot(1,1,1,projection=ccrs.Robinson(central_longitude=0))
+    cmap = cmocean.cm.matter_r
+    pcm = ax.pcolormesh(x_c, y_c, 
+                        EKE, 
+                        cmap=cmap, 
+                        transform=ccrs.PlateCarree(),
+                        vmin=v1, vmax=v2/2)
+
+    # gridlines and labels
+    gl = ax.gridlines(color='k', linewidth=0.1, linestyle='-',
+                      xlocs=np.arange(-180, 181, 60), ylocs=np.arange(-90, 91, 30),
+                      draw_labels=True)
+    gl.top_labels = False
+    gl.right_labels = False
+
+    #plt.plot(postobox(lon, lat), color='red')
+    ax.plot(ds[lon], ds[lat], color='black',transform=ccrs.PlateCarree(),lw=2)
 
     # add land and coastline
     ax.add_feature(cfeature.LAND, facecolor='grey', zorder=1)

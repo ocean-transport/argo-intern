@@ -10,6 +10,7 @@ import matplotlib
 import gsw
 from cmocean import cm as cmo
 import scipy.interpolate as interpolate
+import glidertools as gt
 
 import filt_funcs as ff
 import EV_funcs as ef
@@ -95,23 +96,52 @@ def interpolate2density_dist(ds_z, rho_grid, dim1='distance', dim2='PRES_INTERPO
     '''
     
     distance_ind = 0
-    pres_tilde_xr  = func_var_int(ds_z.isel(distance=distance_ind), dim2,rho_grid)
-    CT_tilde_xr    = func_var_int(ds_z.isel(distance=distance_ind), 'CT',rho_grid)
-    SA_tilde_xr    = func_var_int(ds_z.isel(distance=distance_ind), 'SA', rho_grid)
-    SIG0_tilde_xr  = func_var_int(ds_z.isel(distance=distance_ind), 'SIG0', rho_grid)
-    SPICE_tilde_xr = func_var_int(ds_z.isel(distance=distance_ind), 'SPICE', rho_grid)
+    pres_tilde_xr  = func_var_int(ds_z.isel(distance=distance_ind), dim2,    rho_grid, dim1=dim1)
+    CT_tilde_xr    = func_var_int(ds_z.isel(distance=distance_ind), 'CT',    rho_grid, dim1=dim1)
+    SA_tilde_xr    = func_var_int(ds_z.isel(distance=distance_ind), 'SA',    rho_grid, dim1=dim1)
+    SIG0_tilde_xr  = func_var_int(ds_z.isel(distance=distance_ind), 'SIG0',  rho_grid, dim1=dim1)
+    SPICE_tilde_xr = func_var_int(ds_z.isel(distance=distance_ind), 'SPICE', rho_grid, dim1=dim1)
 
-    for N_PROF_ind in range(1, len(ds_z.distance)):
+    for distance_ind in range(1, len(ds_z.distance)):
         if np.mod(distance_ind, 50)==0:
             print(distance_ind)
-        pres_tilde_xr  = xr.concat([pres_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), dim2, rho_grid)], dim=dim1)
-        CT_tilde_xr    = xr.concat([CT_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'CT', rho_grid)], dim=dim1)
-        SA_tilde_xr    = xr.concat([SA_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'SA', rho_grid)], dim=dim1)
-        SIG0_tilde_xr  = xr.concat([SIG0_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'SIG0', rho_grid)], dim=dim1)
-        SPICE_tilde_xr = xr.concat([SPICE_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'SPICE', rho_grid)], dim=dim1)
+        pres_tilde_xr  = xr.concat([pres_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), dim2, rho_grid, dim1=dim1)], dim=dim1)
+        CT_tilde_xr    = xr.concat([CT_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'CT', rho_grid, dim1=dim1)], dim=dim1)
+        SA_tilde_xr    = xr.concat([SA_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'SA', rho_grid, dim1=dim1)], dim=dim1)
+        SIG0_tilde_xr  = xr.concat([SIG0_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'SIG0', rho_grid, dim1=dim1)], dim=dim1)
+        SPICE_tilde_xr = xr.concat([SPICE_tilde_xr , func_var_int(ds_z.isel(distance=distance_ind), 'SPICE', rho_grid, dim1=dim1)], dim=dim1)
     
 
     ds_rho = xr.merge([pres_tilde_xr, CT_tilde_xr,
                              SA_tilde_xr, SIG0_tilde_xr, SPICE_tilde_xr])
     
     return ds_rho
+
+
+def interp_distance(ds, dim1='distance', dim2='PRES_INTERPOLATED', lat='LATITUDE', lon='LONGITUDE'):
+    lats=ds[lat]
+    lons=ds[lon]
+    
+    array_distance = gt.utils.distance(lons,lats)
+    array_distance = array_distance/1000
+    
+    cum_distance = [0]
+    for i in range(1, len(array_distance)):
+        dist = array_distance[i] + cum_distance[i-1]
+        cum_distance.append(dist)
+    
+    ds_distance = xr.Dataset(data_vars=dict(
+                                        CT=    ([dim1, dim2], ds.CT.data),
+                                        SA=    ([dim1, dim2], ds.SA.data),
+                                        SIG0=  ([dim1, dim2], ds.SIG0.data),
+                                        SPICE= ([dim1, dim2], ds.SPICE.data)
+                                        ),
+                            coords=dict(
+                                        distance=  ([dim1], cum_distance),
+                                        LATITUDE=  ([dim1], lats.data),
+                                        LONGITUDE= ([dim1], lons.data),
+                                        TIME=      ([dim1], ds.TIME.data),
+                                        PRES_INTERPOLATED= ([dim2], ds[dim2].data)
+                                        ))
+    
+    return ds_distance
