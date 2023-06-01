@@ -331,27 +331,37 @@ def plot_depth_profs(ds_z, ds_rho, roll, Pmax, variable1='CT', variable2='SIG0',
     for N_PROF_NEW_ind in range(1, len(ds_rho[dim1])):
         Spice_on_Pmean = xr.concat([Spice_on_Pmean, func_var_int_pmean(ds_rho.isel({dim1:N_PROF_NEW_ind}), Pmean_smooth, Pmax, variable=variable3, dim1=dim1)]
                               , dim=dim1)
+        
+    n=0
+    mean_spice = Spice_on_Pmean.isel(Pmean=n).mean(skipna=True)
+    anom_spice = Spice_on_Pmean.isel(Pmean=n) - mean_spice
     
-    plt.figure(figsize=(10,12))
+    for n in range(1,len(Spice_on_Pmean.Pmean)):
+        mean_spice = Spice_on_Pmean.isel(Pmean=n).mean(skipna=True)
+        anom_spice_next = Spice_on_Pmean.isel(Pmean=n) - mean_spice
+        
+        anom_spice = xr.concat([anom_spice, anom_spice_next], dim='Pmean')
     
-    plt.subplot(4,1,1)
-    ds_z[variable2].plot(y=dim2, x=dim1, cmap=cmo.dense, rasterized=True)
+    plt.figure(figsize=(10,15))
+    
+    plt.subplot(5,1,1)
+    ds_z[variable2].plot(y=dim2, x=dim1, cmap=cmo.dense, robust=True)
     ds_z[variable2].plot.contour(y=dim2, x=dim1, levels=levels, colors='w', linewidths=0.5)
     plt.gca().invert_yaxis()
     plt.ylabel(dim2)
     plt.xlabel(dim1)
     plt.title('DEPTH SPACE: Density with Density Contours')
         
-    plt.subplot(4,1,2)
-    ds_z[variable1].plot(y=dim2,x=dim1, cmap=cmo.thermal, rasterized=True, cbar_kwargs={'label': 'Temperature [$^o$C]'})
+    plt.subplot(5,1,2)
+    ds_z[variable1].plot(y=dim2,x=dim1, cmap=cmo.thermal, cbar_kwargs={'label': 'Temperature [$^o$C]'}, robust=True)
     ds_z[variable2].plot.contour(y=dim2,x=dim1,levels=levels, colors='b', linewidths=0.5)
     plt.gca().invert_yaxis()
     plt.ylabel(dim2)
     plt.xlabel(dim1)
     plt.title('DEPTH SPACE: Temperature with Density Contours')
         
-    plt.subplot(4,1,3)
-    ds_rho[variable1].plot(y=dim3, x=dim1, cmap=cmo.thermal, rasterized=True, cbar_kwargs={'label': 'Temperature [$^o$C]'})
+    plt.subplot(5,1,3)
+    ds_rho[variable1].plot(y=dim3, x=dim1, cmap=cmo.thermal,cbar_kwargs={'label': 'Temperature [$^o$C]'}, robust=True)
     plt.hlines(levels, ds_z[dim1].values.min(), ds_z[dim1].values.max(), linewidths=0.5, colors='b')
     plt.ylim(ds_z[variable2].min(), ds_z[variable2].max())
     plt.gca().invert_yaxis()
@@ -359,13 +369,20 @@ def plot_depth_profs(ds_z, ds_rho, roll, Pmax, variable1='CT', variable2='SIG0',
     plt.xlabel(dim1)
     plt.title('DENSITY SPACE: Temperature with Density Contours')
     
-    plt.subplot(4,1,4)
-    Spice_on_Pmean.plot(rasterized=True, vmin=-1, vmax=1, cmap=cmo.balance, cbar_kwargs={'label': 'Spice Anomaly [kg m$^{-3}$]'})
+    plt.subplot(5,1,4)
+    Spice_on_Pmean.plot(robust=True, cbar_kwargs={'label': 'Spice [kg m$^{-3}$]'})
     plt.hlines(Pmean_smooth.sel(rho_grid=levels, method='nearest').values,0,ds_z[dim1].values.max(), linewidths=0.5, colors='b')
     plt.gca().invert_yaxis()
     plt.ylabel('Mean Isopycnal Depth (m)')
     plt.xlabel(dim1)
-    plt.title('ISOPYCNAL DEPTH: Spice Anomaly with Density Contours')
+    plt.title('ISOPYCNAL DEPTH: Spice with Density Contours')
     
+    plt.subplot(5,1,5)
+    anom_spice.plot(robust=True, cbar_kwargs={'label': 'Spice Anomaly [kg m$^{-3}$]'})
+    plt.hlines(Pmean_smooth.sel(rho_grid=levels, method='nearest').values,0,ds_z[dim1].values.max(), linewidths=0.5, colors='b')
+    plt.gca().invert_yaxis()
+    plt.ylabel('Mean Isopycnal Depth (m)')
+    plt.xlabel(dim1)
     plt.subplots_adjust(hspace=0.5)
+    plt.title('ISOPYCNAL DEPTH: Spice Anomaly (along Pmean) with Density Contours')
     
