@@ -298,49 +298,16 @@ def plot_TS(ds_li, Taxis, Saxis, variable1='CT', variable2='SA'):
     plt.xlabel('Salinity (g/kg)')
     
 
-def func_var_int_pmean(ds, Pmean_smooth, Pmax, variable='SPICE', dim1='N_PROF_NEW',): 
-    Pmean_grid = np.linspace(0,Pmax,Pmax//2)
-    
-    ds_nonan = ds[variable].where(~np.isnan(ds[variable]) & ~np.isnan(Pmean_smooth), drop=True)
-    
-    Pmean_nonan = Pmean_smooth.where(~np.isnan(ds[variable]) & ~np.isnan(Pmean_smooth), drop=True)
-    
-    if len(ds_nonan) > 2:
-       
-        f = interpolate.PchipInterpolator(Pmean_nonan.values, ds_nonan.values , extrapolate=False)
-        
-        ds_on_Pmean = f(Pmean_grid)
-            
-        
-    else:
-        ds_on_Pmean = np.nan*Pmean_grid
-    
-    return xr.DataArray(ds_on_Pmean.reshape((-1,1)),
-                        dims = ['Pmean', dim1],
-                        coords = {'Pmean': Pmean_grid, dim1: [ds[dim1].values]}).rename(variable)
+
     
     
+
 def plot_depth_profs(ds_z, ds_rho, roll, Pmax, variable1='CT', variable2='SIG0', variable3='SPICE', dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED', dim3='rho_grid'):
     
     levels = np.linspace(ds_z[variable2].min(), ds_z[variable2].max(), 8)
-    
-    N_PROF_NEW_ind = 0
-    Pmean_smooth = ds_rho[dim2].mean(dim1).rolling({dim3:roll}, center=True).mean()
-    Spice_on_Pmean = func_var_int_pmean(ds_rho.isel({dim1:N_PROF_NEW_ind}), Pmean_smooth, Pmax, variable=variable3, dim1=dim1)
-    
-    for N_PROF_NEW_ind in range(1, len(ds_rho[dim1])):
-        Spice_on_Pmean = xr.concat([Spice_on_Pmean, func_var_int_pmean(ds_rho.isel({dim1:N_PROF_NEW_ind}), Pmean_smooth, Pmax, variable=variable3, dim1=dim1)]
-                              , dim=dim1)
-        
-    n=0
-    mean_spice = Spice_on_Pmean.isel(Pmean=n).mean(skipna=True)
-    anom_spice = Spice_on_Pmean.isel(Pmean=n) - mean_spice
-    
-    for n in range(1,len(Spice_on_Pmean.Pmean)):
-        mean_spice = Spice_on_Pmean.isel(Pmean=n).mean(skipna=True)
-        anom_spice_next = Spice_on_Pmean.isel(Pmean=n) - mean_spice
-        
-        anom_spice = xr.concat([anom_spice, anom_spice_next], dim='Pmean')
+    Pmean_smooth = df.ds_pmean_smooth(ds_rho=ds_rho, roll=roll, dim1=dim1, dim2=dim2, dim3=dim3)
+    Spice_on_Pmean = df.ds_pmean_var(ds_rho=ds_rho, Pmean_smooth=Pmean_smooth, Pmax=Pmax, variable3=variable3, dim1=dim1)
+    anom_spice = df.ds_anom(ds=Spice_on_Pmean)
     
     plt.figure(figsize=(10,15))
     
@@ -384,5 +351,4 @@ def plot_depth_profs(ds_z, ds_rho, roll, Pmax, variable1='CT', variable2='SIG0',
     plt.ylabel('Mean Isopycnal Depth (m)')
     plt.xlabel(dim1)
     plt.subplots_adjust(hspace=0.5)
-    plt.title('ISOPYCNAL DEPTH: Spice Anomaly (along Pmean) with Density Contours')
-    
+    plt.title('ISOPYCNAL DEPTH: Spice Anomaly (along Pmean) with Density Contours')    

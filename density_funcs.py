@@ -145,3 +145,66 @@ def interp_distance(ds, dim1='distance', dim2='PRES_INTERPOLATED', lat='LATITUDE
                                         ))
     
     return ds_distance
+
+
+
+
+
+def func_var_int_pmean(ds, Pmean_smooth, Pmax, variable='SPICE', dim1='N_PROF_NEW',): 
+    Pmean_grid = np.linspace(0,Pmax,Pmax//2)
+    
+    ds_nonan = ds[variable].where(~np.isnan(ds[variable]) & ~np.isnan(Pmean_smooth), drop=True)
+    
+    Pmean_nonan = Pmean_smooth.where(~np.isnan(ds[variable]) & ~np.isnan(Pmean_smooth), drop=True)
+    
+    if len(ds_nonan) > 2:
+       
+        f = interpolate.PchipInterpolator(Pmean_nonan.values, ds_nonan.values , extrapolate=False)
+        
+        ds_on_Pmean = f(Pmean_grid)
+            
+        
+    else:
+        ds_on_Pmean = np.nan*Pmean_grid
+    
+    return xr.DataArray(ds_on_Pmean.reshape((-1,1)),
+                        dims = ['Pmean', dim1],
+                        coords = {'Pmean': Pmean_grid, dim1: [ds[dim1].values]}).rename(variable)
+
+
+
+
+
+def ds_pmean_smooth(ds_rho, roll, dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED', dim3='rho_grid'):
+    Pmean_smooth = ds_rho[dim2].mean(dim1).rolling({dim3:roll}, center=True).mean()
+    
+    return Pmean_smooth
+
+
+def ds_pmean_var(ds_rho, Pmean_smooth, Pmax, variable3='SPICE', dim1='N_PROF_NEW'):
+    
+    N_PROF_NEW_ind = 0
+
+    Spice_on_Pmean = pf.func_var_int_pmean(ds_rho.isel({dim1:N_PROF_NEW_ind}), Pmean_smooth, Pmax, variable=variable3, dim1=dim1)
+    
+    for N_PROF_NEW_ind in range(1, len(ds_rho[dim1])):
+        Spice_on_Pmean = xr.concat([Spice_on_Pmean, pf.func_var_int_pmean(ds_rho.isel({dim1:N_PROF_NEW_ind}), Pmean_smooth, Pmax, variable=variable3, dim1=dim1)]
+                              , dim=dim1)
+        
+    return Spice_on_Pmean
+
+
+def ds_anom(ds):
+    n=0
+    mean_spice = ds.isel(Pmean=n).mean(skipna=True)
+    anom_spice = ds.isel(Pmean=n) - mean_spice
+    
+    for n in range(1,len(ds.Pmean)):
+        mean_spice = ds.isel(Pmean=n).mean(skipna=True)
+        anom_spice_next = ds.isel(Pmean=n) - mean_spice
+        
+        anom_spice = xr.concat([anom_spice, anom_spice_next], dim='Pmean')
+        
+    return anom_spice
+
+
