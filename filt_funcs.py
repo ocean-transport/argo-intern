@@ -9,12 +9,18 @@ import scipy
 import matplotlib
 import gsw
 
+import argopy
 from argopy import DataFetcher as ArgoDataFetcher
-argo_loader = ArgoDataFetcher()
-argo_loader
+argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",parallel=True)
 
 
 def get_float(float_ID,sample_min):
+    '''Takes a float ID and sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m.
+    
+    float_ID:   loads argo data from a float, based on the ID provided
+    sample_min: minimum sample rate [m]
+    '''
+    
     ds=argo_loader.float(float_ID)
     print('loading points complete')
     
@@ -34,6 +40,12 @@ def get_float(float_ID,sample_min):
     return ds_interp
 
 def get_box(box,sample_min):
+    '''Takes latitude/longitude/depth data and a sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m. 
+    
+    box: lat/lon in the form: box=[lon_min, lon_max, lat_min, lat_max, depth_min, depth_max]
+    sample_min: minimum sample rate [m]
+    '''
+    
     ds=argo_loader.region(box)
     print('loading points complete')
     

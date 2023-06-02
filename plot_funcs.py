@@ -195,9 +195,11 @@ def plot_box(box_li,stats='binned_stats.nc'):
     cb.ax.set_ylabel(r'EKE [$m^2/s^2$]');
 
 def plot_dist(ds, lon='LONGITUDE', lat='LATITUDE',stats='binned_stats.nc'):
-    '''Takes a list of boxes and returns a map of these boxes plotted over EKE.
+    '''Takes an xarray and returns a map of float path plotted over EKE.
     
-    box_li: list of one or more 'boxes' (in the form [lon_min,lon_max,lat_min,lat_max])
+    ds:  xarray of float data
+    lon: longitude variable, default='LONGITUDE'
+    lat: latitude variable, default='LATITUDE'
     stats: data for EKE, default is file Dhruv provided
     '''
     
@@ -274,7 +276,7 @@ def rhospice_grids(Tgrid, Sgrid):
 def plot_TS(ds_li, Taxis, Saxis, variable1='CT', variable2='SA'):
     '''Takes a list of xarrays, temperature values, and salinity values and returns a T-S plot.
     
-    ds_li:a list of one or more xarrays
+    ds_li: a list of one or more xarrays
     Taxis: list in the form [temp_min, temp_max, points]
     Saxis: list in the form [sal_min, sal_max, points]
     variable1: temperature coordinate, default is CT
@@ -303,11 +305,24 @@ def plot_TS(ds_li, Taxis, Saxis, variable1='CT', variable2='SA'):
     
 
 def plot_depth_profs(ds_z, ds_rho, roll, Pmax, variable1='CT', variable2='SIG0', variable3='SPICE', dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED', dim3='rho_grid'):
+    '''Takes xarrays in depth and density space and returns a panel of five plots: density and temperature in depth space, temperature in density space, and spice and spice anomaly in isopycnal depth space.
+    
+    ds_z:   xarray with coordinate of depth (dim1)
+    ds_rho: xarray with coordinate of density (dim3)
+    roll:   smoothing value given to ds_pmean_smooth
+    Pmax:   maximum depth for plots in mean isopycnal depth
+    variable1: temperature variable, default='CT'
+    variable2: density variable, default='SIG0'
+    variable3: spice variable, default='SPICE'
+    dim1: profile dimension, default='N_PROF_NEW'
+    dim2: pressure dimension, default='PRES_INTERPOLATED'
+    dim3: density dimension, default='rho_grid'
+    '''
     
     levels = np.linspace(ds_z[variable2].min(), ds_z[variable2].max(), 8)
     Pmean_smooth = df.ds_pmean_smooth(ds_rho=ds_rho, roll=roll, dim1=dim1, dim2=dim2, dim3=dim3)
     Spice_on_Pmean = df.ds_pmean_var(ds_rho=ds_rho, Pmean_smooth=Pmean_smooth, Pmax=Pmax, variable3=variable3, dim1=dim1)
-    anom_spice = df.ds_anom(ds=Spice_on_Pmean)
+    anom_spice = df.ds_anom(Spice_on_Pmean)
     
     plt.figure(figsize=(10,15))
     
@@ -350,5 +365,6 @@ def plot_depth_profs(ds_z, ds_rho, roll, Pmax, variable1='CT', variable2='SIG0',
     plt.gca().invert_yaxis()
     plt.ylabel('Mean Isopycnal Depth (m)')
     plt.xlabel(dim1)
-    plt.subplots_adjust(hspace=0.5)
     plt.title('ISOPYCNAL DEPTH: Spice Anomaly (along Pmean) with Density Contours')    
+    
+    plt.subplots_adjust(hspace=0.5)

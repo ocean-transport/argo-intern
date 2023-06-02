@@ -119,6 +119,15 @@ def interpolate2density_dist(ds_z, rho_grid, dim1='distance', dim2='PRES_INTERPO
 
 
 def interp_distance(ds, dim1='distance', dim2='PRES_INTERPOLATED', lat='LATITUDE', lon='LONGITUDE'):
+    '''Takes an xarray in terms of profiles and returns an xarray in terms of distance.
+    
+    ds: xarray with profile coordinate
+    dim1: name of distance dimension, default='distance'
+    dim2: pressure dimension, default='PRES_INTERPOLATED'
+    lat: latitude variable, default='LATITUDE'
+    lon: longitdue variable, default='LONGITUDE'
+    '''
+    
     lats=ds[lat]
     lons=ds[lon]
     
@@ -151,6 +160,15 @@ def interp_distance(ds, dim1='distance', dim2='PRES_INTERPOLATED', lat='LATITUDE
 
 
 def func_var_int_pmean(ds, Pmean_smooth, Pmax, variable='SPICE', dim1='N_PROF_NEW',): 
+    '''Takes a profile and mean isopycnal grid and returns a profile with the variable interpolated to that grid.
+    
+    ds: profile in depth space
+    Pmean_smooth: smoothed mean isopycnal grid
+    Pmax: maximum depth value for plotting
+    variable: variable to be interpolated, default='SPICE'
+    dim1: profile/distance dimension, default='N_PROF_NEW'
+    '''
+    
     Pmean_grid = np.linspace(0,Pmax,Pmax//2)
     
     ds_nonan = ds[variable].where(~np.isnan(ds[variable]) & ~np.isnan(Pmean_smooth), drop=True)
@@ -176,12 +194,29 @@ def func_var_int_pmean(ds, Pmean_smooth, Pmax, variable='SPICE', dim1='N_PROF_NE
 
 
 def ds_pmean_smooth(ds_rho, roll, dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED', dim3='rho_grid'):
+    '''Takes an xarray in density space and returns a smoothed isopycnal grid.
+    
+    ds_rho: xarray with density coordinate
+    roll: smoothing factor
+    dim1: profile dimension, default='N_PROF_NEW'
+    dim2: pressure dimension, default='PRES_INTERPOLATED'
+    dim3: density dimension, default='rho_grid'
+    '''
+    
     Pmean_smooth = ds_rho[dim2].mean(dim1).rolling({dim3:roll}, center=True).mean()
     
     return Pmean_smooth
 
 
 def ds_pmean_var(ds_rho, Pmean_smooth, Pmax, variable3='SPICE', dim1='N_PROF_NEW'):
+    '''Takes an xarray in density space and smoothed isopycnal grid and returns an xarray with the variable interpolated to that grid.
+    
+    ds_rho: xarray with density coordinate
+    Pmean_smooth: smoothed isopycnal grid
+    Pmax: maximum depth value for plotting
+    variable3: variable to be interpolated, default='SPICE'
+    dim1: profiles dimension, default='N_PROF_NEW'
+    '''
     
     N_PROF_NEW_ind = 0
 
@@ -194,17 +229,23 @@ def ds_pmean_var(ds_rho, Pmean_smooth, Pmax, variable3='SPICE', dim1='N_PROF_NEW
     return Spice_on_Pmean
 
 
-def ds_anom(ds):
-    n=0
-    mean_spice = ds.isel(Pmean=n).mean(skipna=True)
-    anom_spice = ds.isel(Pmean=n) - mean_spice
+def ds_anom(ds, dim='Pmean'):
+    '''Takes an xarray and returns an xarray with the anomaly of the provided variable.
     
-    for n in range(1,len(ds.Pmean)):
-        mean_spice = ds.isel(Pmean=n).mean(skipna=True)
-        anom_spice_next = ds.isel(Pmean=n) - mean_spice
+    ds: xarray 
+    variable:
+    '''
+    
+    n=0
+    mean_prof = ds.isel({dim:n}).mean(skipna=True)
+    anom_prof = ds.isel({dim:n}) - mean_prof
+    
+    for n in range(1,len(ds[dim])):
+        mean_prof = ds.isel({dim:n}).mean(skipna=True)
+        anom_prof_next = ds.isel({dim:n}) - mean_prof
         
-        anom_spice = xr.concat([anom_spice, anom_spice_next], dim='Pmean')
+        anom_ds = xr.concat([anom_prof, anom_prof_next], dim=dim)
         
-    return anom_spice
+    return anom_ds
 
 
