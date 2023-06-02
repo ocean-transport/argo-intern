@@ -239,13 +239,12 @@ def ds_anom(ds, dim='Pmean'):
     n=0
     mean_prof = ds.isel({dim:n}).mean(skipna=True)
     anom_prof = ds.isel({dim:n}) - mean_prof
-    
+
     for n in range(1,len(ds[dim])):
         mean_prof = ds.isel({dim:n}).mean(skipna=True)
         anom_prof_next = ds.isel({dim:n}) - mean_prof
-        
-        anom_ds = xr.concat([anom_prof, anom_prof_next], dim=dim)
-        
-    return anom_ds
 
+        anom_prof = xr.concat([anom_prof, anom_prof_next], dim=dim)
+        
+    return anom_prof
 
