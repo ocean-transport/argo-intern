@@ -13,6 +13,8 @@ import argopy
 from argopy import DataFetcher as ArgoDataFetcher
 argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",parallel=True)
 
+import MLD_funcs as mf
+
 
 def get_float(float_ID,sample_min):
     '''Takes a float ID and sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m.
@@ -87,29 +89,37 @@ def get_ds_interp(ds,depth_min,depth_max,sample_rate):
     ds_interp.coords['N_PROF_NEW']=xr.DataArray(number,dims=ds_interp.N_PROF.dims)
     return ds_interp
 
-def get_mask(ds, scale, dim2='PRES_INTERPOLATED', bound=False):
+def get_mask(ds, scale, variable='MLD', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False):
     
-    '''Takes an xarray and returns a 1d np array with length of dim2 that contains:
+    '''Takes an xarray and returns a dim1 length list of 1d np arrays with length of dim2 that contains:
     1) bound=False: ones
-    2) bound=True: zeroes (the length of scale) at the top and bottom of a profile, and ones between.
+    2) bound=True: zeroes one filter scale away from the top (ML base) and bottom (profile bottom) boundaries, and ones between.
     
     ds: xarray dataset with pressure dimension
     scale: int/float, used to determine the amount of pressures that will go to zero
+    variable: coordinate of mixed layer depth, default=MLD
+    dim1: profile dimension, default=N_PROF
     dim2: pressure dimension, filtering occurs along this dimension, defualt=PRES_INTERPOLATED
     bound: will boundary regions become zeros?, default=False'''
+
+    mask_li = []
     
     if bound==False:
-        mask = np.ones((len(ds[dim2])))
+        for n in range(0,len(ds[dim1])):
+            mask = np.ones((len(ds[dim2])))
+            mask_li.append(mask)
         
     if bound==True:
-        start = ds[dim2].isel({dim2:0}).values + (scale-1)
-        end = ds[dim2].isel({dim2:-1}) - (scale-1)
-        mask = ds[dim2].where(ds[dim2]>start).where(ds[dim2]<end).values
-        
-        mask[np.greater(mask,0)] = 1
-        mask[np.isnan(mask)] = 0
+        for n in range(0,len(ds[dim1])):
+            start = ds[variable][n].values + scale
+            end = ds[dim2].isel({dim2:-1}).values - scale
+            mask = ds[dim2].where(ds[dim2]>start).where(ds[dim2]<end).values
+            
+            mask[np.greater(mask,0)] = 1
+            mask[np.isnan(mask)] = 0
+            mask_li.append(mask)
     
-    return mask
+    return mask_li
 
 
 def get_lfilters(first, last, num, log=False):
@@ -161,7 +171,7 @@ def get_filt_prof(prof, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     return prof_filt
 
 
-def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False):
+def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True):
     
     '''Takes an xarray and a filter scale in meters and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted and MASK for the boundary correction.
     
@@ -170,20 +180,20 @@ def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     variable: coordinate to filter, default=CT
     dim1: profile dimension, default=N_PROF
     dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
-    bound: will boundary regions become zeros?, default=False'''
+    bound: will boundary regions become zeros?, default=True'''
     
-    mask = get_mask(ds, lfilter, dim2=dim2, bound=bound)
+    mask_li = get_mask(ds, lfilter, variable='MLD', dim1=dim1, dim2=dim2, bound=bound)
     
     nfilter = get_nfilter(ds, lfilter, dim2=dim2)
     
     temp = np.zeros((ds[dim1].shape[0], ds[dim2].shape[0]))
     temp[:,:] = filter.gaussian_filter1d(ds[variable], sigma=nfilter, mode='nearest')
     
-    ds_filt = xr.DataArray(temp, dims=['N_PROF', 'PRES_INTERPOLATED'], coords={'N_PROF':ds[dim1], 'PRES_INTERPOLATED':ds[dim2]})
+    ds_filt = xr.DataArray(temp, dims=[dim1, dim2], coords={dim1:ds[dim1], dim2:ds[dim2]})
     
     number=np.arange(0,len(ds_filt.N_PROF))
     ds_filt['N_PROF_NEW']=xr.DataArray(number,dims=ds[dim1].dims)
-    ds_filt['MASK']=xr.DataArray(mask,dims=ds_filt[dim2].dims)
+    ds_filt=ds_filt.assign_coords(mask=((dim1,dim2),mask_li))
     
     return ds_filt
 
@@ -200,6 +210,8 @@ def get_filt_multi(ds, first, last, num, variable='CT', dim1='N_PROF', dim2='PRE
     dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
     bound: will boundary regions become zeros?, default=False
     log: arrays on either a linspace (default) or logspace(==True)'''
+    
+    #why is lfilter never converted to nfilter?????????????
     
     lfilters = get_lfilters(first=first, last=last, num=num, log=log)
     mask = get_mask(ds, last, dim2=dim2, bound=bound)
