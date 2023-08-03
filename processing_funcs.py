@@ -39,7 +39,7 @@ def get_float(float_ID,sample_min):
     return ds_interp
 
 
-def get_box(box,sample_min):
+def get_box(box, depth_min=0, depth_max=2001, interp_step=2):
     '''Takes latitude/longitude/depth data and a sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m. 
     
     box: lat/lon in the form: box=[lon_min, lon_max, lat_min, lat_max, depth_min, depth_max]
@@ -56,7 +56,7 @@ def get_box(box,sample_min):
     ds=ds.argo.point2profile()
     print('point to profile complete')
     
-    ds_interp=get_ds_interp(ds,0,2000,sample_min)
+    ds_interp=get_ds_interp(ds,depth_min,depth_max,interp_step)
     print('interpolation complete')
     
     ds_interp['SPICE'] = gsw.spiciness0(ds_interp.SA,ds_interp.CT).rename('SPICE')
@@ -70,15 +70,16 @@ def get_box(box,sample_min):
 
 
 
-def get_ds_interp(ds,depth_min=0,depth_max=2001,interp_step=2):
+def get_ds_interp(ds,depth_min,depth_max,interp_step):
     '''
     '''
     
-    dp = ds.PRES.where(ds.PRES<depth_max).where(ds.PRES>depth_min).diff('N_LEVELS').sortby('N_PROF')
-    ds = ds.coords['sample_rate'] = xr.DataArray(dp,dims=['N_PROF','N_LEVELS'])
+    dp = ds.PRES.diff('N_LEVELS').sortby('N_PROF')
+    ds['sample_rate'] = dp
     ds_interp = ds.argo.interp_std_levels(np.arange(depth_min,depth_max,interp_step))
     
     return ds_interp
+
 '''
 def get_ds_interp(ds,depth_min,depth_max,sample_rate):
     
