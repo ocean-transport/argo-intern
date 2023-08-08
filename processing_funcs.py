@@ -11,7 +11,7 @@ import gsw
 
 import argopy
 from argopy import DataFetcher as ArgoDataFetcher
-argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",parallel=True,progress=True)
+argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",progress=True)
 
 def get_float(float_ID,sample_min):
     '''Takes a float ID and sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m.
@@ -39,7 +39,7 @@ def get_float(float_ID,sample_min):
     return ds_interp
 
 
-def get_box(box, depth_min=0, depth_max=2001, interp_step=2):
+def get_box(box, depth_min=0, depth_max=2000, interp_step=2):
     '''Takes latitude/longitude/depth data and a sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m. 
     
     box: lat/lon in the form: box=[lon_min, lon_max, lat_min, lat_max, depth_min, depth_max]
@@ -72,13 +72,22 @@ def get_box(box, depth_min=0, depth_max=2001, interp_step=2):
 
 def get_ds_interp(ds,depth_min,depth_max,interp_step):
     '''
+    Takes an argopy loaded xarray with sampled pressure and calculates the sampling rate, adds it as a variable, then interpolates to a standard pressure grid of size interp_step.
+    
+    ds: xarray dataset with dimensions N_LEVELS and N_PROF
+    depth_min: shallowest depth for pressure grid (m)
+    depth_max: deepest depth for pressure grid (m)
+    interp_step: distance between pressure values for interpolated grid
     '''
     
     dp = ds.PRES.diff('N_LEVELS').sortby('N_PROF')
     ds['sample_rate'] = dp
     ds_interp = ds.argo.interp_std_levels(np.arange(depth_min,depth_max,interp_step))
     
+    number=np.arange(0,len(ds_interp.N_PROF))
+    ds_interp.coords['N_PROF_NEW']=xr.DataArray(number,dims=ds_interp.N_PROF.dims)
     return ds_interp
+
 
 '''
 def get_ds_interp(ds,depth_min,depth_max,sample_rate):
