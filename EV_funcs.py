@@ -109,20 +109,23 @@ def get_drho_dz (ds, variable, coarsen_scale, dim2='PRES_INTERPOLATED'):
 
 def get_EKE_da(ds, scales, sample_max, variable):
     
-    ds = ds.where(ds.sample_rate<sample_max).dropna('N_PROF')
+    ds = ds.where(ds.sample_rate<sample_max)
     ekes_li = []
     
     for n in range(0,len(scales)):
-        ekes_li.append(ef.get_EV(ds,scales[n],variable=variable))
+        ekes_li.append(get_EV(ds,scales[n],variable=variable))
 
     EKES_li = []
-    for n in range(0,len(scales)+1):
+    for n in range(0,len(scales)):
 
         if n==0:
             EKES_li.append((ekes_li[n]).drop_vars('mask',errors='ignore').drop_vars('N_PROF_NEW',errors='ignore'))
 
-        elif n>0 and n<len(scales):
+        elif n>0:
             EKES_li.append((ekes_li[n] - ekes_li[n-1]).drop_vars('mask',errors='ignore').drop_vars('N_PROF_NEW',errors='ignore'))
+    
+    #eke_da = xr.concat(ekes_li, dim='eke')
+    #eke_da = eke_da.assign_coords(mask=(['N_PROF','PRES_INTERPOLATED'], ekes_li[-1].mask.data))
     
     EKE_da = xr.concat(EKES_li, dim='EKE')
     EKE_da = EKE_da.assign_coords(mask=(['N_PROF','PRES_INTERPOLATED'], ekes_li[-1].mask.data))
