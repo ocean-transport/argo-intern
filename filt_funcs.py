@@ -11,85 +11,13 @@ import gsw
 
 import argopy
 from argopy import DataFetcher as ArgoDataFetcher
-argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",parallel=True)
+argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",parallel=True,progress=True)
 
 import MLD_funcs as mf
 
 
-def get_float(float_ID,sample_min):
-    '''Takes a float ID and sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m.
-    
-    float_ID:   loads argo data from a float, based on the ID provided
-    sample_min: minimum sample rate [m]
-    '''
-    
-    ds=argo_loader.float(float_ID)
-    print('loading points complete')
-    
-    ds=ds.to_xarray()
-    print('to xarray complete')
-    
-    ds=ds.argo.teos10(['CT','SA','SIG0'])
-    ds=ds.argo.point2profile()
-    print('point to profile complete')
-    
-    ds_interp=get_ds_interp(ds,0,2000,sample_min)
-    print('interpolation complete')
-    
-    ds_interp['SPICE'] = gsw.spiciness0(ds_interp.SA,ds_interp.CT).rename('SPICE')
-    print('adding spice complete')
-        
-    return ds_interp
 
-def get_box(box,sample_min):
-    '''Takes latitude/longitude/depth data and a sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m. 
-    
-    box: lat/lon in the form: box=[lon_min, lon_max, lat_min, lat_max, depth_min, depth_max]
-    sample_min: minimum sample rate [m]
-    '''
-    
-    ds=argo_loader.region(box)
-    print('loading points complete')
-    
-    ds=ds.to_xarray()
-    print('to xarray complete')
-    
-    ds=ds.argo.teos10(['CT','SA','SIG0'])
-    ds=ds.argo.point2profile()
-    print('point to profile complete')
-    
-    ds_interp=get_ds_interp(ds,0,2000,sample_min)
-    print('interpolation complete')
-    
-    ds_interp['SPICE'] = gsw.spiciness0(ds_interp.SA,ds_interp.CT).rename('SPICE')
-    print('adding spice complete')
-        
-    return ds_interp
-
-
-def get_ds_interp(ds,depth_min,depth_max,sample_rate):
-    
-    '''Takes an Argo xarray with sampled pressure and:
-    1) only selects profiles that sample at a rate equal to or greater than sample_rate
-    2) interpolates the pressure to a 2m grid.
-    3) returns an xarray with all profiles that meet the sample rate interpolated at 2m, with a new dimension PRES_INTERPOLATED
-    
-    ds: xarray dataset with dimensions PRES, N_LEVELS, N_PROF; pressure PRES
-    depth_min: shallowest depth selected[m]
-    depth_max: deepest depth selected [m]
-    sample_rate: minimum sample rate [m]'''
-    
-    median_dp=ds.PRES.where(ds.PRES<depth_max).where(ds.PRES>depth_min).diff('N_LEVELS').median('N_LEVELS')
-    ind_rate=median_dp.where(median_dp<sample_rate,drop=True).N_PROF
-    ds_sel=ds.sel(N_PROF=ind_rate)
-    ds_interp=ds_sel.argo.interp_std_levels(np.arange(depth_min,depth_max,2))
-    ds_interp=ds_interp.sortby(ds_interp.N_PROF)
-    
-    number=np.arange(0,len(ds_interp.N_PROF))
-    ds_interp.coords['N_PROF_NEW']=xr.DataArray(number,dims=ds_interp.N_PROF.dims)
-    return ds_interp
-
-def get_mask(ds, scale, variable='MLD', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False):
+def get_mask(ds, scale, variable='MLD', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True):
     
     '''Takes an xarray and returns a dim1 length list of 1d np arrays with length of dim2 that contains:
     1) bound=False: ones
@@ -190,6 +118,8 @@ def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     temp[:,:] = filter.gaussian_filter1d(ds[variable], sigma=nfilter, mode='nearest')
     
     ds_filt = xr.DataArray(temp, dims=[dim1, dim2], coords={dim1:ds[dim1], dim2:ds[dim2]})
+    ds_filt = ds_filt.assign_coords(LATITUDE=(dim1,ds.LATITUDE.data))
+    ds_filt = ds_filt.assign_coords(LONGITUDE=(dim1,ds.LONGITUDE.data))
     
     number=np.arange(0,len(ds_filt.N_PROF))
     ds_filt['N_PROF_NEW']=xr.DataArray(number,dims=ds[dim1].dims)
@@ -197,7 +127,7 @@ def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     
     return ds_filt
 
-def get_filt_multi(ds, first, last, num, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=False, log=False):
+def get_filt_multi(ds, first, last, num, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True, log=False):
     
     '''Takes an xarray and a filter scale in meters and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted, MASK for the boundary correction, and FILT_SCALE for filter scales.
     
