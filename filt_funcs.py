@@ -121,7 +121,7 @@ def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     ds_filt = ds_filt.assign_coords(LATITUDE=(dim1,ds.LATITUDE.data))
     ds_filt = ds_filt.assign_coords(LONGITUDE=(dim1,ds.LONGITUDE.data))
     
-    number=np.arange(0,len(ds_filt.N_PROF))
+    number=np.arange(0,len(ds_filt[dim1]))
     ds_filt['N_PROF_NEW']=xr.DataArray(number,dims=ds[dim1].dims)
     ds_filt=ds_filt.assign_coords(mask=((dim1,dim2),mask_li))
     
