@@ -39,7 +39,7 @@ def get_float(float_ID,sample_min):
     return ds_interp
 
 
-def get_box(box, depth_min=0, depth_max=2000, interp_step=2):
+def get_box(box, interp_step=2):
     '''Takes latitude/longitude/depth data and a sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m. 
     
     box: lat/lon in the form: box=[lon_min, lon_max, lat_min, lat_max, depth_min, depth_max]
@@ -56,7 +56,7 @@ def get_box(box, depth_min=0, depth_max=2000, interp_step=2):
     ds=ds.argo.point2profile()
     print('point to profile complete')
     
-    ds_interp=get_ds_interp(ds,depth_min,depth_max,interp_step)
+    ds_interp=get_ds_interp(ds,box[4],box[5],interp_step)
     print('interpolation complete')
     
     ds_interp['SPICE'] = gsw.spiciness0(ds_interp.SA,ds_interp.CT).rename('SPICE')
