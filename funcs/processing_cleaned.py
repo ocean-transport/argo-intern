@@ -11,44 +11,75 @@ import argopy
 from argopy import DataFetcher as ArgoDataFetcher
 argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",progress=True)
 
-def load_argo_box(float_type, float_ID=None, dim1='N_PROF', dim2='PRES_INTERPOLATED', var_dens='SIG0', var_time='TIME'):
+#this is my effort to allow for loading all kinds of data (argo loaded by  float ID, argo loaded by box, gliders that haven't been interpolated and ones that have) and return the same kind of data with the same dimensions and variables
+def process_data(float_type, argo_float=None, argo_box=None, float_unproc=None, float_proc=None,
+                 dims=['N_PROF','PRES_INTERPOLATED'],
+                 vars=['SIG0', 'TIME']):
     '''
     inputs:  list of latitude, longitude, depth parameters to load box
     outputs: argo_loader float object
     '''
 
+    #raising errors if anything doesn't seem right about the inputs
     float_types = ['argo_float', 'argo_box', 'glider_unprocessed', 'glider_processed']
     if float_type not in float_types:
         raise ValueError(f'Invalid float_type value. Please provide one of the following acceptable values {float_types}.')
         
     if float_type=='argo_float':
-        pass
+        if argo_float is None:
+            raise TypeError('Must provide a float ID for float_type argo_float')
+
+        #analysis goes here
+        
+        ds_process = process_argo_float()
 
     if float_type=='argo_box':
-        pass
+        if argo_float is None:
+            raise TypeError('Must provide a float box for float_type argo_box')
+
+        #analysis goes here
+        
+        ds_process = process_argo_box()
 
     if float_type=='glider_unprocessed':
-        pass
+        if argo_float is None:
+            raise TypeError('Must provide an xr ds of the unprocessed glider for float_type glider_unprocessed')
+
+        #analysis goes here
+        
+        ds_process = process_glider_unprocessed()
 
     if float_type=='glider_processed':
-        pass
+        if argo_float is None:
+            raise TypeError('Must provide an xr ds of the processed glider for float_type glider_processed')
 
-    return 
+        #analysis goes here
+        
+        ds_process = float_proc
+
+    print('processing complete')
+
     
 
-def load_argo_float():
+    return 
+
+def process_argo_float():
+    '''
+    '''
+
+def process_argo_box():
     '''
     inputs:  argo float ID
     outputs: argo_loader float object
     '''
 
-def load_float_unprocessed():
+def process_float_unprocessed():
     '''
     inputs:  xr dataset with dimensions of profiles and depth
     outputs: xr dataset with dimensions of profiles and ineterpolated depth
     '''
 
-def load_float_processed():
+def process_float_processed():
     '''
     inputs:  xr dataset with interpolated depth
     outputs: xr dataset with all required variables
