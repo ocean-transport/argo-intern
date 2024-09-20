@@ -85,7 +85,7 @@ def get_ds_interp(ds,depth_min,depth_max,interp_step):
     ds_interp = ds.argo.interp_std_levels(np.arange(depth_min,depth_max,interp_step))
     
     number=np.arange(0,len(ds_interp.N_PROF))
-    ds_interp.coords['N_PROF_NEW']=xr.DataArray(number,dims=ds_interp.N_PROF.dims)
+    ds_interp.sortby('LATITUDE').coords['N_PROF_NEW']=xr.DataArray(number,dims=ds_interp.N_PROF.dims)
     return ds_interp
 
 
@@ -140,13 +140,6 @@ def add_times(ds, variable='TIME'):
     return ds
 
 def get_MLD(ds,threshold=0.03,variable='SIG0',dim1='N_PROF',dim2='PRES_INTERPOLATED'):
-    '''Takes an xarray and returns a new coordinate "MLD" or mixed layer depth for each profile, defined using the density threshold from the surface.
-    ds: xarray with profile and pressure dimensions
-    threshold: density value that defines the boundary of the mixed layer, default=0.03
-    variable: density coordinate, default='SIG0'
-    dim1: profile dimension, default='N_PROF'
-    dim2: pressure dimension, default='PRES_INTERPOLATED'
-    '''
     
     MLD_li = []
     
@@ -154,7 +147,13 @@ def get_MLD(ds,threshold=0.03,variable='SIG0',dim1='N_PROF',dim2='PRES_INTERPOLA
         SIG0_surface = ds.isel({dim1:n})[variable].isel({dim2:0})
         SIG0_diff    = SIG0_surface + threshold
         MLD_ds       = SIG0_surface.where(ds.isel({dim1:n})[variable] < SIG0_diff)
-        MLD          = MLD_ds.dropna(dim2).isel({dim2:-1})[dim2].values
+        MLD_ds_dropped = MLD_ds.dropna(dim2)
+        
+        if MLD_ds_dropped.size > 0:
+            MLD = MLD_ds_dropped.isel({dim2:-1})[dim2].values
+        else:
+            MLD = int(ds[dim2].max())
+        
         MLD_li.append(MLD)
         
     return ds.assign_coords(MLD=(dim1,MLD_li))

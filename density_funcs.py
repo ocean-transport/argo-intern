@@ -64,38 +64,39 @@ def interpolate2density_prof(ds_z, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTER
     '''
     
     N_PROF_ind = 0
-    PRES_tilde_xr  = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'PRES',rho_grid)
-    CT_tilde_xr    = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'CT',rho_grid)
-    SA_tilde_xr    = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SA', rho_grid)
-    SIG0_tilde_xr  = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG0', rho_grid)
-    SIG1_tilde_xr  = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG1', rho_grid)
-    SPICE_tilde_xr = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE', rho_grid)
+    PRES_tilde_xr                   = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'PRES',rho_grid)
+    CT_tilde_xr                     = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'CT',rho_grid)
+    SA_tilde_xr                     = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SA', rho_grid)
+    SIG0_tilde_xr                   = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG0', rho_grid)
+    #SIG1_tilde_xr                  = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG1', rho_grid)
+    SPICE_tilde_xr                  = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE', rho_grid)
+    SPICE_anom_binned_EV75_tilde_xr = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE_anom_binned_EV75', rho_grid)
     
     
 
     for N_PROF_ind in range(1, len(ds_z.N_PROF)):
         if np.mod(N_PROF_ind, 100)==0:
             print(N_PROF_ind)
-        PRES_tilde_xr  = xr.concat([PRES_tilde_xr,  func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'PRES', rho_grid)], dim=dim1)
-        CT_tilde_xr    = xr.concat([CT_tilde_xr,    func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'CT', rho_grid)], dim=dim1)
-        SA_tilde_xr    = xr.concat([SA_tilde_xr,    func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SA', rho_grid)], dim=dim1)
-        SIG0_tilde_xr  = xr.concat([SIG0_tilde_xr,  func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG0', rho_grid)], dim=dim1)
-        SIG1_tilde_xr  = xr.concat([SIG1_tilde_xr,  func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG0', rho_grid)], dim=dim1)
-        SPICE_tilde_xr = xr.concat([SPICE_tilde_xr, func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE', rho_grid)], dim=dim1)
+        PRES_tilde_xr                   = xr.concat([PRES_tilde_xr,  func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'PRES', rho_grid)], dim=dim1)
+        CT_tilde_xr                     = xr.concat([CT_tilde_xr,    func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'CT', rho_grid)], dim=dim1)
+        SA_tilde_xr                     = xr.concat([SA_tilde_xr,    func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SA', rho_grid)], dim=dim1)
+        SIG0_tilde_xr                   = xr.concat([SIG0_tilde_xr,  func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG0', rho_grid)], dim=dim1)
+        #SIG1_tilde_xr                  = xr.concat([SIG1_tilde_xr,  func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG0', rho_grid)], dim=dim1)
+        SPICE_tilde_xr                  = xr.concat([SPICE_tilde_xr, func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE', rho_grid)], dim=dim1)
+        SPICE_anom_binned_EV75_tilde_xr = xr.concat([SPICE_anom_binned_EV75_tilde_xr, func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE_anom_binned_EV75', rho_grid)], dim=dim1)
     
 
     ds_rho = xr.merge([PRES_tilde_xr, CT_tilde_xr,
-                             SA_tilde_xr, SIG0_tilde_xr, SIG1_tilde_xr, SPICE_tilde_xr])
+                             SA_tilde_xr, SIG0_tilde_xr, SPICE_tilde_xr,SPICE_anom_binned_EV75_tilde_xr])
     
     ds_rho = ds_rho.assign_coords(TIME      =('N_PROF_NEW',ds_z.TIME.data))
     ds_rho = ds_rho.assign_coords(LATITUDE  =('N_PROF_NEW',ds_z.LATITUDE.data))
     ds_rho = ds_rho.assign_coords(LONGITUDE =('N_PROF_NEW',ds_z.LONGITUDE.data))
     ds_rho = ds_rho.assign_coords(MLD       =('N_PROF_NEW',ds_z.MLD.data))
-    ds_rho = ds_rho.assign_coords(month     =('N_PROF_NEW',ds_z.month.data))
-    ds_rho = ds_rho.assign_coords(month_frac=('N_PROF_NEW',ds_z.month_frac.data))
-    ds_rho = ds_rho.assign_coords(year      =('N_PROF_NEW',ds_z.year.data))
-    ds_rho = ds_rho.assign_coords(year_frac =('N_PROF_NEW',ds_z.year_frac.data))
-    
+    #ds_rho = ds_rho.assign_coords(month     =('N_PROF_NEW',ds_z.month.data))
+    #ds_rho = ds_rho.assign_coords(month_frac=('N_PROF_NEW',ds_z.month_frac.data))
+    #ds_rho = ds_rho.assign_coords(year      =('N_PROF_NEW',ds_z.year.data))
+    #ds_rho = ds_rho.assign_coords(year_frac =('N_PROF_NEW',ds_z.year_frac.data))    
     return ds_rho
 
 def interpolate2density_dist(ds_z, rho_grid, dim1='distance', dim2='PRES_INTERPOLATED'):
