@@ -140,9 +140,9 @@ def add_times(ds, variable="TIME"):
     for i in range(0, len(ds.N_PROF)):
         year_li.append(ds.isel(N_PROF=i).TIME.dt.year)
 
-    ds = ds.assign_coords(month=("N_PROF", month_li))
+    #ds = ds.assign_coords(month=("N_PROF", month_li))
     ds = ds.assign_coords(month_frac=("N_PROF", frac_month.data))
-    ds = ds.assign_coords(year=("N_PROF", year_li))
+    #ds = ds.assign_coords(year=("N_PROF", year_li))
     ds = ds.assign_coords(year_frac=("N_PROF", frac_year.data))
 
     return ds
