@@ -103,12 +103,12 @@ def load_argo_float(argo_ID):
     Parameters
     ----------
     argo_ID: int, list
-        Description
+        Individual float ID or list of IDs
 
     Returns
     -------
     xr.dataset
-        Description
+        Dataset of 
     '''
     ds = argo_loader.float(float_ID)
     ds = ds.to_xarray()
@@ -124,7 +124,7 @@ def load_argo_box(argo_box):
     Parameters
     ----------
     argo_box: list
-        Description
+        Of the form: [lon_min, lon_max, lat_min, lat_max, depth_min, depth_max]
 
     Returns
     -------
