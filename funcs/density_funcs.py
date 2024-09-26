@@ -10,7 +10,7 @@ import matplotlib
 import gsw
 from cmocean import cm as cmo
 import scipy.interpolate as interpolate
-import glidertools as gt
+#import glidertools as gt
 
 import filt_funcs as ff
 import EV_funcs as ef
