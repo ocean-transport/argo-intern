@@ -10,7 +10,7 @@ import matplotlib
 import gsw
 from cmocean import cm as cmo
 import scipy.interpolate as interpolate
-import glidertools as gt
+#import glidertools as gt
 
 import filt_funcs as ff
 import EV_funcs as ef
@@ -69,7 +69,7 @@ def interpolate2density_prof(ds_z, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTER
     SA_tilde_xr                         = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SA', rho_grid)
     SIG0_tilde_xr                       = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG0', rho_grid)
     SPICE_tilde_xr                      = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE', rho_grid)
-    SPICE_anom_binned_EV75_tilde_xr     = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE_anom_binned_EV75', rho_grid)
+    #SPICE_anom_binned_EV75_tilde_xr     = func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE_anom_binned_EV75', rho_grid)
     
 
     for N_PROF_ind in range(1, len(ds_z.N_PROF)):
@@ -80,11 +80,11 @@ def interpolate2density_prof(ds_z, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTER
         SA_tilde_xr                     = xr.concat([SA_tilde_xr,    func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SA', rho_grid)], dim=dim1)
         SIG0_tilde_xr                   = xr.concat([SIG0_tilde_xr,  func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SIG0', rho_grid)], dim=dim1)
         SPICE_tilde_xr                  = xr.concat([SPICE_tilde_xr, func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE', rho_grid)], dim=dim1)
-        SPICE_anom_binned_EV75_tilde_xr = xr.concat([SPICE_anom_binned_EV75_tilde_xr, func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE_anom_binned_EV75', rho_grid)], dim=dim1)
+        #SPICE_anom_binned_EV75_tilde_xr = xr.concat([SPICE_anom_binned_EV75_tilde_xr, func_var_int(ds_z.isel(N_PROF=N_PROF_ind), 'SPICE_anom_binned_EV75', rho_grid)], dim=dim1)
     
 
     ds_rho = xr.merge([PRES_INTERPOLATED_tilde_xr, CT_tilde_xr,
-                             SA_tilde_xr, SIG0_tilde_xr, SPICE_tilde_xr, SPICE_anom_binned_EV75_tilde_xr])
+                             SA_tilde_xr, SIG0_tilde_xr, SPICE_tilde_xr])
     
     ds_rho = ds_rho.assign_coords(TIME      =('N_PROF_NEW',ds_z.TIME.data))
     ds_rho = ds_rho.assign_coords(LATITUDE  =('N_PROF_NEW',ds_z.LATITUDE.data))
