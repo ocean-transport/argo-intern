@@ -1,20 +1,83 @@
 # PROCESSING FUNCTIONS
 
 import xarray as xr
-import matplotlib.pyplot as plt
+import logging
+import warnings
+import getpass
 import numpy as np
+import pandas as pd
 import argopy
-import scipy.ndimage as filter
-import scipy
-import matplotlib
 import gsw
 
-import argopy
 from argopy import DataFetcher as ArgoDataFetcher
+argo_loader = ArgoDataFetcher(src="gdac", ftp="/swot/SUM05/dbalwada/Argo_sync", progress=False)
 
-argo_loader = ArgoDataFetcher(
-    src="gdac", ftp="/swot/SUM05/dbalwada/Argo_sync", progress=True
-)
+
+
+
+def get_box(box, interp_step=2):
+    """Takes latitude/longitude/depth data and a sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m.
+
+    box: lat/lon in the form: box=[lon_min, lon_max, lat_min, lat_max, depth_min, depth_max]
+    sample_min: minimum sample rate [m]
+    """
+
+    ds = argo_loader.region(box)
+    print("loading points complete")
+
+    ds = ds.to_xarray()
+    print("to xarray complete")
+
+    ds = ds.argo.teos10(["CT", "SA", "SIG0"])
+    ds = ds.argo.point2profile()
+    print("point to profile complete")
+
+    ds_interp = get_ds_interp(ds, box[4], box[5], interp_step)
+    print("interpolation complete")
+
+    ds_interp["SPICE"] = gsw.spiciness0(ds_interp.SA, ds_interp.CT).rename("SPICE")
+    print("adding spice complete")
+
+    #ds_interp = get_MLD(ds_interp)
+    #ds_interp = add_times(ds_interp)
+    #print("adding MLD complete")
+    
+    if 'raw_attrs' in ds_interp.attrs:
+        del ds_interp.attrs['raw_attrs']
+
+    return ds_interp
+
+
+
+def get_ds_interp(ds, standard_grid=np.arange(0,2002,2)):
+    """
+    NEW VERSION: NEED TO INCLUDE DOCUMENTATION!!!!!!!
+    """
+        
+    profs_interp = []
+    interp_step = standard_grid[1]-standard_grid[0]
+    
+    for n in range(0, len(ds.N_PROF)):
+        prof = ds.isel(N_PROF=n).expand_dims('N_PROF')
+        depth_min = standard_grid[0]
+        depth_max = int(prof.PRES.max())
+        depth_max = (depth_max // 2) * 2
+
+        if depth_max > depth_min:
+            std_lev = np.arange(depth_min, depth_max, interp_step)
+            dp = prof.PRES.diff('N_LEVELS')
+            prof['sample_rate'] = dp
+            prof_interp = prof.argo.interp_std_levels(np.arange(depth_min, depth_max, interp_step))
+
+            prof_interp_reindexed = prof_interp.reindex({'PRES_INTERPOLATED': standard_grid}, method=None, fill_value=np.nan)
+            profs_interp.append(prof_interp_reindexed)
+        else:
+            print(f"Profile {n} has invalid depth range: depth_min={depth_min}, depth_max={depth_max}")
+
+    concat_n_prof = xr.concat(profs_interp, dim='N_PROF')
+    
+    return concat_n_prof
+
 
 
 def get_float(float_ID, sample_min):
@@ -43,53 +106,25 @@ def get_float(float_ID, sample_min):
     return ds_interp
 
 
-def get_box(box, interp_step=2):
-    """Takes latitude/longitude/depth data and a sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m.
-
-    box: lat/lon in the form: box=[lon_min, lon_max, lat_min, lat_max, depth_min, depth_max]
-    sample_min: minimum sample rate [m]
-    """
-
-    ds = argo_loader.region(box)
-    print("loading points complete")
-
-    ds = ds.to_xarray()
-    print("to xarray complete")
-
-    ds = ds.argo.teos10(["CT", "SA", "SIG0"])
-    ds = ds.argo.point2profile()
-    print("point to profile complete")
-
-    ds_interp = get_ds_interp(ds, box[4], box[5], interp_step)
-    print("interpolation complete")
-
-    ds_interp["SPICE"] = gsw.spiciness0(ds_interp.SA, ds_interp.CT).rename("SPICE")
-    print("adding spice complete")
-
-    ds_interp = get_MLD(ds_interp)
-    ds_interp = add_times(ds_interp)
-    print("adding MLD complete")
-
-    return ds_interp
-
-
+"""
 def get_ds_interp(ds, depth_min, depth_max, interp_step):
-    """
     Takes an argopy loaded xarray with sampled pressure and calculates the sampling rate, adds it as a variable, then interpolates to a standard pressure grid of size interp_step.
 
     ds: xarray dataset with dimensions N_LEVELS and N_PROF
     depth_min: shallowest depth for pressure grid (m)
     depth_max: deepest depth for pressure grid (m)
     interp_step: distance between pressure values for interpolated grid
-    """
 
+    print('USING THIS DS_INTERP')
     dp = ds.PRES.diff("N_LEVELS").sortby("N_PROF")
     ds["sample_rate"] = dp
     ds_interp = ds.argo.interp_std_levels(np.arange(depth_min, depth_max, interp_step))
 
     number = np.arange(0, len(ds_interp.N_PROF))
     ds_interp.coords["N_PROF_NEW"] = xr.DataArray(number, dims=ds_interp.N_PROF.dims)
+    
     return ds_interp
+"""
 
 
 """
