@@ -15,7 +15,7 @@ argo_loader = ArgoDataFetcher(src="gdac", ftp="/swot/SUM05/dbalwada/Argo_sync", 
 
 
 
-def get_box(box, interp_step=2):
+def get_box(box, standard_grid=np.arange(0,2002,2)):
     """Takes latitude/longitude/depth data and a sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m.
 
     box: lat/lon in the form: box=[lon_min, lon_max, lat_min, lat_max, depth_min, depth_max]
@@ -32,7 +32,7 @@ def get_box(box, interp_step=2):
     ds = ds.argo.point2profile()
     print("point to profile complete")
 
-    ds_interp = get_ds_interp(ds, box[4], box[5], interp_step)
+    ds_interp = get_ds_interp(ds, standard_grid)
     print("interpolation complete")
 
     ds_interp["SPICE"] = gsw.spiciness0(ds_interp.SA, ds_interp.CT).rename("SPICE")
@@ -49,34 +49,90 @@ def get_box(box, interp_step=2):
 
 
 
-def get_ds_interp(ds, standard_grid=np.arange(0,2002,2)):
+
+def get_ds_interp(ds, standard_grid):
     """
     NEW VERSION: NEED TO INCLUDE DOCUMENTATION!!!!!!!
     """
+    
+    print('NEW INTERP FUNCTION')
+    profs_interp = []
+    interp_step = standard_grid[1] - standard_grid[0]
+    
+    for n in range(0, len(ds.N_PROF)):
+        prof = ds.isel(N_PROF=n).expand_dims('N_PROF')
+        depth_min = int(prof.PRES.min())
+        depth_min = np.ceil(depth_min / 2) * 2  # Ensure depth_min is rounded to the nearest even number
+        depth_max = int(prof.PRES.max())
+        depth_max = (depth_max // 2) * 2  # Ensure depth_max is rounded to the nearest even number
+
+        # Validate standard_grid and skip the profile if invalid
+        if not (np.all(np.diff(standard_grid) > 0) and np.all(standard_grid >= 0)):
+            print(f"\tProfile {n} skipped due to invalid standard_grid values.")
+            continue
+
+        if depth_max > depth_min:
+            dp = prof.PRES.diff('N_LEVELS')
+            prof['sample_rate'] = dp
+            
+            try:
+                prof_interp = prof.argo.interp_std_levels(np.arange(depth_min, depth_max, interp_step))
+                prof_interp_reindexed = prof_interp.reindex({'PRES_INTERPOLATED': standard_grid}, method=None, fill_value=np.nan)
+                profs_interp.append(prof_interp_reindexed)
+            except ValueError as e:
+                print(f"\tProfile {n} skipped due to interpolation error: {e}")
         
+        elif depth_max > prof.PRES.max():
+            print(f"\tProfile {n} has depth_max of {depth_max} but max PRES is {prof.PRES.max()}")
+            
+        elif depth_max <= depth_min:
+            print(f"\tProfile {n} has invalid depth range: depth_min={depth_min}, depth_max={depth_max}")
+
+    # Concatenate valid profiles
+    concat_n_prof = xr.concat(profs_interp, dim='N_PROF') if profs_interp else xr.Dataset()
+    
+    return concat_n_prof
+
+
+
+
+
+"""
+def get_ds_interp(ds, standard_grid):
+    '''
+    NEW VERSION: NEED TO INCLUDE DOCUMENTATION!!!!!!!
+    '''
+    
+    print('NEW INTERP FUNCTION')
     profs_interp = []
     interp_step = standard_grid[1]-standard_grid[0]
     
     for n in range(0, len(ds.N_PROF)):
         prof = ds.isel(N_PROF=n).expand_dims('N_PROF')
-        depth_min = standard_grid[0]
+        depth_min = int(prof.PRES.min())
+        depth_min = np.ceil(depth_min/2) *2 #double-check this makes sense
         depth_max = int(prof.PRES.max())
         depth_max = (depth_max // 2) * 2
 
         if depth_max > depth_min:
-            std_lev = np.arange(depth_min, depth_max, interp_step)
             dp = prof.PRES.diff('N_LEVELS')
             prof['sample_rate'] = dp
+            
             prof_interp = prof.argo.interp_std_levels(np.arange(depth_min, depth_max, interp_step))
-
             prof_interp_reindexed = prof_interp.reindex({'PRES_INTERPOLATED': standard_grid}, method=None, fill_value=np.nan)
             profs_interp.append(prof_interp_reindexed)
-        else:
-            print(f"Profile {n} has invalid depth range: depth_min={depth_min}, depth_max={depth_max}")
+        
+        elif depth_max > prof.PRES.max():
+            print(f"\tProfile {n} has depth_max of {depth_max} but max PRES is {prof.PRES.max()}")
+        
+        elif depth_max <= depth_min:
+            print(f"\tProfile {n} has invalid depth range: depth_min={depth_min}, depth_max={depth_max}")
 
     concat_n_prof = xr.concat(profs_interp, dim='N_PROF')
     
     return concat_n_prof
+"""
+
 
 
 
