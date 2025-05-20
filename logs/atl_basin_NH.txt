@@ -137,7 +137,8 @@ Error in box [-65, -60, 0, 5]: DataNotFound - 'No data found for: x=-65.00/-60.0
 Error in box [-65, -60, 5, 10]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
 Error in box [-65, -60, 10, 15]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
 Error in box [-60, -55, 0, 5]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=0.00/5.00'
-Error in box [-60, -55, 5, 10]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-60, -55, 5, 10]: KeyError - "No variable named '
+'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
 Error in box [-60, -55, 10, 15]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
 Error in box [-60, -55, 15, 20]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
 Error in box [-55, -50, 0, 5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'TIME', 'LATITUDE', 'LONGITUDE', 'N_POINTS']"
