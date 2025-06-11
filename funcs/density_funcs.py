@@ -17,6 +17,84 @@ import EV_funcs as ef
 import plot_funcs as pf
 
 
+def var_interp_binned(ds, variable, rho_grid, dim1='z_c', dim2='lon_c', dim3='lat_c', flag='group'):
+    '''
+    '''
+    
+    lon_num = np.array(ds[dim2].values)
+    lat_num = np.array(ds[dim3].values)
+    
+    rho = ds.SIG0
+    rho_nonan = rho.where(~np.isnan(rho), drop=True)
+    
+    var_nonan = ds[variable].where(~np.isnan(rho), drop=True)
+    
+    var_nonan2 = var_nonan.where(~np.isnan(var_nonan), drop=True)
+    
+    if flag == 'group': # incase density is identical b/w two points (this makes things very slow)
+        var_nonan = var_nonan.groupby(rho_nonan).mean()
+        rho_nonan = rho_nonan.groupby(rho_nonan).mean()
+    
+    if (len(rho_nonan)>2) & (len(var_nonan2)>2):
+        fvar = interpolate.PchipInterpolator(rho_nonan, var_nonan, extrapolate=False)
+    
+        var_tilde = fvar(rho_grid)
+    else:
+        var_tilde = np.nan*rho_grid
+
+    ds_rho = xr.DataArray(
+        data=var_tilde.reshape((-1,1,1)), 
+        dims=['rho_grid', dim2, dim3], 
+        coords={
+            'rho_grid': (['rho_grid'], rho_grid),
+            dim2: (['lon_c'], np.array([lon_num])),  # Ensure proper shape
+            dim3: (['lat_c'], np.array([lat_num]))   # Ensure proper shape
+        }
+    ).rename(variable)
+
+    return ds_rho.sortby(dim2, dim3)
+
+def density_interp_binned(ds_z, rho_grid, dim1='z_c', dim2='lon_c', dim3='lat_c'):
+    z_c_list = [var_interp_binned(ds_z.isel(lat_c=lat).isel(lon_c=lon), 'z_c', rho_grid)
+                 for lon in range(len(ds_z[dim2]))
+                 for lat in range(len(ds_z[dim3]))]
+    z_c_xr = xr.combine_by_coords(z_c_list)
+
+    CT_list = [var_interp_binned(ds_z.isel(lat_c=lat).isel(lon_c=lon), 'CT', rho_grid)
+                 for lon in range(len(ds_z[dim2]))
+                 for lat in range(len(ds_z[dim3]))]
+    CT_xr = xr.combine_by_coords(CT_list)
+
+    SA_list = [var_interp_binned(ds_z.isel(lat_c=lat).isel(lon_c=lon), 'SA', rho_grid)
+                 for lon in range(len(ds_z[dim2]))
+                 for lat in range(len(ds_z[dim3]))]
+    SA_xr = xr.combine_by_coords(SA_list)
+
+    SIG0_list = [var_interp_binned(ds_z.isel(lat_c=lat).isel(lon_c=lon), 'SIG0', rho_grid)
+                 for lon in range(len(ds_z[dim2]))
+                 for lat in range(len(ds_z[dim3]))]
+    SIG0_xr = xr.combine_by_coords(SIG0_list)
+
+    SPICE_list = [var_interp_binned(ds_z.isel(lat_c=lat).isel(lon_c=lon), 'SPICE', rho_grid)
+                 for lon in range(len(ds_z[dim2]))
+                 for lat in range(len(ds_z[dim3]))]
+    SPICE_xr = xr.combine_by_coords(SPICE_list)
+
+    ds_rho = xr.merge([z_c_xr, CT_xr, SA_xr, SIG0_xr, SPICE_xr])
+   
+    return ds_rho
+
+
+
+
+
+
+
+
+
+
+
+
 def func_var_int(ds, variable, rho_grid, dim1='N_PROF_NEW', dim2='PRES_INTERPOLATED', flag='group'):
     '''Takes an xarray and density grid, and returns an xarray in density space, with respect to the given variable
     
