@@ -137,9 +137,9 @@ def func_var_int(ds, variable, rho_grid, dim1='N_PROF', dim2='PRES_INTERPOLATED'
     N_PROF_num = ds[dim1].values
     
     rho = ds.SIG0
-    rho_nonan = rho.where(~np.isnan(rho), drop=True)
+    rho_nonan = rho.where(~np.isnan(rho), drop=True).where(~np.isnan(ds[variable]), drop=True)
     
-    var_nonan = ds[variable].where(~np.isnan(rho), drop=True)
+    var_nonan = ds[variable].where(~np.isnan(rho), drop=True).where(~np.isnan(ds[variable]), drop=True)
     
     var_nonan2 = var_nonan.where(~np.isnan(var_nonan), drop=True)
     
@@ -200,32 +200,32 @@ def interpolate2density_var(ds_z, rho_grid, dim1='N_PROF', dim2='PRES_INTERPOLAT
     '''
     
     ct2_inside_list = [func_var_int(ds_z.isel(N_PROF=N_PROF), 'ct2_inside', rho_grid)
-                 for N_PROF in range(len(ds_z[dim2]))]
+                 for N_PROF in range(len(ds_z[dim1]))]
     ct2_inside_xr = xr.combine_by_coords(ct2_inside_list)
     print('ct2_inside concat complete')
     
     sa2_inside_list = [func_var_int(ds_z.isel(N_PROF=N_PROF), 'sa2_inside', rho_grid)
-                 for N_PROF in range(len(ds_z[dim2]))]
+                 for N_PROF in range(len(ds_z[dim1]))]
     sa2_inside_xr = xr.combine_by_coords(sa2_inside_list)
     print('sa2_inside concat complete')
     
     sp2_inside_list = [func_var_int(ds_z.isel(N_PROF=N_PROF), 'sp2_inside', rho_grid)
-                 for N_PROF in range(len(ds_z[dim2]))]
+                 for N_PROF in range(len(ds_z[dim1]))]
     sp2_inside_xr = xr.combine_by_coords(sp2_inside_list)
     print('sp2_inside concat complete')
     
     ct3_inside_list = [func_var_int(ds_z.isel(N_PROF=N_PROF), 'ct3_inside', rho_grid)
-                 for N_PROF in range(len(ds_z[dim2]))]
+                 for N_PROF in range(len(ds_z[dim1]))]
     ct3_inside_xr = xr.combine_by_coords(ct3_inside_list)
     print('ct3_inside concat complete')
     
     sa3_inside_list = [func_var_int(ds_z.isel(N_PROF=N_PROF), 'sa3_inside', rho_grid)
-                 for N_PROF in range(len(ds_z[dim2]))]
+                 for N_PROF in range(len(ds_z[dim1]))]
     sa3_inside_xr = xr.combine_by_coords(sa3_inside_list)
     print('sa3_inside concat complete')
     
     sp3_inside_list = [func_var_int(ds_z.isel(N_PROF=N_PROF), 'sp3_inside', rho_grid)
-                 for N_PROF in range(len(ds_z[dim2]))]
+                 for N_PROF in range(len(ds_z[dim1]))]
     sp3_inside_xr = xr.combine_by_coords(sp3_inside_list)
     print('sp3_inside concat complete')
     
