@@ -11,7 +11,7 @@ import gsw
 
 import argopy
 from argopy import DataFetcher as ArgoDataFetcher
-argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",parallel=True,progress=True)
+#argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",parallel=True,progress=True)
 
 import MLD_funcs as mf
 

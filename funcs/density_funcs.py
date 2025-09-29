@@ -137,9 +137,9 @@ def func_var_int(ds, variable, rho_grid, dim1='N_PROF', dim2='PRES_INTERPOLATED'
     N_PROF_num = ds[dim1].values
     
     rho = ds.SIG0
-    rho_nonan = rho.where(~np.isnan(rho), drop=True).where(~np.isnan(ds[variable]), drop=True)
+    rho_nonan = rho.where(~np.isnan(rho), drop=True)
     
-    var_nonan = ds[variable].where(~np.isnan(rho), drop=True).where(~np.isnan(ds[variable]), drop=True)
+    var_nonan = ds[variable].where(~np.isnan(ds[variable]), drop=True)
     
     var_nonan2 = var_nonan.where(~np.isnan(var_nonan), drop=True)
     
