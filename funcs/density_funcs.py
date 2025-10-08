@@ -1,9 +1,9 @@
-#DEPTH TO DENSITY FUNCTIONS
+##DEPTH TO DENSITY FUNCTIONS
 
 import xarray as xr
 import matplotlib.pyplot as plt
 import numpy as np
-import argopy
+#import argopy
 import scipy.ndimage as filter
 import scipy
 import matplotlib
@@ -14,7 +14,7 @@ import scipy.interpolate as interpolate
 
 import filt_funcs as ff
 import EV_funcs as ef
-import plot_funcs as pf
+#import plot_funcs as pf
 
 
 def var_interp_binned(ds, variable, rho_grid, dim1='z_c', dim2='lon_c', dim3='lat_c', flag='group'):

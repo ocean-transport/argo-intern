@@ -3,17 +3,17 @@
 import xarray as xr
 import matplotlib.pyplot as plt
 import numpy as np
-import argopy
+#import argopy
 import scipy.ndimage as filter
 import scipy
 import matplotlib
 import gsw
 
-import argopy
-from argopy import DataFetcher as ArgoDataFetcher
+#import argopy
+#from argopy import DataFetcher as ArgoDataFetcher
 #argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",parallel=True,progress=True)
 
-import MLD_funcs as mf
+#import MLD_funcs as mf
 
 
 
@@ -118,8 +118,8 @@ def ds_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPO
     temp[:,:] = filter.gaussian_filter1d(ds[variable], sigma=nfilter, mode='nearest')
     
     ds_filt = xr.DataArray(temp, dims=[dim1, dim2], coords={dim1:ds[dim1], dim2:ds[dim2]})
-    ds_filt = ds_filt.assign_coords(LATITUDE=(dim1,ds.LATITUDE.data))
-    ds_filt = ds_filt.assign_coords(LONGITUDE=(dim1,ds.LONGITUDE.data))
+    ds_filt = ds_filt.assign_coords(lat=(dim1,ds.lat.data))
+    ds_filt = ds_filt.assign_coords(lon=(dim1,ds.lon.data))
     
     number=np.arange(0,len(ds_filt[dim1]))
     ds_filt['N_PROF_NEW']=xr.DataArray(number,dims=ds[dim1].dims)
@@ -146,8 +146,8 @@ def da_filt_single(ds, lfilter, dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=T
     temp[:,:] = filter.gaussian_filter1d(ds, sigma=nfilter, mode='nearest')
     
     ds_filt = xr.DataArray(temp, dims=[dim1, dim2], coords={dim1:ds[dim1], dim2:ds[dim2]})
-    ds_filt = ds_filt.assign_coords(LATITUDE=(dim1,ds.LATITUDE.data))
-    ds_filt = ds_filt.assign_coords(LONGITUDE=(dim1,ds.LONGITUDE.data))
+    ds_filt = ds_filt.assign_coords(lat=(dim1,ds.lat.data))
+    ds_filt = ds_filt.assign_coords(lon=(dim1,ds.lon.data))
     
     number=np.arange(0,len(ds_filt[dim1]))
     ds_filt['N_PROF_NEW']=xr.DataArray(number,dims=ds[dim1].dims)
