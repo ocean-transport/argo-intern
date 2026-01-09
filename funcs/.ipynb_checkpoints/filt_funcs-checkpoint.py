@@ -3,17 +3,17 @@
 import xarray as xr
 import matplotlib.pyplot as plt
 import numpy as np
-import argopy
+#import argopy
 import scipy.ndimage as filter
 import scipy
 import matplotlib
 import gsw
 
-import argopy
-from argopy import DataFetcher as ArgoDataFetcher
-argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",parallel=True,progress=True)
+#import argopy
+#from argopy import DataFetcher as ArgoDataFetcher
+#argo_loader=ArgoDataFetcher(src='gdac',ftp="/swot/SUM05/dbalwada/Argo_sync",parallel=True,progress=True)
 
-import MLD_funcs as mf
+#import MLD_funcs as mf
 
 
 
@@ -99,7 +99,7 @@ def get_filt_prof(prof, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     return prof_filt
 
 
-def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True):
+def ds_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True):
     
     '''Takes an xarray and a filter scale in meters and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted and MASK for the boundary correction.
     
@@ -110,7 +110,7 @@ def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
     bound: will boundary regions become zeros?, default=True'''
     
-    mask_li = get_mask(ds, lfilter, variable='MLD', dim1=dim1, dim2=dim2, bound=bound)
+    #mask_li = get_mask(ds, lfilter, variable='MLD', dim1=dim1, dim2=dim2, bound=bound)
     
     nfilter = get_nfilter(ds, lfilter, dim2=dim2)
     
@@ -118,12 +118,40 @@ def get_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     temp[:,:] = filter.gaussian_filter1d(ds[variable], sigma=nfilter, mode='nearest')
     
     ds_filt = xr.DataArray(temp, dims=[dim1, dim2], coords={dim1:ds[dim1], dim2:ds[dim2]})
-    ds_filt = ds_filt.assign_coords(LATITUDE=(dim1,ds.LATITUDE.data))
-    ds_filt = ds_filt.assign_coords(LONGITUDE=(dim1,ds.LONGITUDE.data))
+    ds_filt = ds_filt.assign_coords(lat=(dim1,ds.lat.data))
+    ds_filt = ds_filt.assign_coords(lon=(dim1,ds.lon.data))
     
-    number=np.arange(0,len(ds_filt.N_PROF))
+    number=np.arange(0,len(ds_filt[dim1]))
     ds_filt['N_PROF_NEW']=xr.DataArray(number,dims=ds[dim1].dims)
-    ds_filt=ds_filt.assign_coords(mask=((dim1,dim2),mask_li))
+    #ds_filt=ds_filt.assign_coords(mask=((dim1,dim2),mask_li))
+    
+    return ds_filt
+
+def da_filt_single(ds, lfilter, dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True):
+    
+    '''Takes an xarray and a filter scale in meters and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted and MASK for the boundary correction.
+    
+    ds: xarray dataset with pressure dimension
+    lfilter: filter scale in meters
+    variable: coordinate to filter, default=CT
+    dim1: profile dimension, default=N_PROF
+    dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
+    bound: will boundary regions become zeros?, default=True'''
+    
+    #mask_li = get_mask(ds, lfilter, variable='MLD', dim1=dim1, dim2=dim2, bound=bound)
+    
+    nfilter = get_nfilter(ds, lfilter, dim2=dim2)
+    
+    temp = np.zeros((ds[dim1].shape[0], ds[dim2].shape[0]))
+    temp[:,:] = filter.gaussian_filter1d(ds, sigma=nfilter, mode='nearest')
+    
+    ds_filt = xr.DataArray(temp, dims=[dim1, dim2], coords={dim1:ds[dim1], dim2:ds[dim2]})
+    ds_filt = ds_filt.assign_coords(lat=(dim1,ds.lat.data))
+    ds_filt = ds_filt.assign_coords(lon=(dim1,ds.lon.data))
+    
+    number=np.arange(0,len(ds_filt[dim1]))
+    ds_filt['N_PROF_NEW']=xr.DataArray(number,dims=ds[dim1].dims)
+    #ds_filt=ds_filt.assign_coords(=((dim1,dim2),mask_li))
     
     return ds_filt
 

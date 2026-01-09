@@ -3,7 +3,7 @@
 import xarray as xr
 import matplotlib.pyplot as plt
 import numpy as np
-import argopy
+#import argopy
 import scipy.ndimage as filter
 import scipy
 import matplotlib

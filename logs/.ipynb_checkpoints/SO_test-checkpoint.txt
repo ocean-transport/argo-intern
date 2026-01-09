@@ -1,0 +1,690 @@
+--------------------------------------------------
+Cluster: LocalCluster(408e840b, 'tcp://127.0.0.1:40052', workers=64, threads=64, memory=0.98 TiB)
+--------------------------------------------------
+THE REGIONS ARE [[-90, -40, -50, 0, 0, 2000], [-40, 10, -50, 0, 0, 2000], [10, 50, -50, 0, 0, 2000]]
+--------------------------------------------------
+--------------------------------------------------
+REGION #1 OUT OF 3 IS: [-90, -40, -50, 0, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #1 ARE [[-50, -45, -90, -85, 0, 2000], [-50, -45, -85, -80, 0, 2000], [-50, -45, -80, -75, 0, 2000], [-50, -45, -75, -70, 0, 2000], [-50, -45, -70, -65, 0, 2000], [-50, -45, -65, -60, 0, 2000], [-50, -45, -60, -55, 0, 2000], [-50, -45, -55, -50, 0, 2000], [-50, -45, -50, -45, 0, 2000], [-50, -45, -45, -40, 0, 2000], [-45, -40, -90, -85, 0, 2000], [-45, -40, -85, -80, 0, 2000], [-45, -40, -80, -75, 0, 2000], [-45, -40, -75, -70, 0, 2000], [-45, -40, -70, -65, 0, 2000], [-45, -40, -65, -60, 0, 2000], [-45, -40, -60, -55, 0, 2000], [-45, -40, -55, -50, 0, 2000], [-45, -40, -50, -45, 0, 2000], [-45, -40, -45, -40, 0, 2000], [-40, -35, -90, -85, 0, 2000], [-40, -35, -85, -80, 0, 2000], [-40, -35, -80, -75, 0, 2000], [-40, -35, -75, -70, 0, 2000], [-40, -35, -70, -65, 0, 2000], [-40, -35, -65, -60, 0, 2000], [-40, -35, -60, -55, 0, 2000], [-40, -35, -55, -50, 0, 2000], [-40, -35, -50, -45, 0, 2000], [-40, -35, -45, -40, 0, 2000], [-35, -30, -90, -85, 0, 2000], [-35, -30, -85, -80, 0, 2000], [-35, -30, -80, -75, 0, 2000], [-35, -30, -75, -70, 0, 2000], [-35, -30, -70, -65, 0, 2000], [-35, -30, -65, -60, 0, 2000], [-35, -30, -60, -55, 0, 2000], [-35, -30, -55, -50, 0, 2000], [-35, -30, -50, -45, 0, 2000], [-35, -30, -45, -40, 0, 2000], [-30, -25, -90, -85, 0, 2000], [-30, -25, -85, -80, 0, 2000], [-30, -25, -80, -75, 0, 2000], [-30, -25, -75, -70, 0, 2000], [-30, -25, -70, -65, 0, 2000], [-30, -25, -65, -60, 0, 2000], [-30, -25, -60, -55, 0, 2000], [-30, -25, -55, -50, 0, 2000], [-30, -25, -50, -45, 0, 2000], [-30, -25, -45, -40, 0, 2000], [-25, -20, -90, -85, 0, 2000], [-25, -20, -85, -80, 0, 2000], [-25, -20, -80, -75, 0, 2000], [-25, -20, -75, -70, 0, 2000], [-25, -20, -70, -65, 0, 2000], [-25, -20, -65, -60, 0, 2000], [-25, -20, -60, -55, 0, 2000], [-25, -20, -55, -50, 0, 2000], [-25, -20, -50, -45, 0, 2000], [-25, -20, -45, -40, 0, 2000], [-20, -15, -90, -85, 0, 2000], [-20, -15, -85, -80, 0, 2000], [-20, -15, -80, -75, 0, 2000], [-20, -15, -75, -70, 0, 2000], [-20, -15, -70, -65, 0, 2000], [-20, -15, -65, -60, 0, 2000], [-20, -15, -60, -55, 0, 2000], [-20, -15, -55, -50, 0, 2000], [-20, -15, -50, -45, 0, 2000], [-20, -15, -45, -40, 0, 2000], [-15, -10, -90, -85, 0, 2000], [-15, -10, -85, -80, 0, 2000], [-15, -10, -80, -75, 0, 2000], [-15, -10, -75, -70, 0, 2000], [-15, -10, -70, -65, 0, 2000], [-15, -10, -65, -60, 0, 2000], [-15, -10, -60, -55, 0, 2000], [-15, -10, -55, -50, 0, 2000], [-15, -10, -50, -45, 0, 2000], [-15, -10, -45, -40, 0, 2000], [-10, -5, -90, -85, 0, 2000], [-10, -5, -85, -80, 0, 2000], [-10, -5, -80, -75, 0, 2000], [-10, -5, -75, -70, 0, 2000], [-10, -5, -70, -65, 0, 2000], [-10, -5, -65, -60, 0, 2000], [-10, -5, -60, -55, 0, 2000], [-10, -5, -55, -50, 0, 2000], [-10, -5, -50, -45, 0, 2000], [-10, -5, -45, -40, 0, 2000], [-5, 0, -90, -85, 0, 2000], [-5, 0, -85, -80, 0, 2000], [-5, 0, -80, -75, 0, 2000], [-5, 0, -75, -70, 0, 2000], [-5, 0, -70, -65, 0, 2000], [-5, 0, -65, -60, 0, 2000], [-5, 0, -60, -55, 0, 2000], [-5, 0, -55, -50, 0, 2000], [-5, 0, -50, -45, 0, 2000], [-5, 0, -45, -40, 0, 2000]]
+--------------------------------------------------
+/home/amf2288/argopy/argopy/xarray.py:946: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home/amf2288/argopy/argopy/xarray.py:946: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home/amf2288/argopy/argopy/xarray.py:946: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+Error in box [-50, -45, -90, -85]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-90.00/-85.00'
+Error in box [-50, -45, -85, -80]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-85.00/-80.00'
+Error in box [-50, -45, -80, -75]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-80.00/-75.00'
+Error in box [-50, -45, -75, -70]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Saved box 5 of 100
+Saved box 6 of 100
+Saved box 7 of 100
+Saved box 8 of 100
+Saved box 9 of 100
+Saved box 10 of 100
+Error in box [-45, -40, -90, -85]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-90.00/-85.00'
+Error in box [-45, -40, -85, -80]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-85.00/-80.00'
+Error in box [-45, -40, -80, -75]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-80.00/-75.00'
+Error in box [-45, -40, -75, -70]: DataNotFound - 'Empty dataset, no data to transform !'
+Saved box 15 of 100
+Saved box 16 of 100
+Saved box 17 of 100
+Saved box 18 of 100
+Saved box 19 of 100
+Saved box 20 of 100
+Error in box [-40, -35, -90, -85]: DataNotFound - 'No data found for: x=-40.00/-35.00;y=-90.00/-85.00'
+Error in box [-40, -35, -85, -80]: DataNotFound - 'No data found for: x=-40.00/-35.00;y=-85.00/-80.00'
+Error in box [-40, -35, -80, -75]: DataNotFound - 'No data found for: x=-40.00/-35.00;y=-80.00/-75.00'
+Saved box 24 of 100
+Saved box 25 of 100
+Saved box 26 of 100
+Saved box 27 of 100
+Saved box 28 of 100
+Saved box 29 of 100
+Saved box 30 of 100
+Error in box [-35, -30, -90, -85]: DataNotFound - 'No data found for: x=-35.00/-30.00;y=-90.00/-85.00'
+Error in box [-35, -30, -85, -80]: DataNotFound - 'No data found for: x=-35.00/-30.00;y=-85.00/-80.00'
+Error in box [-35, -30, -80, -75]: DataNotFound - 'No data found for: x=-35.00/-30.00;y=-80.00/-75.00'
+Saved box 34 of 100
+Saved box 35 of 100
+Error in box [-35, -30, -65, -60]: IndexError - index -1 is out of bounds for axis 0 with size 0
+Saved box 37 of 100
+Saved box 38 of 100
+Saved box 39 of 100
+Saved box 40 of 100
+Error in box [-30, -25, -90, -85]: DataNotFound - 'No data found for: x=-30.00/-25.00;y=-90.00/-85.00'
+Error in box [-30, -25, -85, -80]: DataNotFound - 'No data found for: x=-30.00/-25.00;y=-85.00/-80.00'
+Error in box [-30, -25, -80, -75]: DataNotFound - 'Empty dataset, no data to transform !'
+Saved box 44 of 100
+Saved box 45 of 100
+Saved box 46 of 100
+Saved box 47 of 100
+Saved box 48 of 100
+Saved box 49 of 100
+Saved box 50 of 100
+Error in box [-25, -20, -90, -85]: DataNotFound - 'No data found for: x=-25.00/-20.00;y=-90.00/-85.00'
+Error in box [-25, -20, -85, -80]: DataNotFound - 'No data found for: x=-25.00/-20.00;y=-85.00/-80.00'
+Error in box [-25, -20, -80, -75]: DataNotFound - 'No data found for: x=-25.00/-20.00;y=-80.00/-75.00'
+Saved box 54 of 100
+Saved box 55 of 100
+Saved box 56 of 100
+Saved box 57 of 100
+Saved box 58 of 100
+Saved box 59 of 100
+Saved box 60 of 100
+Error in box [-20, -15, -90, -85]: DataNotFound - 'No data found for: x=-20.00/-15.00;y=-90.00/-85.00'
+Error in box [-20, -15, -85, -80]: DataNotFound - 'No data found for: x=-20.00/-15.00;y=-85.00/-80.00'
+Error in box [-20, -15, -80, -75]: DataNotFound - 'No data found for: x=-20.00/-15.00;y=-80.00/-75.00'
+Saved box 64 of 100
+Saved box 65 of 100
+Saved box 66 of 100
+Saved box 67 of 100
+Saved box 68 of 100
+Saved box 69 of 100
+Saved box 70 of 100
+Error in box [-15, -10, -90, -85]: DataNotFound - 'No data found for: x=-15.00/-10.00;y=-90.00/-85.00'
+Error in box [-15, -10, -85, -80]: DataNotFound - 'No data found for: x=-15.00/-10.00;y=-85.00/-80.00'
+Error in box [-15, -10, -80, -75]: DataNotFound - 'No data found for: x=-15.00/-10.00;y=-80.00/-75.00'
+Saved box 74 of 100
+Saved box 75 of 100
+Saved box 76 of 100
+Saved box 77 of 100
+Saved box 78 of 100
+Saved box 79 of 100
+Saved box 80 of 100
+Error in box [-10, -5, -90, -85]: DataNotFound - 'No data found for: x=-10.00/-5.00;y=-90.00/-85.00'
+Error in box [-10, -5, -85, -80]: DataNotFound - 'No data found for: x=-10.00/-5.00;y=-85.00/-80.00'
+Error in box [-10, -5, -80, -75]: DataNotFound - 'No data found for: x=-10.00/-5.00;y=-80.00/-75.00'
+Error in box [-10, -5, -75, -70]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Saved box 85 of 100
+Saved box 86 of 100
+Saved box 87 of 100
+Saved box 88 of 100
+Saved box 89 of 100
+Saved box 90 of 100
+Error in box [-5, 0, -90, -85]: DataNotFound - 'No data found for: x=-5.00/0.00;y=-90.00/-85.00'
+Error in box [-5, 0, -85, -80]: DataNotFound - 'No data found for: x=-5.00/0.00;y=-85.00/-80.00'
+Error in box [-5, 0, -80, -75]: DataNotFound - 'No data found for: x=-5.00/0.00;y=-80.00/-75.00'
+Error in box [-5, 0, -75, -70]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Saved box 95 of 100
+Saved box 96 of 100
+Saved box 97 of 100
+Saved box 98 of 100
+Saved box 99 of 100
+Saved box 100 of 100
+--------------------------------------------------
+COMPLETED REGION #1 OUT OF 3
+--------------------------------------------------
+--------------------------------------------------
+REGION #2 OUT OF 3 IS: [-40, 10, -50, 0, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #2 ARE [[-50, -45, -40, -35, 0, 2000], [-50, -45, -35, -30, 0, 2000], [-50, -45, -30, -25, 0, 2000], [-50, -45, -25, -20, 0, 2000], [-50, -45, -20, -15, 0, 2000], [-50, -45, -15, -10, 0, 2000], [-50, -45, -10, -5, 0, 2000], [-50, -45, -5, 0, 0, 2000], [-50, -45, 0, 5, 0, 2000], [-50, -45, 5, 10, 0, 2000], [-45, -40, -40, -35, 0, 2000], [-45, -40, -35, -30, 0, 2000], [-45, -40, -30, -25, 0, 2000], [-45, -40, -25, -20, 0, 2000], [-45, -40, -20, -15, 0, 2000], [-45, -40, -15, -10, 0, 2000], [-45, -40, -10, -5, 0, 2000], [-45, -40, -5, 0, 0, 2000], [-45, -40, 0, 5, 0, 2000], [-45, -40, 5, 10, 0, 2000], [-40, -35, -40, -35, 0, 2000], [-40, -35, -35, -30, 0, 2000], [-40, -35, -30, -25, 0, 2000], [-40, -35, -25, -20, 0, 2000], [-40, -35, -20, -15, 0, 2000], [-40, -35, -15, -10, 0, 2000], [-40, -35, -10, -5, 0, 2000], [-40, -35, -5, 0, 0, 2000], [-40, -35, 0, 5, 0, 2000], [-40, -35, 5, 10, 0, 2000], [-35, -30, -40, -35, 0, 2000], [-35, -30, -35, -30, 0, 2000], [-35, -30, -30, -25, 0, 2000], [-35, -30, -25, -20, 0, 2000], [-35, -30, -20, -15, 0, 2000], [-35, -30, -15, -10, 0, 2000], [-35, -30, -10, -5, 0, 2000], [-35, -30, -5, 0, 0, 2000], [-35, -30, 0, 5, 0, 2000], [-35, -30, 5, 10, 0, 2000], [-30, -25, -40, -35, 0, 2000], [-30, -25, -35, -30, 0, 2000], [-30, -25, -30, -25, 0, 2000], [-30, -25, -25, -20, 0, 2000], [-30, -25, -20, -15, 0, 2000], [-30, -25, -15, -10, 0, 2000], [-30, -25, -10, -5, 0, 2000], [-30, -25, -5, 0, 0, 2000], [-30, -25, 0, 5, 0, 2000], [-30, -25, 5, 10, 0, 2000], [-25, -20, -40, -35, 0, 2000], [-25, -20, -35, -30, 0, 2000], [-25, -20, -30, -25, 0, 2000], [-25, -20, -25, -20, 0, 2000], [-25, -20, -20, -15, 0, 2000], [-25, -20, -15, -10, 0, 2000], [-25, -20, -10, -5, 0, 2000], [-25, -20, -5, 0, 0, 2000], [-25, -20, 0, 5, 0, 2000], [-25, -20, 5, 10, 0, 2000], [-20, -15, -40, -35, 0, 2000], [-20, -15, -35, -30, 0, 2000], [-20, -15, -30, -25, 0, 2000], [-20, -15, -25, -20, 0, 2000], [-20, -15, -20, -15, 0, 2000], [-20, -15, -15, -10, 0, 2000], [-20, -15, -10, -5, 0, 2000], [-20, -15, -5, 0, 0, 2000], [-20, -15, 0, 5, 0, 2000], [-20, -15, 5, 10, 0, 2000], [-15, -10, -40, -35, 0, 2000], [-15, -10, -35, -30, 0, 2000], [-15, -10, -30, -25, 0, 2000], [-15, -10, -25, -20, 0, 2000], [-15, -10, -20, -15, 0, 2000], [-15, -10, -15, -10, 0, 2000], [-15, -10, -10, -5, 0, 2000], [-15, -10, -5, 0, 0, 2000], [-15, -10, 0, 5, 0, 2000], [-15, -10, 5, 10, 0, 2000], [-10, -5, -40, -35, 0, 2000], [-10, -5, -35, -30, 0, 2000], [-10, -5, -30, -25, 0, 2000], [-10, -5, -25, -20, 0, 2000], [-10, -5, -20, -15, 0, 2000], [-10, -5, -15, -10, 0, 2000], [-10, -5, -10, -5, 0, 2000], [-10, -5, -5, 0, 0, 2000], [-10, -5, 0, 5, 0, 2000], [-10, -5, 5, 10, 0, 2000], [-5, 0, -40, -35, 0, 2000], [-5, 0, -35, -30, 0, 2000], [-5, 0, -30, -25, 0, 2000], [-5, 0, -25, -20, 0, 2000], [-5, 0, -20, -15, 0, 2000], [-5, 0, -15, -10, 0, 2000], [-5, 0, -10, -5, 0, 2000], [-5, 0, -5, 0, 0, 2000], [-5, 0, 0, 5, 0, 2000], [-5, 0, 5, 10, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: divide by zero encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: invalid value encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home/amf2288/argopy/argopy/xarray.py:946: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home/amf2288/argopy/argopy/xarray.py:946: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: divide by zero encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: invalid value encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: divide by zero encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: invalid value encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: divide by zero encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: invalid value encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: divide by zero encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: invalid value encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+Saved box 1 of 100
+Saved box 2 of 100
+Saved box 3 of 100
+Error in box [-50, -45, -25, -20]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-25.00/-20.00'
+Error in box [-50, -45, -20, -15]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-20.00/-15.00'
+Error in box [-50, -45, -15, -10]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-15.00/-10.00'
+Error in box [-50, -45, -10, -5]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-10.00/-5.00'
+Error in box [-50, -45, -5, 0]: ValueError - 'N_LEVELS' not found in array dimensions ('N_PROF',)
+Saved box 9 of 100
+Saved box 10 of 100
+Saved box 11 of 100
+Saved box 12 of 100
+Saved box 13 of 100
+Saved box 14 of 100
+Error in box [-45, -40, -20, -15]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-20.00/-15.00'
+Error in box [-45, -40, -15, -10]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-15.00/-10.00'
+Error in box [-45, -40, -10, -5]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-10.00/-5.00'
+Saved box 18 of 100
+Saved box 19 of 100
+Saved box 20 of 100
+Saved box 21 of 100
+Saved box 22 of 100
+Saved box 23 of 100
+Saved box 24 of 100
+Saved box 25 of 100
+Saved box 26 of 100
+Saved box 27 of 100
+Saved box 28 of 100
+Saved box 29 of 100
+Saved box 30 of 100
+Saved box 31 of 100
+Saved box 32 of 100
+Saved box 33 of 100
+Saved box 34 of 100
+Saved box 35 of 100
+Saved box 36 of 100
+Saved box 37 of 100
+Saved box 38 of 100
+Saved box 39 of 100
+Saved box 40 of 100
+Saved box 41 of 100
+Saved box 42 of 100
+Saved box 43 of 100
+Saved box 44 of 100
+Saved box 45 of 100
+Saved box 46 of 100
+Saved box 47 of 100
+Saved box 48 of 100
+Saved box 49 of 100
+Saved box 50 of 100
+Saved box 51 of 100
+Saved box 52 of 100
+Saved box 53 of 100
+Saved box 54 of 100
+Saved box 55 of 100
+Saved box 56 of 100
+Saved box 57 of 100
+Saved box 58 of 100
+Saved box 59 of 100
+Saved box 60 of 100
+Saved box 61 of 100
+Saved box 62 of 100
+Saved box 63 of 100
+Saved box 64 of 100
+Saved box 65 of 100
+Saved box 66 of 100
+Saved box 67 of 100
+Saved box 68 of 100
+Saved box 69 of 100
+Saved box 70 of 100
+Saved box 71 of 100
+Saved box 72 of 100
+Saved box 73 of 100
+Saved box 74 of 100
+Saved box 75 of 100
+Saved box 76 of 100
+Saved box 77 of 100
+Saved box 78 of 100
+Saved box 79 of 100
+Saved box 80 of 100
+Saved box 81 of 100
+Saved box 82 of 100
+Saved box 83 of 100
+Saved box 84 of 100
+Saved box 85 of 100
+Saved box 86 of 100
+Saved box 87 of 100
+Saved box 88 of 100
+Saved box 89 of 100
+Error in box [-10, -5, 5, 10]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Saved box 91 of 100
+Saved box 92 of 100
+Saved box 93 of 100
+Saved box 94 of 100
+Saved box 95 of 100
+Saved box 96 of 100
+Saved box 97 of 100
+Saved box 98 of 100
+Saved box 99 of 100
+Error in box [-5, 0, 5, 10]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+--------------------------------------------------
+COMPLETED REGION #2 OUT OF 3
+--------------------------------------------------
+--------------------------------------------------
+REGION #3 OUT OF 3 IS: [10, 50, -50, 0, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #3 ARE [[-50, -45, 10, 15, 0, 2000], [-50, -45, 15, 20, 0, 2000], [-50, -45, 20, 25, 0, 2000], [-50, -45, 25, 30, 0, 2000], [-50, -45, 30, 35, 0, 2000], [-50, -45, 35, 40, 0, 2000], [-50, -45, 40, 45, 0, 2000], [-50, -45, 45, 50, 0, 2000], [-45, -40, 10, 15, 0, 2000], [-45, -40, 15, 20, 0, 2000], [-45, -40, 20, 25, 0, 2000], [-45, -40, 25, 30, 0, 2000], [-45, -40, 30, 35, 0, 2000], [-45, -40, 35, 40, 0, 2000], [-45, -40, 40, 45, 0, 2000], [-45, -40, 45, 50, 0, 2000], [-40, -35, 10, 15, 0, 2000], [-40, -35, 15, 20, 0, 2000], [-40, -35, 20, 25, 0, 2000], [-40, -35, 25, 30, 0, 2000], [-40, -35, 30, 35, 0, 2000], [-40, -35, 35, 40, 0, 2000], [-40, -35, 40, 45, 0, 2000], [-40, -35, 45, 50, 0, 2000], [-35, -30, 10, 15, 0, 2000], [-35, -30, 15, 20, 0, 2000], [-35, -30, 20, 25, 0, 2000], [-35, -30, 25, 30, 0, 2000], [-35, -30, 30, 35, 0, 2000], [-35, -30, 35, 40, 0, 2000], [-35, -30, 40, 45, 0, 2000], [-35, -30, 45, 50, 0, 2000], [-30, -25, 10, 15, 0, 2000], [-30, -25, 15, 20, 0, 2000], [-30, -25, 20, 25, 0, 2000], [-30, -25, 25, 30, 0, 2000], [-30, -25, 30, 35, 0, 2000], [-30, -25, 35, 40, 0, 2000], [-30, -25, 40, 45, 0, 2000], [-30, -25, 45, 50, 0, 2000], [-25, -20, 10, 15, 0, 2000], [-25, -20, 15, 20, 0, 2000], [-25, -20, 20, 25, 0, 2000], [-25, -20, 25, 30, 0, 2000], [-25, -20, 30, 35, 0, 2000], [-25, -20, 35, 40, 0, 2000], [-25, -20, 40, 45, 0, 2000], [-25, -20, 45, 50, 0, 2000], [-20, -15, 10, 15, 0, 2000], [-20, -15, 15, 20, 0, 2000], [-20, -15, 20, 25, 0, 2000], [-20, -15, 25, 30, 0, 2000], [-20, -15, 30, 35, 0, 2000], [-20, -15, 35, 40, 0, 2000], [-20, -15, 40, 45, 0, 2000], [-20, -15, 45, 50, 0, 2000], [-15, -10, 10, 15, 0, 2000], [-15, -10, 15, 20, 0, 2000], [-15, -10, 20, 25, 0, 2000], [-15, -10, 25, 30, 0, 2000], [-15, -10, 30, 35, 0, 2000], [-15, -10, 35, 40, 0, 2000], [-15, -10, 40, 45, 0, 2000], [-15, -10, 45, 50, 0, 2000], [-10, -5, 10, 15, 0, 2000], [-10, -5, 15, 20, 0, 2000], [-10, -5, 20, 25, 0, 2000], [-10, -5, 25, 30, 0, 2000], [-10, -5, 30, 35, 0, 2000], [-10, -5, 35, 40, 0, 2000], [-10, -5, 40, 45, 0, 2000], [-10, -5, 45, 50, 0, 2000], [-5, 0, 10, 15, 0, 2000], [-5, 0, 15, 20, 0, 2000], [-5, 0, 20, 25, 0, 2000], [-5, 0, 25, 30, 0, 2000], [-5, 0, 30, 35, 0, 2000], [-5, 0, 35, 40, 0, 2000], [-5, 0, 40, 45, 0, 2000], [-5, 0, 45, 50, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: divide by zero encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: invalid value encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: invalid value encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Jan_25/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: divide by zero encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+Saved box 1 of 80
+Saved box 2 of 80
+Saved box 3 of 80
+Saved box 4 of 80
+Saved box 5 of 80
+Saved box 6 of 80
+Saved box 7 of 80
+Saved box 8 of 80
+Saved box 9 of 80
+Saved box 10 of 80
+Saved box 11 of 80
+Saved box 12 of 80
+Saved box 13 of 80
+Saved box 14 of 80
+Saved box 15 of 80
+Saved box 16 of 80
+Saved box 17 of 80
+Saved box 18 of 80
+Saved box 19 of 80
+Saved box 20 of 80
+Saved box 21 of 80
+Saved box 22 of 80
+Saved box 23 of 80
+Saved box 24 of 80
+Saved box 25 of 80
+Saved box 26 of 80
+Saved box 27 of 80
+Saved box 28 of 80
+Saved box 29 of 80
+Saved box 30 of 80
+Saved box 31 of 80
+Saved box 32 of 80
+Saved box 33 of 80
+Saved box 34 of 80
+Saved box 35 of 80
+Saved box 36 of 80
+Saved box 37 of 80
+Saved box 38 of 80
+Saved box 39 of 80
+Saved box 40 of 80
+Saved box 41 of 80
+Saved box 42 of 80
+Saved box 43 of 80
+Saved box 44 of 80
+Saved box 45 of 80
+Saved box 46 of 80
+Saved box 47 of 80
+Saved box 48 of 80
+Error in box [-20, -15, 10, 15]: FSTimeoutError - 
+Saved box 50 of 80
+Saved box 51 of 80
+Saved box 52 of 80
+Saved box 53 of 80
+Saved box 54 of 80
+Saved box 55 of 80
+Saved box 56 of 80
+Error in box [-15, -10, 10, 15]: DataNotFound - 'No data found for: x=-15.00/-10.00;y=10.00/15.00'
+Error in box [-15, -10, 15, 20]: DataNotFound - 'No data found for: x=-15.00/-10.00;y=15.00/20.00'
+Error in box [-15, -10, 20, 25]: DataNotFound - 'No data found for: x=-15.00/-10.00;y=20.00/25.00'
+Saved box 60 of 80
+Saved box 61 of 80
+Saved box 62 of 80
+Saved box 63 of 80
+Saved box 64 of 80
+Error in box [-10, -5, 10, 15]: DataNotFound - 'No data found for: x=-10.00/-5.00;y=10.00/15.00'
+Error in box [-10, -5, 15, 20]: DataNotFound - 'No data found for: x=-10.00/-5.00;y=15.00/20.00'
+Error in box [-10, -5, 20, 25]: DataNotFound - 'No data found for: x=-10.00/-5.00;y=20.00/25.00'
+Error in box [-10, -5, 25, 30]: DataNotFound - 'No data found for: x=-10.00/-5.00;y=25.00/30.00'
+Saved box 69 of 80
+Saved box 70 of 80
+Saved box 71 of 80
+Saved box 72 of 80
+Error in box [-5, 0, 10, 15]: DataNotFound - 'No data found for: x=-5.00/0.00;y=10.00/15.00'
+Error in box [-5, 0, 15, 20]: DataNotFound - 'No data found for: x=-5.00/0.00;y=15.00/20.00'
+Error in box [-5, 0, 20, 25]: DataNotFound - 'No data found for: x=-5.00/0.00;y=20.00/25.00'
+Error in box [-5, 0, 25, 30]: DataNotFound - 'No data found for: x=-5.00/0.00;y=25.00/30.00'
+Error in box [-5, 0, 30, 35]: DataNotFound - 'No data found for: x=-5.00/0.00;y=30.00/35.00'
+Saved box 78 of 80
+Saved box 79 of 80
+Saved box 80 of 80
+--------------------------------------------------
+COMPLETED REGION #3 OUT OF 3
+--------------------------------------------------
+[[[[-50,
+    -45,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-50.00/-45.00;y=-90.00/-85.00'"],
+   [-50,
+    -45,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-50.00/-45.00;y=-85.00/-80.00'"],
+   [-50,
+    -45,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-50.00/-45.00;y=-80.00/-75.00'"],
+   [-50,
+    -45,
+    -75,
+    -70,
+    'AttributeError',
+    "'NoneType' object has no attribute 'N_PROF'"],
+   [-45,
+    -40,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-45.00/-40.00;y=-90.00/-85.00'"],
+   [-45,
+    -40,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-45.00/-40.00;y=-85.00/-80.00'"],
+   [-45,
+    -40,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-45.00/-40.00;y=-80.00/-75.00'"],
+   [-45,
+    -40,
+    -75,
+    -70,
+    'DataNotFound',
+    "'Empty dataset, no data to transform !'"],
+   [-40,
+    -35,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-40.00/-35.00;y=-90.00/-85.00'"],
+   [-40,
+    -35,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-40.00/-35.00;y=-85.00/-80.00'"],
+   [-40,
+    -35,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-40.00/-35.00;y=-80.00/-75.00'"],
+   [-35,
+    -30,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-35.00/-30.00;y=-90.00/-85.00'"],
+   [-35,
+    -30,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-35.00/-30.00;y=-85.00/-80.00'"],
+   [-35,
+    -30,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-35.00/-30.00;y=-80.00/-75.00'"],
+   [-35,
+    -30,
+    -65,
+    -60,
+    'IndexError',
+    'index -1 is out of bounds for axis 0 with size 0'],
+   [-30,
+    -25,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-30.00/-25.00;y=-90.00/-85.00'"],
+   [-30,
+    -25,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-30.00/-25.00;y=-85.00/-80.00'"],
+   [-30,
+    -25,
+    -80,
+    -75,
+    'DataNotFound',
+    "'Empty dataset, no data to transform !'"],
+   [-25,
+    -20,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-25.00/-20.00;y=-90.00/-85.00'"],
+   [-25,
+    -20,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-25.00/-20.00;y=-85.00/-80.00'"],
+   [-25,
+    -20,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-25.00/-20.00;y=-80.00/-75.00'"],
+   [-20,
+    -15,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-20.00/-15.00;y=-90.00/-85.00'"],
+   [-20,
+    -15,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-20.00/-15.00;y=-85.00/-80.00'"],
+   [-20,
+    -15,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-20.00/-15.00;y=-80.00/-75.00'"],
+   [-15,
+    -10,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-15.00/-10.00;y=-90.00/-85.00'"],
+   [-15,
+    -10,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-15.00/-10.00;y=-85.00/-80.00'"],
+   [-15,
+    -10,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-15.00/-10.00;y=-80.00/-75.00'"],
+   [-10,
+    -5,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-10.00/-5.00;y=-90.00/-85.00'"],
+   [-10,
+    -5,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-10.00/-5.00;y=-85.00/-80.00'"],
+   [-10,
+    -5,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-10.00/-5.00;y=-80.00/-75.00'"],
+   [-10,
+    -5,
+    -75,
+    -70,
+    'AttributeError',
+    "'NoneType' object has no attribute 'N_PROF'"],
+   [-5,
+    0,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-5.00/0.00;y=-90.00/-85.00'"],
+   [-5,
+    0,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-5.00/0.00;y=-85.00/-80.00'"],
+   [-5,
+    0,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-5.00/0.00;y=-80.00/-75.00'"],
+   [-5,
+    0,
+    -75,
+    -70,
+    'AttributeError',
+    "'NoneType' object has no attribute 'N_PROF'"]]],
+ [[[-50,
+    -45,
+    -25,
+    -20,
+    'DataNotFound',
+    "'No data found for: x=-50.00/-45.00;y=-25.00/-20.00'"],
+   [-50,
+    -45,
+    -20,
+    -15,
+    'DataNotFound',
+    "'No data found for: x=-50.00/-45.00;y=-20.00/-15.00'"],
+   [-50,
+    -45,
+    -15,
+    -10,
+    'DataNotFound',
+    "'No data found for: x=-50.00/-45.00;y=-15.00/-10.00'"],
+   [-50,
+    -45,
+    -10,
+    -5,
+    'DataNotFound',
+    "'No data found for: x=-50.00/-45.00;y=-10.00/-5.00'"],
+   [-50,
+    -45,
+    -5,
+    0,
+    'ValueError',
+    "'N_LEVELS' not found in array dimensions ('N_PROF',)"],
+   [-45,
+    -40,
+    -20,
+    -15,
+    'DataNotFound',
+    "'No data found for: x=-45.00/-40.00;y=-20.00/-15.00'"],
+   [-45,
+    -40,
+    -15,
+    -10,
+    'DataNotFound',
+    "'No data found for: x=-45.00/-40.00;y=-15.00/-10.00'"],
+   [-45,
+    -40,
+    -10,
+    -5,
+    'DataNotFound',
+    "'No data found for: x=-45.00/-40.00;y=-10.00/-5.00'"],
+   [-10,
+    -5,
+    5,
+    10,
+    'AttributeError',
+    "'NoneType' object has no attribute 'N_PROF'"],
+   [-5,
+    0,
+    5,
+    10,
+    'AttributeError',
+    "'NoneType' object has no attribute 'N_PROF'"]]],
+ [[[-20, -15, 10, 15, 'FSTimeoutError', ''],
+   [-15,
+    -10,
+    10,
+    15,
+    'DataNotFound',
+    "'No data found for: x=-15.00/-10.00;y=10.00/15.00'"],
+   [-15,
+    -10,
+    15,
+    20,
+    'DataNotFound',
+    "'No data found for: x=-15.00/-10.00;y=15.00/20.00'"],
+   [-15,
+    -10,
+    20,
+    25,
+    'DataNotFound',
+    "'No data found for: x=-15.00/-10.00;y=20.00/25.00'"],
+   [-10,
+    -5,
+    10,
+    15,
+    'DataNotFound',
+    "'No data found for: x=-10.00/-5.00;y=10.00/15.00'"],
+   [-10,
+    -5,
+    15,
+    20,
+    'DataNotFound',
+    "'No data found for: x=-10.00/-5.00;y=15.00/20.00'"],
+   [-10,
+    -5,
+    20,
+    25,
+    'DataNotFound',
+    "'No data found for: x=-10.00/-5.00;y=20.00/25.00'"],
+   [-10,
+    -5,
+    25,
+    30,
+    'DataNotFound',
+    "'No data found for: x=-10.00/-5.00;y=25.00/30.00'"],
+   [-5,
+    0,
+    10,
+    15,
+    'DataNotFound',
+    "'No data found for: x=-5.00/0.00;y=10.00/15.00'"],
+   [-5,
+    0,
+    15,
+    20,
+    'DataNotFound',
+    "'No data found for: x=-5.00/0.00;y=15.00/20.00'"],
+   [-5,
+    0,
+    20,
+    25,
+    'DataNotFound',
+    "'No data found for: x=-5.00/0.00;y=20.00/25.00'"],
+   [-5,
+    0,
+    25,
+    30,
+    'DataNotFound',
+    "'No data found for: x=-5.00/0.00;y=25.00/30.00'"],
+   [-5,
+    0,
+    30,
+    35,
+    'DataNotFound',
+    "'No data found for: x=-5.00/0.00;y=30.00/35.00'"]]]]

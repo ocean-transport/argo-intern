@@ -1,4 +1,4 @@
-name: Argo_Nov_24 #let's stick with the project_month_year naming scheme
+name: Argo_old_xgcm #let's stick with the project_month_year naming scheme
 channels:
   - conda-forge
 dependencies:
@@ -15,10 +15,18 @@ dependencies:
   - zarr
   - pandas
   - matplotlib
-  - argopy >= 1.0.0
   - xrft
   - cartopy
   - cmocean
   - glidertools
   - seaborn
   - xhistogram
+  - pip 
+  - flox
+  - h5py
+  - h5netcdf
+  - xgcm=0.6.1
+  - kneed
+  - numba
+  - gcm_filters
+  - graphviz

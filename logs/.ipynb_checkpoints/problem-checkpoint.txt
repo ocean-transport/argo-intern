@@ -1,0 +1,546 @@
+--------------------------------------------------
+Cluster: LocalCluster(53ba7671, 'tcp://127.0.0.1:38999', workers=64, threads=64, memory=0.98 TiB)
+--------------------------------------------------
+THE REGIONS ARE [[-90, -40, -130, -80, 0, 2000], [-90, -40, -80, -75, 0, 2000], [-40, 10, -130, -80, 0, 2000], [-40, 10, -80, -75, 0, 2000]]
+--------------------------------------------------
+--------------------------------------------------
+REGION #1 OUT OF 4 IS: [-90, -40, -130, -80, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #1 ARE [[-130, -125, -90, -85, 0, 2000], [-130, -125, -85, -80, 0, 2000], [-130, -125, -80, -75, 0, 2000], [-130, -125, -75, -70, 0, 2000], [-130, -125, -70, -65, 0, 2000], [-130, -125, -65, -60, 0, 2000], [-130, -125, -60, -55, 0, 2000], [-130, -125, -55, -50, 0, 2000], [-130, -125, -50, -45, 0, 2000], [-130, -125, -45, -40, 0, 2000], [-125, -120, -90, -85, 0, 2000], [-125, -120, -85, -80, 0, 2000], [-125, -120, -80, -75, 0, 2000], [-125, -120, -75, -70, 0, 2000], [-125, -120, -70, -65, 0, 2000], [-125, -120, -65, -60, 0, 2000], [-125, -120, -60, -55, 0, 2000], [-125, -120, -55, -50, 0, 2000], [-125, -120, -50, -45, 0, 2000], [-125, -120, -45, -40, 0, 2000], [-120, -115, -90, -85, 0, 2000], [-120, -115, -85, -80, 0, 2000], [-120, -115, -80, -75, 0, 2000], [-120, -115, -75, -70, 0, 2000], [-120, -115, -70, -65, 0, 2000], [-120, -115, -65, -60, 0, 2000], [-120, -115, -60, -55, 0, 2000], [-120, -115, -55, -50, 0, 2000], [-120, -115, -50, -45, 0, 2000], [-120, -115, -45, -40, 0, 2000], [-115, -110, -90, -85, 0, 2000], [-115, -110, -85, -80, 0, 2000], [-115, -110, -80, -75, 0, 2000], [-115, -110, -75, -70, 0, 2000], [-115, -110, -70, -65, 0, 2000], [-115, -110, -65, -60, 0, 2000], [-115, -110, -60, -55, 0, 2000], [-115, -110, -55, -50, 0, 2000], [-115, -110, -50, -45, 0, 2000], [-115, -110, -45, -40, 0, 2000], [-110, -105, -90, -85, 0, 2000], [-110, -105, -85, -80, 0, 2000], [-110, -105, -80, -75, 0, 2000], [-110, -105, -75, -70, 0, 2000], [-110, -105, -70, -65, 0, 2000], [-110, -105, -65, -60, 0, 2000], [-110, -105, -60, -55, 0, 2000], [-110, -105, -55, -50, 0, 2000], [-110, -105, -50, -45, 0, 2000], [-110, -105, -45, -40, 0, 2000], [-105, -100, -90, -85, 0, 2000], [-105, -100, -85, -80, 0, 2000], [-105, -100, -80, -75, 0, 2000], [-105, -100, -75, -70, 0, 2000], [-105, -100, -70, -65, 0, 2000], [-105, -100, -65, -60, 0, 2000], [-105, -100, -60, -55, 0, 2000], [-105, -100, -55, -50, 0, 2000], [-105, -100, -50, -45, 0, 2000], [-105, -100, -45, -40, 0, 2000], [-100, -95, -90, -85, 0, 2000], [-100, -95, -85, -80, 0, 2000], [-100, -95, -80, -75, 0, 2000], [-100, -95, -75, -70, 0, 2000], [-100, -95, -70, -65, 0, 2000], [-100, -95, -65, -60, 0, 2000], [-100, -95, -60, -55, 0, 2000], [-100, -95, -55, -50, 0, 2000], [-100, -95, -50, -45, 0, 2000], [-100, -95, -45, -40, 0, 2000], [-95, -90, -90, -85, 0, 2000], [-95, -90, -85, -80, 0, 2000], [-95, -90, -80, -75, 0, 2000], [-95, -90, -75, -70, 0, 2000], [-95, -90, -70, -65, 0, 2000], [-95, -90, -65, -60, 0, 2000], [-95, -90, -60, -55, 0, 2000], [-95, -90, -55, -50, 0, 2000], [-95, -90, -50, -45, 0, 2000], [-95, -90, -45, -40, 0, 2000], [-90, -85, -90, -85, 0, 2000], [-90, -85, -85, -80, 0, 2000], [-90, -85, -80, -75, 0, 2000], [-90, -85, -75, -70, 0, 2000], [-90, -85, -70, -65, 0, 2000], [-90, -85, -65, -60, 0, 2000], [-90, -85, -60, -55, 0, 2000], [-90, -85, -55, -50, 0, 2000], [-90, -85, -50, -45, 0, 2000], [-90, -85, -45, -40, 0, 2000], [-85, -80, -90, -85, 0, 2000], [-85, -80, -85, -80, 0, 2000], [-85, -80, -80, -75, 0, 2000], [-85, -80, -75, -70, 0, 2000], [-85, -80, -70, -65, 0, 2000], [-85, -80, -65, -60, 0, 2000], [-85, -80, -60, -55, 0, 2000], [-85, -80, -55, -50, 0, 2000], [-85, -80, -50, -45, 0, 2000], [-85, -80, -45, -40, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Feb_25/lib/python3.12/site-packages/numpy/core/fromnumeric.py:59: RuntimeWarning: overflow encountered in multiply
+  return bound(*args, **kwds)
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Feb_25/lib/python3.12/site-packages/numpy/core/fromnumeric.py:59: RuntimeWarning: overflow encountered in multiply
+  return bound(*args, **kwds)
+/home/amf2288/argopy/argopy/xarray.py:946: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Feb_25/lib/python3.12/site-packages/numpy/core/fromnumeric.py:59: RuntimeWarning: overflow encountered in multiply
+  return bound(*args, **kwds)
+/home/amf2288/argopy/argopy/xarray.py:946: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home/amf2288/argopy/argopy/xarray.py:946: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home/amf2288/argopy/argopy/xarray.py:946: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+Error in box [-130, -125, -90, -85]: DataNotFound - 'No data found for: x=-130.00/-125.00;y=-90.00/-85.00'
+Error in box [-130, -125, -85, -80]: DataNotFound - 'No data found for: x=-130.00/-125.00;y=-85.00/-80.00'
+Error in box [-130, -125, -80, -75]: DataNotFound - 'No data found for: x=-130.00/-125.00;y=-80.00/-75.00'
+Saved box 4 of 100
+Saved box 5 of 100
+Saved box 6 of 100
+Saved box 7 of 100
+Saved box 8 of 100
+Saved box 9 of 100
+Saved box 10 of 100
+Error in box [-125, -120, -90, -85]: DataNotFound - 'No data found for: x=-125.00/-120.00;y=-90.00/-85.00'
+Error in box [-125, -120, -85, -80]: DataNotFound - 'No data found for: x=-125.00/-120.00;y=-85.00/-80.00'
+Error in box [-125, -120, -80, -75]: DataNotFound - 'No data found for: x=-125.00/-120.00;y=-80.00/-75.00'
+Saved box 14 of 100
+Saved box 15 of 100
+Saved box 16 of 100
+Saved box 17 of 100
+Saved box 18 of 100
+Saved box 19 of 100
+Saved box 20 of 100
+Error in box [-120, -115, -90, -85]: DataNotFound - 'No data found for: x=-120.00/-115.00;y=-90.00/-85.00'
+Error in box [-120, -115, -85, -80]: DataNotFound - 'No data found for: x=-120.00/-115.00;y=-85.00/-80.00'
+Error in box [-120, -115, -80, -75]: DataNotFound - 'No data found for: x=-120.00/-115.00;y=-80.00/-75.00'
+Error in box [-120, -115, -75, -70]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Saved box 25 of 100
+Saved box 26 of 100
+Saved box 27 of 100
+Saved box 28 of 100
+Saved box 29 of 100
+Saved box 30 of 100
+Error in box [-115, -110, -90, -85]: DataNotFound - 'No data found for: x=-115.00/-110.00;y=-90.00/-85.00'
+Error in box [-115, -110, -85, -80]: DataNotFound - 'No data found for: x=-115.00/-110.00;y=-85.00/-80.00'
+Error in box [-115, -110, -80, -75]: DataNotFound - 'No data found for: x=-115.00/-110.00;y=-80.00/-75.00'
+Error in box [-115, -110, -75, -70]: DataNotFound - 'Empty dataset, no data to transform !'
+Saved box 35 of 100
+Saved box 36 of 100
+Saved box 37 of 100
+Saved box 38 of 100
+Saved box 39 of 100
+Saved box 40 of 100
+Error in box [-110, -105, -90, -85]: DataNotFound - 'No data found for: x=-110.00/-105.00;y=-90.00/-85.00'
+Error in box [-110, -105, -85, -80]: DataNotFound - 'No data found for: x=-110.00/-105.00;y=-85.00/-80.00'
+Error in box [-110, -105, -80, -75]: DataNotFound - 'No data found for: x=-110.00/-105.00;y=-80.00/-75.00'
+Saved box 44 of 100
+Saved box 45 of 100
+Saved box 46 of 100
+Saved box 47 of 100
+Saved box 48 of 100
+Saved box 49 of 100
+Saved box 50 of 100
+Error in box [-105, -100, -90, -85]: DataNotFound - 'No data found for: x=-105.00/-100.00;y=-90.00/-85.00'
+Error in box [-105, -100, -85, -80]: DataNotFound - 'No data found for: x=-105.00/-100.00;y=-85.00/-80.00'
+Error in box [-105, -100, -80, -75]: DataNotFound - 'Empty dataset, no data to transform !'
+Saved box 54 of 100
+Saved box 55 of 100
+Saved box 56 of 100
+Saved box 57 of 100
+Saved box 58 of 100
+Saved box 59 of 100
+Saved box 60 of 100
+Error in box [-100, -95, -90, -85]: DataNotFound - 'No data found for: x=-100.00/-95.00;y=-90.00/-85.00'
+Error in box [-100, -95, -85, -80]: DataNotFound - 'No data found for: x=-100.00/-95.00;y=-85.00/-80.00'
+Error in box [-100, -95, -80, -75]: DataNotFound - 'No data found for: x=-100.00/-95.00;y=-80.00/-75.00'
+Error in box [-100, -95, -75, -70]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Saved box 65 of 100
+Saved box 66 of 100
+Saved box 67 of 100
+Saved box 68 of 100
+Saved box 69 of 100
+Saved box 70 of 100
+Error in box [-95, -90, -90, -85]: DataNotFound - 'No data found for: x=-95.00/-90.00;y=-90.00/-85.00'
+Error in box [-95, -90, -85, -80]: DataNotFound - 'No data found for: x=-95.00/-90.00;y=-85.00/-80.00'
+Error in box [-95, -90, -80, -75]: DataNotFound - 'No data found for: x=-95.00/-90.00;y=-80.00/-75.00'
+Error in box [-95, -90, -75, -70]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Saved box 75 of 100
+Saved box 76 of 100
+Saved box 77 of 100
+Saved box 78 of 100
+Saved box 79 of 100
+Saved box 80 of 100
+Error in box [-90, -85, -90, -85]: DataNotFound - 'No data found for: x=-90.00/-85.00;y=-90.00/-85.00'
+Error in box [-90, -85, -85, -80]: DataNotFound - 'No data found for: x=-90.00/-85.00;y=-85.00/-80.00'
+Error in box [-90, -85, -80, -75]: DataNotFound - 'No data found for: x=-90.00/-85.00;y=-80.00/-75.00'
+Error in box [-90, -85, -75, -70]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Saved box 85 of 100
+Saved box 86 of 100
+Saved box 87 of 100
+Saved box 88 of 100
+Saved box 89 of 100
+Saved box 90 of 100
+Error in box [-85, -80, -90, -85]: DataNotFound - 'No data found for: x=-85.00/-80.00;y=-90.00/-85.00'
+Error in box [-85, -80, -85, -80]: DataNotFound - 'No data found for: x=-85.00/-80.00;y=-85.00/-80.00'
+Error in box [-85, -80, -80, -75]: DataNotFound - 'No data found for: x=-85.00/-80.00;y=-80.00/-75.00'
+Error in box [-85, -80, -75, -70]: DataNotFound - 'Empty dataset, no data to transform !'
+Saved box 95 of 100
+Saved box 96 of 100
+Saved box 97 of 100
+Saved box 98 of 100
+Saved box 99 of 100
+Saved box 100 of 100
+--------------------------------------------------
+COMPLETED REGION #1 OUT OF 4
+--------------------------------------------------
+--------------------------------------------------
+REGION #2 OUT OF 4 IS: [-90, -40, -80, -75, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #2 ARE [[-80, -75, -90, -85, 0, 2000], [-80, -75, -85, -80, 0, 2000], [-80, -75, -80, -75, 0, 2000], [-80, -75, -75, -70, 0, 2000], [-80, -75, -70, -65, 0, 2000], [-80, -75, -65, -60, 0, 2000], [-80, -75, -60, -55, 0, 2000], [-80, -75, -55, -50, 0, 2000], [-80, -75, -50, -45, 0, 2000], [-80, -75, -45, -40, 0, 2000]]
+--------------------------------------------------
+Error in box [-80, -75, -90, -85]: DataNotFound - 'No data found for: x=-80.00/-75.00;y=-90.00/-85.00'
+Error in box [-80, -75, -85, -80]: DataNotFound - 'No data found for: x=-80.00/-75.00;y=-85.00/-80.00'
+Error in box [-80, -75, -80, -75]: DataNotFound - 'No data found for: x=-80.00/-75.00;y=-80.00/-75.00'
+Error in box [-80, -75, -75, -70]: DataNotFound - 'Empty dataset, no data to transform !'
+Saved box 5 of 10
+Saved box 6 of 10
+Saved box 7 of 10
+Saved box 8 of 10
+Saved box 9 of 10
+Saved box 10 of 10
+--------------------------------------------------
+COMPLETED REGION #2 OUT OF 4
+--------------------------------------------------
+--------------------------------------------------
+REGION #3 OUT OF 4 IS: [-40, 10, -130, -80, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #3 ARE [[-130, -125, -40, -35, 0, 2000], [-130, -125, -35, -30, 0, 2000], [-130, -125, -30, -25, 0, 2000], [-130, -125, -25, -20, 0, 2000], [-130, -125, -20, -15, 0, 2000], [-130, -125, -15, -10, 0, 2000], [-130, -125, -10, -5, 0, 2000], [-130, -125, -5, 0, 0, 2000], [-130, -125, 0, 5, 0, 2000], [-130, -125, 5, 10, 0, 2000], [-125, -120, -40, -35, 0, 2000], [-125, -120, -35, -30, 0, 2000], [-125, -120, -30, -25, 0, 2000], [-125, -120, -25, -20, 0, 2000], [-125, -120, -20, -15, 0, 2000], [-125, -120, -15, -10, 0, 2000], [-125, -120, -10, -5, 0, 2000], [-125, -120, -5, 0, 0, 2000], [-125, -120, 0, 5, 0, 2000], [-125, -120, 5, 10, 0, 2000], [-120, -115, -40, -35, 0, 2000], [-120, -115, -35, -30, 0, 2000], [-120, -115, -30, -25, 0, 2000], [-120, -115, -25, -20, 0, 2000], [-120, -115, -20, -15, 0, 2000], [-120, -115, -15, -10, 0, 2000], [-120, -115, -10, -5, 0, 2000], [-120, -115, -5, 0, 0, 2000], [-120, -115, 0, 5, 0, 2000], [-120, -115, 5, 10, 0, 2000], [-115, -110, -40, -35, 0, 2000], [-115, -110, -35, -30, 0, 2000], [-115, -110, -30, -25, 0, 2000], [-115, -110, -25, -20, 0, 2000], [-115, -110, -20, -15, 0, 2000], [-115, -110, -15, -10, 0, 2000], [-115, -110, -10, -5, 0, 2000], [-115, -110, -5, 0, 0, 2000], [-115, -110, 0, 5, 0, 2000], [-115, -110, 5, 10, 0, 2000], [-110, -105, -40, -35, 0, 2000], [-110, -105, -35, -30, 0, 2000], [-110, -105, -30, -25, 0, 2000], [-110, -105, -25, -20, 0, 2000], [-110, -105, -20, -15, 0, 2000], [-110, -105, -15, -10, 0, 2000], [-110, -105, -10, -5, 0, 2000], [-110, -105, -5, 0, 0, 2000], [-110, -105, 0, 5, 0, 2000], [-110, -105, 5, 10, 0, 2000], [-105, -100, -40, -35, 0, 2000], [-105, -100, -35, -30, 0, 2000], [-105, -100, -30, -25, 0, 2000], [-105, -100, -25, -20, 0, 2000], [-105, -100, -20, -15, 0, 2000], [-105, -100, -15, -10, 0, 2000], [-105, -100, -10, -5, 0, 2000], [-105, -100, -5, 0, 0, 2000], [-105, -100, 0, 5, 0, 2000], [-105, -100, 5, 10, 0, 2000], [-100, -95, -40, -35, 0, 2000], [-100, -95, -35, -30, 0, 2000], [-100, -95, -30, -25, 0, 2000], [-100, -95, -25, -20, 0, 2000], [-100, -95, -20, -15, 0, 2000], [-100, -95, -15, -10, 0, 2000], [-100, -95, -10, -5, 0, 2000], [-100, -95, -5, 0, 0, 2000], [-100, -95, 0, 5, 0, 2000], [-100, -95, 5, 10, 0, 2000], [-95, -90, -40, -35, 0, 2000], [-95, -90, -35, -30, 0, 2000], [-95, -90, -30, -25, 0, 2000], [-95, -90, -25, -20, 0, 2000], [-95, -90, -20, -15, 0, 2000], [-95, -90, -15, -10, 0, 2000], [-95, -90, -10, -5, 0, 2000], [-95, -90, -5, 0, 0, 2000], [-95, -90, 0, 5, 0, 2000], [-95, -90, 5, 10, 0, 2000], [-90, -85, -40, -35, 0, 2000], [-90, -85, -35, -30, 0, 2000], [-90, -85, -30, -25, 0, 2000], [-90, -85, -25, -20, 0, 2000], [-90, -85, -20, -15, 0, 2000], [-90, -85, -15, -10, 0, 2000], [-90, -85, -10, -5, 0, 2000], [-90, -85, -5, 0, 0, 2000], [-90, -85, 0, 5, 0, 2000], [-90, -85, 5, 10, 0, 2000], [-85, -80, -40, -35, 0, 2000], [-85, -80, -35, -30, 0, 2000], [-85, -80, -30, -25, 0, 2000], [-85, -80, -25, -20, 0, 2000], [-85, -80, -20, -15, 0, 2000], [-85, -80, -15, -10, 0, 2000], [-85, -80, -10, -5, 0, 2000], [-85, -80, -5, 0, 0, 2000], [-85, -80, 0, 5, 0, 2000], [-85, -80, 5, 10, 0, 2000]]
+--------------------------------------------------
+Saved box 1 of 100
+Saved box 2 of 100
+Error in box [-130, -125, -30, -25]: FSTimeoutError - 
+Saved box 4 of 100
+Saved box 5 of 100
+Saved box 6 of 100
+Saved box 7 of 100
+Error in box [-130, -125, -5, 0]: FSTimeoutError - 
+Saved box 9 of 100
+Saved box 10 of 100
+Saved box 11 of 100
+Saved box 12 of 100
+Saved box 13 of 100
+Saved box 14 of 100
+Saved box 15 of 100
+Saved box 16 of 100
+Saved box 17 of 100
+Saved box 18 of 100
+Error in box [-125, -120, 0, 5]: FSTimeoutError - 
+Saved box 20 of 100
+Saved box 21 of 100
+Saved box 22 of 100
+Saved box 23 of 100
+Error in box [-120, -115, -25, -20]: FSTimeoutError - 
+Saved box 25 of 100
+Error in box [-120, -115, -15, -10]: FSTimeoutError - 
+Saved box 27 of 100
+Error in box [-120, -115, -5, 0]: FSTimeoutError - 
+Error in box [-120, -115, 0, 5]: FSTimeoutError - 
+Saved box 30 of 100
+Saved box 31 of 100
+Saved box 32 of 100
+Saved box 33 of 100
+Saved box 34 of 100
+Saved box 35 of 100
+Saved box 36 of 100
+Error in box [-115, -110, -10, -5]: FSTimeoutError - 
+Error in box [-115, -110, -5, 0]: FSTimeoutError - 
+Saved box 39 of 100
+Saved box 40 of 100
+Saved box 41 of 100
+Saved box 42 of 100
+Error in box [-110, -105, -30, -25]: FSTimeoutError - 
+Saved box 44 of 100
+Error in box [-110, -105, -20, -15]: FSTimeoutError - 
+Error in box [-110, -105, -15, -10]: FSTimeoutError - 
+Saved box 47 of 100
+Saved box 48 of 100
+Error in box [-110, -105, 0, 5]: FSTimeoutError - 
+Saved box 50 of 100
+Error in box [-105, -100, -40, -35]: FSTimeoutError - 
+Saved box 52 of 100
+Saved box 53 of 100
+Saved box 54 of 100
+Saved box 55 of 100
+Saved box 56 of 100
+Saved box 57 of 100
+Saved box 58 of 100
+Saved box 59 of 100
+Saved box 60 of 100
+Saved box 61 of 100
+Saved box 62 of 100
+Saved box 63 of 100
+Error in box [-100, -95, -25, -20]: FSTimeoutError - 
+Saved box 65 of 100
+Saved box 66 of 100
+Saved box 67 of 100
+Saved box 68 of 100
+Saved box 69 of 100
+Saved box 70 of 100
+Error in box [-95, -90, -40, -35]: FSTimeoutError - 
+Saved box 72 of 100
+Saved box 73 of 100
+Saved box 74 of 100
+Saved box 75 of 100
+Saved box 76 of 100
+Saved box 77 of 100
+Saved box 78 of 100
+Error in box [-95, -90, 0, 5]: FSTimeoutError - 
+Error in box [-95, -90, 5, 10]: FSTimeoutError - 
+Saved box 81 of 100
+Error in box [-90, -85, -35, -30]: FSTimeoutError - 
+Saved box 83 of 100
+Saved box 84 of 100
+Saved box 85 of 100
+Saved box 86 of 100
+Saved box 87 of 100
+Saved box 88 of 100
+Saved box 89 of 100
+Saved box 90 of 100
+Saved box 91 of 100
+Saved box 92 of 100
+Error in box [-85, -80, -30, -25]: FSTimeoutError - 
+Error in box [-85, -80, -25, -20]: FSTimeoutError - 
+Saved box 95 of 100
+Saved box 96 of 100
+Saved box 97 of 100
+Saved box 98 of 100
+Saved box 99 of 100
+Saved box 100 of 100
+--------------------------------------------------
+COMPLETED REGION #3 OUT OF 4
+--------------------------------------------------
+--------------------------------------------------
+REGION #4 OUT OF 4 IS: [-40, 10, -80, -75, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #4 ARE [[-80, -75, -40, -35, 0, 2000], [-80, -75, -35, -30, 0, 2000], [-80, -75, -30, -25, 0, 2000], [-80, -75, -25, -20, 0, 2000], [-80, -75, -20, -15, 0, 2000], [-80, -75, -15, -10, 0, 2000], [-80, -75, -10, -5, 0, 2000], [-80, -75, -5, 0, 0, 2000], [-80, -75, 0, 5, 0, 2000], [-80, -75, 5, 10, 0, 2000]]
+--------------------------------------------------
+/home/amf2288/argopy/argopy/xarray.py:946: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+Saved box 1 of 10
+Saved box 2 of 10
+Saved box 3 of 10
+Saved box 4 of 10
+Saved box 5 of 10
+Saved box 6 of 10
+Error in box [-80, -75, -10, -5]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Error in box [-80, -75, -5, 0]: DataNotFound - 'Empty dataset, no data to transform !'
+Saved box 9 of 10
+Saved box 10 of 10
+--------------------------------------------------
+COMPLETED REGION #4 OUT OF 4
+--------------------------------------------------
+[[[[-130,
+    -125,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-130.00/-125.00;y=-90.00/-85.00'"],
+   [-130,
+    -125,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-130.00/-125.00;y=-85.00/-80.00'"],
+   [-130,
+    -125,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-130.00/-125.00;y=-80.00/-75.00'"],
+   [-125,
+    -120,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-125.00/-120.00;y=-90.00/-85.00'"],
+   [-125,
+    -120,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-125.00/-120.00;y=-85.00/-80.00'"],
+   [-125,
+    -120,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-125.00/-120.00;y=-80.00/-75.00'"],
+   [-120,
+    -115,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-120.00/-115.00;y=-90.00/-85.00'"],
+   [-120,
+    -115,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-120.00/-115.00;y=-85.00/-80.00'"],
+   [-120,
+    -115,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-120.00/-115.00;y=-80.00/-75.00'"],
+   [-120,
+    -115,
+    -75,
+    -70,
+    'AttributeError',
+    "'NoneType' object has no attribute 'N_PROF'"],
+   [-115,
+    -110,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-115.00/-110.00;y=-90.00/-85.00'"],
+   [-115,
+    -110,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-115.00/-110.00;y=-85.00/-80.00'"],
+   [-115,
+    -110,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-115.00/-110.00;y=-80.00/-75.00'"],
+   [-115,
+    -110,
+    -75,
+    -70,
+    'DataNotFound',
+    "'Empty dataset, no data to transform !'"],
+   [-110,
+    -105,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-110.00/-105.00;y=-90.00/-85.00'"],
+   [-110,
+    -105,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-110.00/-105.00;y=-85.00/-80.00'"],
+   [-110,
+    -105,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-110.00/-105.00;y=-80.00/-75.00'"],
+   [-105,
+    -100,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-105.00/-100.00;y=-90.00/-85.00'"],
+   [-105,
+    -100,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-105.00/-100.00;y=-85.00/-80.00'"],
+   [-105,
+    -100,
+    -80,
+    -75,
+    'DataNotFound',
+    "'Empty dataset, no data to transform !'"],
+   [-100,
+    -95,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-100.00/-95.00;y=-90.00/-85.00'"],
+   [-100,
+    -95,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-100.00/-95.00;y=-85.00/-80.00'"],
+   [-100,
+    -95,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-100.00/-95.00;y=-80.00/-75.00'"],
+   [-100,
+    -95,
+    -75,
+    -70,
+    'AttributeError',
+    "'NoneType' object has no attribute 'N_PROF'"],
+   [-95,
+    -90,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-95.00/-90.00;y=-90.00/-85.00'"],
+   [-95,
+    -90,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-95.00/-90.00;y=-85.00/-80.00'"],
+   [-95,
+    -90,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-95.00/-90.00;y=-80.00/-75.00'"],
+   [-95,
+    -90,
+    -75,
+    -70,
+    'AttributeError',
+    "'NoneType' object has no attribute 'N_PROF'"],
+   [-90,
+    -85,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-90.00/-85.00;y=-90.00/-85.00'"],
+   [-90,
+    -85,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-90.00/-85.00;y=-85.00/-80.00'"],
+   [-90,
+    -85,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-90.00/-85.00;y=-80.00/-75.00'"],
+   [-90,
+    -85,
+    -75,
+    -70,
+    'AttributeError',
+    "'NoneType' object has no attribute 'N_PROF'"],
+   [-85,
+    -80,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-85.00/-80.00;y=-90.00/-85.00'"],
+   [-85,
+    -80,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-85.00/-80.00;y=-85.00/-80.00'"],
+   [-85,
+    -80,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-85.00/-80.00;y=-80.00/-75.00'"],
+   [-85,
+    -80,
+    -75,
+    -70,
+    'DataNotFound',
+    "'Empty dataset, no data to transform !'"]]],
+ [[[-80,
+    -75,
+    -90,
+    -85,
+    'DataNotFound',
+    "'No data found for: x=-80.00/-75.00;y=-90.00/-85.00'"],
+   [-80,
+    -75,
+    -85,
+    -80,
+    'DataNotFound',
+    "'No data found for: x=-80.00/-75.00;y=-85.00/-80.00'"],
+   [-80,
+    -75,
+    -80,
+    -75,
+    'DataNotFound',
+    "'No data found for: x=-80.00/-75.00;y=-80.00/-75.00'"],
+   [-80,
+    -75,
+    -75,
+    -70,
+    'DataNotFound',
+    "'Empty dataset, no data to transform !'"]]],
+ [[[-130, -125, -30, -25, 'FSTimeoutError', ''],
+   [-130, -125, -5, 0, 'FSTimeoutError', ''],
+   [-125, -120, 0, 5, 'FSTimeoutError', ''],
+   [-120, -115, -25, -20, 'FSTimeoutError', ''],
+   [-120, -115, -15, -10, 'FSTimeoutError', ''],
+   [-120, -115, -5, 0, 'FSTimeoutError', ''],
+   [-120, -115, 0, 5, 'FSTimeoutError', ''],
+   [-115, -110, -10, -5, 'FSTimeoutError', ''],
+   [-115, -110, -5, 0, 'FSTimeoutError', ''],
+   [-110, -105, -30, -25, 'FSTimeoutError', ''],
+   [-110, -105, -20, -15, 'FSTimeoutError', ''],
+   [-110, -105, -15, -10, 'FSTimeoutError', ''],
+   [-110, -105, 0, 5, 'FSTimeoutError', ''],
+   [-105, -100, -40, -35, 'FSTimeoutError', ''],
+   [-100, -95, -25, -20, 'FSTimeoutError', ''],
+   [-95, -90, -40, -35, 'FSTimeoutError', ''],
+   [-95, -90, 0, 5, 'FSTimeoutError', ''],
+   [-95, -90, 5, 10, 'FSTimeoutError', ''],
+   [-90, -85, -35, -30, 'FSTimeoutError', ''],
+   [-85, -80, -30, -25, 'FSTimeoutError', ''],
+   [-85, -80, -25, -20, 'FSTimeoutError', '']]],
+ [[[-80,
+    -75,
+    -10,
+    -5,
+    'AttributeError',
+    "'NoneType' object has no attribute 'N_PROF'"],
+   [-80,
+    -75,
+    -5,
+    0,
+    'DataNotFound',
+    "'Empty dataset, no data to transform !'"]]]]

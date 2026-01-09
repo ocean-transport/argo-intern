@@ -1,0 +1,619 @@
+--------------------------------------------------
+Cluster: LocalCluster(aa02c7e7, 'tcp://127.0.0.1:40553', workers=64, threads=64, memory=0.98 TiB)
+--------------------------------------------------
+THE REGIONS ARE [[-90, -50, -75, -35, 0, 2000], [-90, -50, -35, 5, 0, 2000], [-90, -50, 5, 25, 0, 2000], [-50, -10, -75, -35, 0, 2000], [-50, -10, -35, 5, 0, 2000], [-50, -10, 5, 25, 0, 2000], [-10, 0, -75, -35, 0, 2000], [-10, 0, -35, 5, 0, 2000], [-10, 0, 5, 25, 0, 2000]]
+--------------------------------------------------
+REGION #1 OUT OF 9 IS: [-90, -50, -75, -35, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #1 ARE [[-75, -70, -90, -85, 0, 2000], [-75, -70, -85, -80, 0, 2000], [-75, -70, -80, -75, 0, 2000], [-75, -70, -75, -70, 0, 2000], [-75, -70, -70, -65, 0, 2000], [-75, -70, -65, -60, 0, 2000], [-75, -70, -60, -55, 0, 2000], [-75, -70, -55, -50, 0, 2000], [-70, -65, -90, -85, 0, 2000], [-70, -65, -85, -80, 0, 2000], [-70, -65, -80, -75, 0, 2000], [-70, -65, -75, -70, 0, 2000], [-70, -65, -70, -65, 0, 2000], [-70, -65, -65, -60, 0, 2000], [-70, -65, -60, -55, 0, 2000], [-70, -65, -55, -50, 0, 2000], [-65, -60, -90, -85, 0, 2000], [-65, -60, -85, -80, 0, 2000], [-65, -60, -80, -75, 0, 2000], [-65, -60, -75, -70, 0, 2000], [-65, -60, -70, -65, 0, 2000], [-65, -60, -65, -60, 0, 2000], [-65, -60, -60, -55, 0, 2000], [-65, -60, -55, -50, 0, 2000], [-60, -55, -90, -85, 0, 2000], [-60, -55, -85, -80, 0, 2000], [-60, -55, -80, -75, 0, 2000], [-60, -55, -75, -70, 0, 2000], [-60, -55, -70, -65, 0, 2000], [-60, -55, -65, -60, 0, 2000], [-60, -55, -60, -55, 0, 2000], [-60, -55, -55, -50, 0, 2000], [-55, -50, -90, -85, 0, 2000], [-55, -50, -85, -80, 0, 2000], [-55, -50, -80, -75, 0, 2000], [-55, -50, -75, -70, 0, 2000], [-55, -50, -70, -65, 0, 2000], [-55, -50, -65, -60, 0, 2000], [-55, -50, -60, -55, 0, 2000], [-55, -50, -55, -50, 0, 2000], [-50, -45, -90, -85, 0, 2000], [-50, -45, -85, -80, 0, 2000], [-50, -45, -80, -75, 0, 2000], [-50, -45, -75, -70, 0, 2000], [-50, -45, -70, -65, 0, 2000], [-50, -45, -65, -60, 0, 2000], [-50, -45, -60, -55, 0, 2000], [-50, -45, -55, -50, 0, 2000], [-45, -40, -90, -85, 0, 2000], [-45, -40, -85, -80, 0, 2000], [-45, -40, -80, -75, 0, 2000], [-45, -40, -75, -70, 0, 2000], [-45, -40, -70, -65, 0, 2000], [-45, -40, -65, -60, 0, 2000], [-45, -40, -60, -55, 0, 2000], [-45, -40, -55, -50, 0, 2000], [-40, -35, -90, -85, 0, 2000], [-40, -35, -85, -80, 0, 2000], [-40, -35, -80, -75, 0, 2000], [-40, -35, -75, -70, 0, 2000], [-40, -35, -70, -65, 0, 2000], [-40, -35, -65, -60, 0, 2000], [-40, -35, -60, -55, 0, 2000], [-40, -35, -55, -50, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/xarray.py:944: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/numpy/core/fromnumeric.py:59: RuntimeWarning: overflow encountered in multiply
+  return bound(*args, **kwds)
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/xarray.py:944: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+Error in box [-75, -70, -90, -85]: DataNotFound - 'No data found for: x=-75.00/-70.00;y=-90.00/-85.00'
+Error in box [-75, -70, -85, -80]: DataNotFound - 'No data found for: x=-75.00/-70.00;y=-85.00/-80.00'
+Error in box [-75, -70, -80, -75]: DataNotFound - 'No data found for: x=-75.00/-70.00;y=-80.00/-75.00'
+Error in box [-75, -70, -75, -70]: DataNotFound - 'No data found for: x=-75.00/-70.00;y=-75.00/-70.00'
+Error in box [-70, -65, -90, -85]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-90.00/-85.00'
+Error in box [-70, -65, -85, -80]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-85.00/-80.00'
+Error in box [-70, -65, -80, -75]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-80.00/-75.00'
+Error in box [-70, -65, -75, -70]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-75.00/-70.00'
+Error in box [-70, -65, -70, -65]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Error in box [-70, -65, -55, -50]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-55.00/-50.00'
+Error in box [-65, -60, -90, -85]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-90.00/-85.00'
+Error in box [-65, -60, -85, -80]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-85.00/-80.00'
+Error in box [-65, -60, -80, -75]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-80.00/-75.00'
+Error in box [-65, -60, -75, -70]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-75.00/-70.00'
+Error in box [-65, -60, -70, -65]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-70.00/-65.00'
+Error in box [-60, -55, -90, -85]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-90.00/-85.00'
+Error in box [-60, -55, -85, -80]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-85.00/-80.00'
+Error in box [-60, -55, -80, -75]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-80.00/-75.00'
+Error in box [-60, -55, -75, -70]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-75.00/-70.00'
+Error in box [-60, -55, -70, -65]: DataNotFound - 'Empty dataset, no data to transform !'
+Error in box [-55, -50, -90, -85]: DataNotFound - 'No data found for: x=-55.00/-50.00;y=-90.00/-85.00'
+Error in box [-55, -50, -85, -80]: DataNotFound - 'No data found for: x=-55.00/-50.00;y=-85.00/-80.00'
+Error in box [-55, -50, -80, -75]: DataNotFound - 'No data found for: x=-55.00/-50.00;y=-80.00/-75.00'
+Error in box [-55, -50, -75, -70]: DataNotFound - 'No data found for: x=-55.00/-50.00;y=-75.00/-70.00'
+Error in box [-50, -45, -90, -85]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-90.00/-85.00'
+Error in box [-50, -45, -85, -80]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-85.00/-80.00'
+Error in box [-50, -45, -80, -75]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-80.00/-75.00'
+Error in box [-50, -45, -75, -70]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Error in box [-45, -40, -90, -85]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-90.00/-85.00'
+Error in box [-45, -40, -85, -80]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-85.00/-80.00'
+Error in box [-45, -40, -80, -75]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-80.00/-75.00'
+Error in box [-45, -40, -75, -70]: DataNotFound - 'Empty dataset, no data to transform !'
+Error in box [-40, -35, -90, -85]: DataNotFound - 'No data found for: x=-40.00/-35.00;y=-90.00/-85.00'
+Error in box [-40, -35, -85, -80]: DataNotFound - 'No data found for: x=-40.00/-35.00;y=-85.00/-80.00'
+Error in box [-40, -35, -80, -75]: DataNotFound - 'No data found for: x=-40.00/-35.00;y=-80.00/-75.00'
+--------------------------------------------------
+COMPLETED REGION #1 OUT OF 9
+--------------------------------------------------
+--------------------------------------------------
+REGION #2 OUT OF 9 IS: [-90, -50, -35, 5, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #2 ARE [[-35, -30, -90, -85, 0, 2000], [-35, -30, -85, -80, 0, 2000], [-35, -30, -80, -75, 0, 2000], [-35, -30, -75, -70, 0, 2000], [-35, -30, -70, -65, 0, 2000], [-35, -30, -65, -60, 0, 2000], [-35, -30, -60, -55, 0, 2000], [-35, -30, -55, -50, 0, 2000], [-30, -25, -90, -85, 0, 2000], [-30, -25, -85, -80, 0, 2000], [-30, -25, -80, -75, 0, 2000], [-30, -25, -75, -70, 0, 2000], [-30, -25, -70, -65, 0, 2000], [-30, -25, -65, -60, 0, 2000], [-30, -25, -60, -55, 0, 2000], [-30, -25, -55, -50, 0, 2000], [-25, -20, -90, -85, 0, 2000], [-25, -20, -85, -80, 0, 2000], [-25, -20, -80, -75, 0, 2000], [-25, -20, -75, -70, 0, 2000], [-25, -20, -70, -65, 0, 2000], [-25, -20, -65, -60, 0, 2000], [-25, -20, -60, -55, 0, 2000], [-25, -20, -55, -50, 0, 2000], [-20, -15, -90, -85, 0, 2000], [-20, -15, -85, -80, 0, 2000], [-20, -15, -80, -75, 0, 2000], [-20, -15, -75, -70, 0, 2000], [-20, -15, -70, -65, 0, 2000], [-20, -15, -65, -60, 0, 2000], [-20, -15, -60, -55, 0, 2000], [-20, -15, -55, -50, 0, 2000], [-15, -10, -90, -85, 0, 2000], [-15, -10, -85, -80, 0, 2000], [-15, -10, -80, -75, 0, 2000], [-15, -10, -75, -70, 0, 2000], [-15, -10, -70, -65, 0, 2000], [-15, -10, -65, -60, 0, 2000], [-15, -10, -60, -55, 0, 2000], [-15, -10, -55, -50, 0, 2000], [-10, -5, -90, -85, 0, 2000], [-10, -5, -85, -80, 0, 2000], [-10, -5, -80, -75, 0, 2000], [-10, -5, -75, -70, 0, 2000], [-10, -5, -70, -65, 0, 2000], [-10, -5, -65, -60, 0, 2000], [-10, -5, -60, -55, 0, 2000], [-10, -5, -55, -50, 0, 2000], [-5, 0, -90, -85, 0, 2000], [-5, 0, -85, -80, 0, 2000], [-5, 0, -80, -75, 0, 2000], [-5, 0, -75, -70, 0, 2000], [-5, 0, -70, -65, 0, 2000], [-5, 0, -65, -60, 0, 2000], [-5, 0, -60, -55, 0, 2000], [-5, 0, -55, -50, 0, 2000], [0, 5, -90, -85, 0, 2000], [0, 5, -85, -80, 0, 2000], [0, 5, -80, -75, 0, 2000], [0, 5, -75, -70, 0, 2000], [0, 5, -70, -65, 0, 2000], [0, 5, -65, -60, 0, 2000], [0, 5, -60, -55, 0, 2000], [0, 5, -55, -50, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/xarray.py:944: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/xarray.py:944: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+Error in box [-35, -30, -90, -85]: DataNotFound - 'No data found for: x=-35.00/-30.00;y=-90.00/-85.00'
+Error in box [-35, -30, -85, -80]: DataNotFound - 'No data found for: x=-35.00/-30.00;y=-85.00/-80.00'
+Error in box [-35, -30, -80, -75]: DataNotFound - 'No data found for: x=-35.00/-30.00;y=-80.00/-75.00'
+Error in box [-35, -30, -65, -60]: IndexError - index -1 is out of bounds for axis 0 with size 0
+Error in box [-30, -25, -90, -85]: DataNotFound - 'No data found for: x=-30.00/-25.00;y=-90.00/-85.00'
+Error in box [-30, -25, -85, -80]: DataNotFound - 'No data found for: x=-30.00/-25.00;y=-85.00/-80.00'
+Error in box [-30, -25, -80, -75]: DataNotFound - 'No data found for: x=-30.00/-25.00;y=-80.00/-75.00'
+Error in box [-25, -20, -90, -85]: DataNotFound - 'No data found for: x=-25.00/-20.00;y=-90.00/-85.00'
+Error in box [-25, -20, -85, -80]: DataNotFound - 'No data found for: x=-25.00/-20.00;y=-85.00/-80.00'
+Error in box [-25, -20, -80, -75]: DataNotFound - 'No data found for: x=-25.00/-20.00;y=-80.00/-75.00'
+Error in box [-20, -15, -90, -85]: DataNotFound - 'No data found for: x=-20.00/-15.00;y=-90.00/-85.00'
+Error in box [-20, -15, -85, -80]: DataNotFound - 'No data found for: x=-20.00/-15.00;y=-85.00/-80.00'
+Error in box [-20, -15, -80, -75]: DataNotFound - 'No data found for: x=-20.00/-15.00;y=-80.00/-75.00'
+Error in box [-15, -10, -90, -85]: DataNotFound - 'No data found for: x=-15.00/-10.00;y=-90.00/-85.00'
+Error in box [-15, -10, -85, -80]: DataNotFound - 'No data found for: x=-15.00/-10.00;y=-85.00/-80.00'
+Error in box [-15, -10, -80, -75]: DataNotFound - 'No data found for: x=-15.00/-10.00;y=-80.00/-75.00'
+Error in box [-10, -5, -90, -85]: DataNotFound - 'No data found for: x=-10.00/-5.00;y=-90.00/-85.00'
+Error in box [-10, -5, -85, -80]: DataNotFound - 'No data found for: x=-10.00/-5.00;y=-85.00/-80.00'
+Error in box [-10, -5, -80, -75]: DataNotFound - 'No data found for: x=-10.00/-5.00;y=-80.00/-75.00'
+Error in box [-10, -5, -75, -70]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Error in box [-5, 0, -90, -85]: DataNotFound - 'No data found for: x=-5.00/0.00;y=-90.00/-85.00'
+Error in box [-5, 0, -85, -80]: DataNotFound - 'No data found for: x=-5.00/0.00;y=-85.00/-80.00'
+Error in box [-5, 0, -80, -75]: DataNotFound - 'No data found for: x=-5.00/0.00;y=-80.00/-75.00'
+Error in box [-5, 0, -75, -70]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Error in box [0, 5, -90, -85]: DataNotFound - 'No data found for: x=0.00/5.00;y=-90.00/-85.00'
+Error in box [0, 5, -85, -80]: DataNotFound - 'No data found for: x=0.00/5.00;y=-85.00/-80.00'
+Error in box [0, 5, -80, -75]: DataNotFound - 'No data found for: x=0.00/5.00;y=-80.00/-75.00'
+Error in box [0, 5, -75, -70]: DataNotFound - 'Empty dataset, no data to transform !'
+--------------------------------------------------
+COMPLETED REGION #2 OUT OF 9
+--------------------------------------------------
+--------------------------------------------------
+REGION #3 OUT OF 9 IS: [-90, -50, 5, 25, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #3 ARE [[5, 10, -90, -85, 0, 2000], [5, 10, -85, -80, 0, 2000], [5, 10, -80, -75, 0, 2000], [5, 10, -75, -70, 0, 2000], [5, 10, -70, -65, 0, 2000], [5, 10, -65, -60, 0, 2000], [5, 10, -60, -55, 0, 2000], [5, 10, -55, -50, 0, 2000], [10, 15, -90, -85, 0, 2000], [10, 15, -85, -80, 0, 2000], [10, 15, -80, -75, 0, 2000], [10, 15, -75, -70, 0, 2000], [10, 15, -70, -65, 0, 2000], [10, 15, -65, -60, 0, 2000], [10, 15, -60, -55, 0, 2000], [10, 15, -55, -50, 0, 2000], [15, 20, -90, -85, 0, 2000], [15, 20, -85, -80, 0, 2000], [15, 20, -80, -75, 0, 2000], [15, 20, -75, -70, 0, 2000], [15, 20, -70, -65, 0, 2000], [15, 20, -65, -60, 0, 2000], [15, 20, -60, -55, 0, 2000], [15, 20, -55, -50, 0, 2000], [20, 25, -90, -85, 0, 2000], [20, 25, -85, -80, 0, 2000], [20, 25, -80, -75, 0, 2000], [20, 25, -75, -70, 0, 2000], [20, 25, -70, -65, 0, 2000], [20, 25, -65, -60, 0, 2000], [20, 25, -60, -55, 0, 2000], [20, 25, -55, -50, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+Error in box [5, 10, -90, -85]: DataNotFound - 'No data found for: x=5.00/10.00;y=-90.00/-85.00'
+Error in box [5, 10, -85, -80]: DataNotFound - 'No data found for: x=5.00/10.00;y=-85.00/-80.00'
+Error in box [5, 10, -80, -75]: DataNotFound - 'No data found for: x=5.00/10.00;y=-80.00/-75.00'
+Error in box [5, 10, -75, -70]: DataNotFound - 'No data found for: x=5.00/10.00;y=-75.00/-70.00'
+Error in box [10, 15, -90, -85]: DataNotFound - 'No data found for: x=10.00/15.00;y=-90.00/-85.00'
+Error in box [10, 15, -85, -80]: DataNotFound - 'No data found for: x=10.00/15.00;y=-85.00/-80.00'
+Error in box [10, 15, -80, -75]: DataNotFound - 'No data found for: x=10.00/15.00;y=-80.00/-75.00'
+Error in box [10, 15, -75, -70]: DataNotFound - 'No data found for: x=10.00/15.00;y=-75.00/-70.00'
+Error in box [15, 20, -90, -85]: DataNotFound - 'No data found for: x=15.00/20.00;y=-90.00/-85.00'
+Error in box [15, 20, -85, -80]: DataNotFound - 'No data found for: x=15.00/20.00;y=-85.00/-80.00'
+Error in box [15, 20, -80, -75]: DataNotFound - 'No data found for: x=15.00/20.00;y=-80.00/-75.00'
+Error in box [15, 20, -75, -70]: DataNotFound - 'No data found for: x=15.00/20.00;y=-75.00/-70.00'
+Error in box [20, 25, -90, -85]: DataNotFound - 'No data found for: x=20.00/25.00;y=-90.00/-85.00'
+Error in box [20, 25, -85, -80]: DataNotFound - 'No data found for: x=20.00/25.00;y=-85.00/-80.00'
+Error in box [20, 25, -80, -75]: DataNotFound - 'No data found for: x=20.00/25.00;y=-80.00/-75.00'
+Error in box [20, 25, -75, -70]: DataNotFound - 'No data found for: x=20.00/25.00;y=-75.00/-70.00'
+--------------------------------------------------
+COMPLETED REGION #3 OUT OF 9
+--------------------------------------------------
+--------------------------------------------------
+REGION #4 OUT OF 9 IS: [-50, -10, -75, -35, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #4 ARE [[-75, -70, -50, -45, 0, 2000], [-75, -70, -45, -40, 0, 2000], [-75, -70, -40, -35, 0, 2000], [-75, -70, -35, -30, 0, 2000], [-75, -70, -30, -25, 0, 2000], [-75, -70, -25, -20, 0, 2000], [-75, -70, -20, -15, 0, 2000], [-75, -70, -15, -10, 0, 2000], [-70, -65, -50, -45, 0, 2000], [-70, -65, -45, -40, 0, 2000], [-70, -65, -40, -35, 0, 2000], [-70, -65, -35, -30, 0, 2000], [-70, -65, -30, -25, 0, 2000], [-70, -65, -25, -20, 0, 2000], [-70, -65, -20, -15, 0, 2000], [-70, -65, -15, -10, 0, 2000], [-65, -60, -50, -45, 0, 2000], [-65, -60, -45, -40, 0, 2000], [-65, -60, -40, -35, 0, 2000], [-65, -60, -35, -30, 0, 2000], [-65, -60, -30, -25, 0, 2000], [-65, -60, -25, -20, 0, 2000], [-65, -60, -20, -15, 0, 2000], [-65, -60, -15, -10, 0, 2000], [-60, -55, -50, -45, 0, 2000], [-60, -55, -45, -40, 0, 2000], [-60, -55, -40, -35, 0, 2000], [-60, -55, -35, -30, 0, 2000], [-60, -55, -30, -25, 0, 2000], [-60, -55, -25, -20, 0, 2000], [-60, -55, -20, -15, 0, 2000], [-60, -55, -15, -10, 0, 2000], [-55, -50, -50, -45, 0, 2000], [-55, -50, -45, -40, 0, 2000], [-55, -50, -40, -35, 0, 2000], [-55, -50, -35, -30, 0, 2000], [-55, -50, -30, -25, 0, 2000], [-55, -50, -25, -20, 0, 2000], [-55, -50, -20, -15, 0, 2000], [-55, -50, -15, -10, 0, 2000], [-50, -45, -50, -45, 0, 2000], [-50, -45, -45, -40, 0, 2000], [-50, -45, -40, -35, 0, 2000], [-50, -45, -35, -30, 0, 2000], [-50, -45, -30, -25, 0, 2000], [-50, -45, -25, -20, 0, 2000], [-50, -45, -20, -15, 0, 2000], [-50, -45, -15, -10, 0, 2000], [-45, -40, -50, -45, 0, 2000], [-45, -40, -45, -40, 0, 2000], [-45, -40, -40, -35, 0, 2000], [-45, -40, -35, -30, 0, 2000], [-45, -40, -30, -25, 0, 2000], [-45, -40, -25, -20, 0, 2000], [-45, -40, -20, -15, 0, 2000], [-45, -40, -15, -10, 0, 2000], [-40, -35, -50, -45, 0, 2000], [-40, -35, -45, -40, 0, 2000], [-40, -35, -40, -35, 0, 2000], [-40, -35, -35, -30, 0, 2000], [-40, -35, -30, -25, 0, 2000], [-40, -35, -25, -20, 0, 2000], [-40, -35, -20, -15, 0, 2000], [-40, -35, -15, -10, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/xarray.py:944: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/xarray.py:944: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+Error in box [-75, -70, -50, -45]: DataNotFound - 'No data found for: x=-75.00/-70.00;y=-50.00/-45.00'
+Error in box [-75, -70, -15, -10]: DataNotFound - 'No data found for: x=-75.00/-70.00;y=-15.00/-10.00'
+Error in box [-70, -65, -50, -45]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-50.00/-45.00'
+Error in box [-70, -65, -45, -40]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-45.00/-40.00'
+Error in box [-70, -65, -40, -35]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-40.00/-35.00'
+Error in box [-70, -65, -35, -30]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-35.00/-30.00'
+Error in box [-70, -65, -30, -25]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-30.00/-25.00'
+Error in box [-70, -65, -25, -20]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-25.00/-20.00'
+Error in box [-70, -65, -20, -15]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-20.00/-15.00'
+Error in box [-70, -65, -15, -10]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-15.00/-10.00'
+Error in box [-65, -60, -50, -45]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Error in box [-65, -60, -45, -40]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-45.00/-40.00'
+Error in box [-65, -60, -40, -35]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-40.00/-35.00'
+Error in box [-65, -60, -35, -30]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-35.00/-30.00'
+Error in box [-65, -60, -30, -25]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-30.00/-25.00'
+Error in box [-65, -60, -25, -20]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-25.00/-20.00'
+Error in box [-65, -60, -20, -15]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-20.00/-15.00'
+Error in box [-65, -60, -15, -10]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-15.00/-10.00'
+Error in box [-60, -55, -40, -35]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Error in box [-60, -55, -35, -30]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-35.00/-30.00'
+Error in box [-60, -55, -30, -25]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-30.00/-25.00'
+Error in box [-60, -55, -25, -20]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-25.00/-20.00'
+Error in box [-60, -55, -20, -15]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-20.00/-15.00'
+Error in box [-60, -55, -15, -10]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-15.00/-10.00'
+Error in box [-55, -50, -30, -25]: DataNotFound - 'No data found for: x=-55.00/-50.00;y=-30.00/-25.00'
+Error in box [-55, -50, -25, -20]: DataNotFound - 'No data found for: x=-55.00/-50.00;y=-25.00/-20.00'
+Error in box [-55, -50, -20, -15]: DataNotFound - 'No data found for: x=-55.00/-50.00;y=-20.00/-15.00'
+Error in box [-55, -50, -15, -10]: DataNotFound - 'No data found for: x=-55.00/-50.00;y=-15.00/-10.00'
+Error in box [-50, -45, -25, -20]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-25.00/-20.00'
+Error in box [-50, -45, -20, -15]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-20.00/-15.00'
+Error in box [-50, -45, -15, -10]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-15.00/-10.00'
+Error in box [-45, -40, -20, -15]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-20.00/-15.00'
+Error in box [-45, -40, -15, -10]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-15.00/-10.00'
+Error in box [-40, -35, -15, -10]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+--------------------------------------------------
+COMPLETED REGION #4 OUT OF 9
+--------------------------------------------------
+--------------------------------------------------
+REGION #5 OUT OF 9 IS: [-50, -10, -35, 5, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #5 ARE [[-35, -30, -50, -45, 0, 2000], [-35, -30, -45, -40, 0, 2000], [-35, -30, -40, -35, 0, 2000], [-35, -30, -35, -30, 0, 2000], [-35, -30, -30, -25, 0, 2000], [-35, -30, -25, -20, 0, 2000], [-35, -30, -20, -15, 0, 2000], [-35, -30, -15, -10, 0, 2000], [-30, -25, -50, -45, 0, 2000], [-30, -25, -45, -40, 0, 2000], [-30, -25, -40, -35, 0, 2000], [-30, -25, -35, -30, 0, 2000], [-30, -25, -30, -25, 0, 2000], [-30, -25, -25, -20, 0, 2000], [-30, -25, -20, -15, 0, 2000], [-30, -25, -15, -10, 0, 2000], [-25, -20, -50, -45, 0, 2000], [-25, -20, -45, -40, 0, 2000], [-25, -20, -40, -35, 0, 2000], [-25, -20, -35, -30, 0, 2000], [-25, -20, -30, -25, 0, 2000], [-25, -20, -25, -20, 0, 2000], [-25, -20, -20, -15, 0, 2000], [-25, -20, -15, -10, 0, 2000], [-20, -15, -50, -45, 0, 2000], [-20, -15, -45, -40, 0, 2000], [-20, -15, -40, -35, 0, 2000], [-20, -15, -35, -30, 0, 2000], [-20, -15, -30, -25, 0, 2000], [-20, -15, -25, -20, 0, 2000], [-20, -15, -20, -15, 0, 2000], [-20, -15, -15, -10, 0, 2000], [-15, -10, -50, -45, 0, 2000], [-15, -10, -45, -40, 0, 2000], [-15, -10, -40, -35, 0, 2000], [-15, -10, -35, -30, 0, 2000], [-15, -10, -30, -25, 0, 2000], [-15, -10, -25, -20, 0, 2000], [-15, -10, -20, -15, 0, 2000], [-15, -10, -15, -10, 0, 2000], [-10, -5, -50, -45, 0, 2000], [-10, -5, -45, -40, 0, 2000], [-10, -5, -40, -35, 0, 2000], [-10, -5, -35, -30, 0, 2000], [-10, -5, -30, -25, 0, 2000], [-10, -5, -25, -20, 0, 2000], [-10, -5, -20, -15, 0, 2000], [-10, -5, -15, -10, 0, 2000], [-5, 0, -50, -45, 0, 2000], [-5, 0, -45, -40, 0, 2000], [-5, 0, -40, -35, 0, 2000], [-5, 0, -35, -30, 0, 2000], [-5, 0, -30, -25, 0, 2000], [-5, 0, -25, -20, 0, 2000], [-5, 0, -20, -15, 0, 2000], [-5, 0, -15, -10, 0, 2000], [0, 5, -50, -45, 0, 2000], [0, 5, -45, -40, 0, 2000], [0, 5, -40, -35, 0, 2000], [0, 5, -35, -30, 0, 2000], [0, 5, -30, -25, 0, 2000], [0, 5, -25, -20, 0, 2000], [0, 5, -20, -15, 0, 2000], [0, 5, -15, -10, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+2025-01-06 15:30:48,799 - distributed.worker.memory - WARNING - Unmanaged memory use is high. This may indicate a memory leak or the memory may not be released to the OS; see https://distributed.dask.org/en/latest/worker-memory.html#memory-not-released-back-to-the-os for more information. -- Unmanaged memory: 11.04 GiB -- Worker memory limit: 15.74 GiB
+2025-01-06 15:30:53,314 - distributed.worker.memory - WARNING - Unmanaged memory use is high. This may indicate a memory leak or the memory may not be released to the OS; see https://distributed.dask.org/en/latest/worker-memory.html#memory-not-released-back-to-the-os for more information. -- Unmanaged memory: 12.29 GiB -- Worker memory limit: 15.74 GiB
+2025-01-06 15:30:54,768 - distributed.worker.memory - WARNING - gc.collect() took 1.057s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+2025-01-06 15:30:54,768 - distributed.worker.memory - WARNING - Worker is at 80% memory usage. Pausing worker.  Process memory: 12.61 GiB -- Worker memory limit: 15.74 GiB
+2025-01-06 15:30:55,603 - distributed.worker.memory - WARNING - Worker is at 42% memory usage. Resuming worker. Process memory: 6.64 GiB -- Worker memory limit: 15.74 GiB
+2025-01-06 15:32:35,049 - distributed.worker.memory - WARNING - Unmanaged memory use is high. This may indicate a memory leak or the memory may not be released to the OS; see https://distributed.dask.org/en/latest/worker-memory.html#memory-not-released-back-to-the-os for more information. -- Unmanaged memory: 11.03 GiB -- Worker memory limit: 15.74 GiB
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: divide by zero encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: invalid value encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: divide by zero encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/scipy/interpolate/_interpolate.py:479: RuntimeWarning: invalid value encountered in divide
+  slope = (y_hi - y_lo) / (x_hi - x_lo)[:, None]
+Error in box [-35, -30, -20, -15]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-35, -30, -15, -10]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-30, -25, -20, -15]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-30, -25, -15, -10]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-25, -20, -15, -10]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-20, -15, -15, -10]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+--------------------------------------------------
+COMPLETED REGION #5 OUT OF 9
+--------------------------------------------------
+--------------------------------------------------
+REGION #6 OUT OF 9 IS: [-50, -10, 5, 25, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #6 ARE [[5, 10, -50, -45, 0, 2000], [5, 10, -45, -40, 0, 2000], [5, 10, -40, -35, 0, 2000], [5, 10, -35, -30, 0, 2000], [5, 10, -30, -25, 0, 2000], [5, 10, -25, -20, 0, 2000], [5, 10, -20, -15, 0, 2000], [5, 10, -15, -10, 0, 2000], [10, 15, -50, -45, 0, 2000], [10, 15, -45, -40, 0, 2000], [10, 15, -40, -35, 0, 2000], [10, 15, -35, -30, 0, 2000], [10, 15, -30, -25, 0, 2000], [10, 15, -25, -20, 0, 2000], [10, 15, -20, -15, 0, 2000], [10, 15, -15, -10, 0, 2000], [15, 20, -50, -45, 0, 2000], [15, 20, -45, -40, 0, 2000], [15, 20, -40, -35, 0, 2000], [15, 20, -35, -30, 0, 2000], [15, 20, -30, -25, 0, 2000], [15, 20, -25, -20, 0, 2000], [15, 20, -20, -15, 0, 2000], [15, 20, -15, -10, 0, 2000], [20, 25, -50, -45, 0, 2000], [20, 25, -45, -40, 0, 2000], [20, 25, -40, -35, 0, 2000], [20, 25, -35, -30, 0, 2000], [20, 25, -30, -25, 0, 2000], [20, 25, -25, -20, 0, 2000], [20, 25, -20, -15, 0, 2000], [20, 25, -15, -10, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/xarray.py:944: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+Error in box [15, 20, -30, -25]: DataNotFound - 'No data found for: x=15.00/20.00;y=-30.00/-25.00'
+Error in box [15, 20, -25, -20]: DataNotFound - 'No data found for: x=15.00/20.00;y=-25.00/-20.00'
+Error in box [15, 20, -20, -15]: DataNotFound - 'No data found for: x=15.00/20.00;y=-20.00/-15.00'
+Error in box [15, 20, -15, -10]: DataNotFound - 'No data found for: x=15.00/20.00;y=-15.00/-10.00'
+Error in box [20, 25, -35, -30]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Error in box [20, 25, -30, -25]: DataNotFound - 'No data found for: x=20.00/25.00;y=-30.00/-25.00'
+Error in box [20, 25, -25, -20]: DataNotFound - 'No data found for: x=20.00/25.00;y=-25.00/-20.00'
+Error in box [20, 25, -20, -15]: DataNotFound - 'No data found for: x=20.00/25.00;y=-20.00/-15.00'
+Error in box [20, 25, -15, -10]: DataNotFound - 'No data found for: x=20.00/25.00;y=-15.00/-10.00'
+--------------------------------------------------
+COMPLETED REGION #6 OUT OF 9
+--------------------------------------------------
+--------------------------------------------------
+REGION #7 OUT OF 9 IS: [-10, 0, -75, -35, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #7 ARE [[-75, -70, -10, -5, 0, 2000], [-75, -70, -5, 0, 0, 2000], [-70, -65, -10, -5, 0, 2000], [-70, -65, -5, 0, 0, 2000], [-65, -60, -10, -5, 0, 2000], [-65, -60, -5, 0, 0, 2000], [-60, -55, -10, -5, 0, 2000], [-60, -55, -5, 0, 0, 2000], [-55, -50, -10, -5, 0, 2000], [-55, -50, -5, 0, 0, 2000], [-50, -45, -10, -5, 0, 2000], [-50, -45, -5, 0, 0, 2000], [-45, -40, -10, -5, 0, 2000], [-45, -40, -5, 0, 0, 2000], [-40, -35, -10, -5, 0, 2000], [-40, -35, -5, 0, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+Error in box [-75, -70, -10, -5]: DataNotFound - 'No data found for: x=-75.00/-70.00;y=-10.00/-5.00'
+Error in box [-75, -70, -5, 0]: DataNotFound - 'No data found for: x=-75.00/-70.00;y=-5.00/0.00'
+Error in box [-70, -65, -10, -5]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-10.00/-5.00'
+Error in box [-70, -65, -5, 0]: DataNotFound - 'No data found for: x=-70.00/-65.00;y=-5.00/0.00'
+Error in box [-65, -60, -10, -5]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-10.00/-5.00'
+Error in box [-65, -60, -5, 0]: DataNotFound - 'No data found for: x=-65.00/-60.00;y=-5.00/0.00'
+Error in box [-60, -55, -10, -5]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-10.00/-5.00'
+Error in box [-60, -55, -5, 0]: DataNotFound - 'No data found for: x=-60.00/-55.00;y=-5.00/0.00'
+Error in box [-55, -50, -10, -5]: DataNotFound - 'No data found for: x=-55.00/-50.00;y=-10.00/-5.00'
+Error in box [-55, -50, -5, 0]: DataNotFound - 'No data found for: x=-55.00/-50.00;y=-5.00/0.00'
+Error in box [-50, -45, -10, -5]: DataNotFound - 'No data found for: x=-50.00/-45.00;y=-10.00/-5.00'
+Error in box [-50, -45, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'TIME', 'LATITUDE', 'LONGITUDE', 'N_POINTS']"
+Error in box [-45, -40, -10, -5]: DataNotFound - 'No data found for: x=-45.00/-40.00;y=-10.00/-5.00'
+Error in box [-45, -40, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-40, -35, -10, -5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'TIME', 'LATITUDE', 'LONGITUDE', 'N_POINTS']"
+Error in box [-40, -35, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+--------------------------------------------------
+COMPLETED REGION #7 OUT OF 9
+--------------------------------------------------
+--------------------------------------------------
+REGION #8 OUT OF 9 IS: [-10, 0, -35, 5, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #8 ARE [[-35, -30, -10, -5, 0, 2000], [-35, -30, -5, 0, 0, 2000], [-30, -25, -10, -5, 0, 2000], [-30, -25, -5, 0, 0, 2000], [-25, -20, -10, -5, 0, 2000], [-25, -20, -5, 0, 0, 2000], [-20, -15, -10, -5, 0, 2000], [-20, -15, -5, 0, 0, 2000], [-15, -10, -10, -5, 0, 2000], [-15, -10, -5, 0, 0, 2000], [-10, -5, -10, -5, 0, 2000], [-10, -5, -5, 0, 0, 2000], [-5, 0, -10, -5, 0, 2000], [-5, 0, -5, 0, 0, 2000], [0, 5, -10, -5, 0, 2000], [0, 5, -5, 0, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/data_fetchers/gdac_data.py:331: UserWarning: Found more than 50 files to load, this may take a while to process sequentially ! Consider using another data source (eg: 'erddap') or the 'parallel=True' option to improve processing time.
+  warnings.warn(
+Error in box [-35, -30, -10, -5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-35, -30, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-30, -25, -10, -5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-30, -25, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-25, -20, -10, -5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-25, -20, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-20, -15, -10, -5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-20, -15, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-15, -10, -10, -5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-15, -10, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-10, -5, -10, -5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-10, -5, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-5, 0, -10, -5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [-5, 0, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [0, 5, -10, -5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [0, 5, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+--------------------------------------------------
+COMPLETED REGION #8 OUT OF 9
+--------------------------------------------------
+--------------------------------------------------
+REGION #9 OUT OF 9 IS: [-10, 0, 5, 25, 0, 2000]
+--------------------------------------------------
+THE BOXES IN REGION #9 ARE [[5, 10, -10, -5, 0, 2000], [5, 10, -5, 0, 0, 2000], [10, 15, -10, -5, 0, 2000], [10, 15, -5, 0, 0, 2000], [15, 20, -10, -5, 0, 2000], [15, 20, -5, 0, 0, 2000], [20, 25, -10, -5, 0, 2000], [20, 25, -5, 0, 0, 2000]]
+--------------------------------------------------
+/home.ufs/amf2288/mambaforge-pypy3/envs/Argo_Nov_24/lib/python3.12/site-packages/argopy/xarray.py:944: UserWarning: None of the profiles can be interpolated (not reaching the requested depth range).
+  warnings.warn(
+Error in box [5, 10, -10, -5]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [5, 10, -5, 0]: KeyError - "No variable named 'PSAL'. Variables on the dataset include ['CYCLE_NUMBER', 'DATA_MODE', 'DIRECTION', 'PLATFORM_NUMBER', 'POSITION_QC', ..., 'TIME_QC', 'N_POINTS', 'TIME', 'LATITUDE', 'LONGITUDE']"
+Error in box [10, 15, -5, 0]: AttributeError - 'NoneType' object has no attribute 'N_PROF'
+Error in box [15, 20, -10, -5]: DataNotFound - 'No data found for: x=15.00/20.00;y=-10.00/-5.00'
+Error in box [15, 20, -5, 0]: DataNotFound - 'No data found for: x=15.00/20.00;y=-5.00/0.00'
+Error in box [20, 25, -10, -5]: DataNotFound - 'No data found for: x=20.00/25.00;y=-10.00/-5.00'
+Error in box [20, 25, -5, 0]: DataNotFound - 'No data found for: x=20.00/25.00;y=-5.00/0.00'
+--------------------------------------------------
+COMPLETED REGION #9 OUT OF 9
+--------------------------------------------------

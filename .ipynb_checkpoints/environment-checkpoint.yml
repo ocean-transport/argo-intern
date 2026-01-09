@@ -1,19 +1,32 @@
-name: argo # can choose any name
+name: Argo_old_xgcm #let's stick with the project_month_year naming scheme
 channels:
   - conda-forge
 dependencies:
   # These packages are required if you want your environment to show up in jupyterlab
   - python
   - ipywidgets
-  # Commonly used packaged by oceanographers
-  - xarray
+  - ipykernel
+  # Commonly used packages
+  - xarray < 2024.3.0
   - numpy
   - scipy
   - dask
   - netcdf4
+  - zarr
   - pandas
   - matplotlib
-  - argopy
   - xrft
   - cartopy
   - cmocean
+  - glidertools
+  - seaborn
+  - xhistogram
+  - pip 
+  - flox
+  - h5py
+  - h5netcdf
+  - xgcm=0.6.1
+  - kneed
+  - numba
+  - gcm_filters
+  - graphviz
