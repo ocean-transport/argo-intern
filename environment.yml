@@ -1,32 +1,47 @@
-name: Argo_old_xgcm #let's stick with the project_month_year naming scheme
+name: Argo_old_xgcm
 channels:
   - conda-forge
+
 dependencies:
-  # These packages are required if you want your environment to show up in jupyterlab
-  - python
-  - ipywidgets
+  # Core
+  - python=3.11
+  - pip
   - ipykernel
-  # Commonly used packages
-  - xarray < 2024.3.0
+  - ipywidgets
+
+  # Scientific stack
   - numpy
   - scipy
-  - dask
-  - netcdf4
-  - zarr
   - pandas
-  - matplotlib
-  - xrft
-  - cartopy
-  - cmocean
-  - glidertools
-  - seaborn
-  - xhistogram
-  - pip 
-  - flox
+  - dask
+  - xarray<2024.3.0
+  - zarr
+
+  # IO + formats
+  - netcdf4
   - h5py
   - h5netcdf
-  - xgcm=0.6.1
-  - kneed
+
+  # Visualization
+  - matplotlib
+  - seaborn
+  - cmocean
+  - cartopy
+
+  # Analysis tools
+  - xrft
+  - xhistogram
+  - flox
   - numba
   - gcm_filters
   - graphviz
+  - kneed
+
+  # Domain-specific
+  - glidertools
+  - xgcm=0.6.1
+
+  # Pip-only packages (if any)
+  - pip:
+      # Add pip-only packages here if needed
+      []
