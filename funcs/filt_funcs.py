@@ -127,7 +127,7 @@ def ds_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPO
     
     return ds_filt
 
-def da_filt_single(ds, lfilter, dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True):
+def da_filt_single(ds, lfilter, dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True, lat='lat', lon='lon'):
     
     '''Takes an xarray and a filter scale in meters and returns an xarray with additional coordinates N_PRPF_NEW for a sequence that can be plotted and MASK for the boundary correction.
     
@@ -146,8 +146,8 @@ def da_filt_single(ds, lfilter, dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=T
     temp[:,:] = filter.gaussian_filter1d(ds, sigma=nfilter, mode='nearest')
     
     ds_filt = xr.DataArray(temp, dims=[dim1, dim2], coords={dim1:ds[dim1], dim2:ds[dim2]})
-    ds_filt = ds_filt.assign_coords(lat=(dim1,ds.lat.data))
-    ds_filt = ds_filt.assign_coords(lon=(dim1,ds.lon.data))
+    ds_filt = ds_filt.assign_coords(lat=(dim1,ds[lat].data))
+    ds_filt = ds_filt.assign_coords(lon=(dim1,ds[lon].data))
     
     number=np.arange(0,len(ds_filt[dim1]))
     ds_filt['N_PROF_NEW']=xr.DataArray(number,dims=ds[dim1].dims)
