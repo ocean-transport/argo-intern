@@ -36,6 +36,7 @@ dependencies:
   - gcm_filters
   - graphviz
   - kneed
+  - bottleneck
 
   # Domain-specific
   - glidertools
