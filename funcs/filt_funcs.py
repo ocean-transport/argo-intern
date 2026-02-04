@@ -8,6 +8,7 @@ import scipy.ndimage as filter
 import scipy
 import matplotlib
 import gsw
+from scipy.ndimage import gaussian_filter1d as gf1d
 
 #import argopy
 #from argopy import DataFetcher as ArgoDataFetcher
@@ -97,6 +98,55 @@ def get_filt_prof(prof, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERP
     prof_filt = filter.gaussian_filter1d(prof, sigma=nfilter, mode='nearest')
     
     return prof_filt
+
+
+
+def ds_filt_nan(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', lat='LAT', lon='LON'):
+    """
+    Takes an xarray Dataset and a filter scale in meters and returns an xarray DataArray
+    with the variable filtered along dim2, NaN-safe.
+
+    ds:       xarray Dataset with pressure dimension
+    lfilter:  filter scale in meters
+    variable: variable to filter, default='CT'
+    dim1:     profile dimension, default='N_PROF'
+    dim2:     pressure dimension, filtering occurs along this dimension, default='PRES_INTERPOLATED'
+    lat:      latitude coordinate name
+    lon:      longitude coordinate name
+    """
+
+    # get_nfilter should return sigma in "index units" along dim2
+    nfilter = get_nfilter(ds, lfilter, dim2=dim2)
+
+    # Extract data as numpy array (shape: [N_PROF, N_LEVEL])
+    data = ds[variable].values  # (dim1, dim2)
+    mask = np.isnan(data)
+
+    # Replace NaNs with 0 for convolution
+    data_filled = np.where(mask, 0.0, data)
+    weights = (~mask).astype(float)
+
+    # Apply Gaussian filter along the pressure dimension (axis=1)
+    filtered_data = gf1d(data_filled, sigma=nfilter, axis=1, mode='nearest')
+    filtered_weights = gf1d(weights, sigma=nfilter, axis=1, mode='nearest')
+
+    # Avoid division by zero
+    with np.errstate(invalid='ignore', divide='ignore'):
+        result = filtered_data / filtered_weights
+    result[filtered_weights == 0] = np.nan
+
+    # Build DataArray with original coords
+    ds_filt = xr.DataArray(
+        result,
+        dims=[dim1, dim2],
+        coords={dim1: ds[dim1], dim2: ds[dim2]}
+    )
+
+    # Reattach LAT/LON as coordinates along dim1
+    ds_filt = ds_filt.assign_coords(LAT=(dim1, ds[lat].values))
+    ds_filt = ds_filt.assign_coords(LON=(dim1, ds[lon].values))
+
+    return ds_filt
 
 
 def ds_filt_single(ds, lfilter, variable='CT', dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=True, lat='LAT', lon='LON'):
