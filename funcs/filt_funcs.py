@@ -184,7 +184,7 @@ def da_filt_single(ds, lfilter, dim1='N_PROF', dim2='PRES_INTERPOLATED', bound=T
     ds: xarray dataset with pressure dimension
     lfilter: filter scale in meters
     variable: coordinate to filter, default=CT
-    dim1: profile dimension, default=N_PROF
+    dim1: profile dimension, default=N_PROF 
     dim2: pressure dimension, filtering occurs along this dimension, default=PRES_INTERPOLATED
     bound: will boundary regions become zeros?, default=True'''
     
