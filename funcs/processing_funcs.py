@@ -15,11 +15,11 @@ argo_loader = ArgoDataFetcher(src="gdac", ftp="/swot/SUM05/dbalwada/Argo_sync", 
 
 
 
-def get_box(box, standard_grid=np.arange(0,2002,2)):
+def get_box(box, standard_grid=np.arange(0,2002,2), sample_rate_threshold=None):
     """Takes latitude/longitude/depth data and a sample rate and returns an xarray with CT, SA, SIG0, and SPICE interpolated to a pressure grid of 2m.
 
     box: lat/lon in the form: box=[lon_min, lon_max, lat_min, lat_max, depth_min, depth_max]
-    sample_min: minimum sample rate [m]
+    sample_rate_threshold: max mean sample rate [dbar] for a profile to be interpolated; None keeps all profiles
     """
 
     ds = argo_loader.region(box)
@@ -32,7 +32,7 @@ def get_box(box, standard_grid=np.arange(0,2002,2)):
     ds = ds.argo.point2profile()
     print("point to profile complete")
 
-    ds_interp = get_ds_interp(ds, standard_grid)
+    ds_interp = get_ds_interp(ds, standard_grid, sample_rate_threshold=sample_rate_threshold)
     print("interpolation complete")
 
     ds_interp["SPICE"] = gsw.spiciness0(ds_interp.SA, ds_interp.CT).rename("SPICE")
@@ -50,9 +50,11 @@ def get_box(box, standard_grid=np.arange(0,2002,2)):
 
 
 
-def get_ds_interp(ds, standard_grid):
+def get_ds_interp(ds, standard_grid, sample_rate_threshold=None):
     """
     NEW VERSION: NEED TO INCLUDE DOCUMENTATION!!!!!!!
+
+    sample_rate_threshold: max mean sample rate [dbar] for a profile to be interpolated; None keeps all profiles
     """
     
     print('NEW INTERP FUNCTION')
@@ -74,6 +76,12 @@ def get_ds_interp(ds, standard_grid):
         if depth_max > depth_min:
             dp = prof.PRES.diff('N_LEVELS')
             prof['sample_rate'] = dp
+
+            if sample_rate_threshold is not None:
+                mean_rate = float(dp.mean(skipna=True))
+                if not mean_rate <= sample_rate_threshold:
+                    print(f"\tProfile {n} skipped: mean sample rate {mean_rate:.2f} exceeds threshold {sample_rate_threshold}")
+                    continue
             
             try:
                 prof_interp = prof.argo.interp_std_levels(np.arange(depth_min, depth_max, interp_step))
