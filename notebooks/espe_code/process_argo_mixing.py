@@ -27,9 +27,10 @@ Global/large requests require --validation-report pointing to a passing NATRE
 report for this script and archive. No automatic global launch occurs. A mismatch
 returns exit code 2 and preserves the comparison report. Validation separates:
 (1) replay of saved research-mode raw profiles; (2) local GDAC end-to-end results;
-(3) deterministic historical summary fields; (4) independently executed original
-notebook science with the same bootstrap seed. Historical unseeded bootstrap
-realizations are reported separately and never labelled numerically identical.
+(3) deterministic historical summary fields computed from the local partitions.
+All required comparisons use identical dtypes and array bytes, including NaN
+payloads and signed zeros. Historical unseeded bootstrap realizations are
+reported separately and are explicitly exempt from the replication gate.
 If local profile equivalence already fails, the report additionally checks all
 reference profiles for deterministic summary fields and a 100-profile subset
 with full seeded bootstraps; it never treats these diagnostics as a passing gate.
@@ -56,6 +57,7 @@ import functools
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import sys
 import traceback
@@ -1711,7 +1713,8 @@ def aggregate_region(ds: xr.Dataset, config=None) -> xr.Dataset:
 
 These helpers never treat a matching intersection as full coverage parity. Metadata
 and additional diagnostic variables are allowed; every reference science variable
-and every reference coordinate must agree within the explicitly recorded tolerance.
+and every reference coordinate must agree bitwise. Tolerances, when supplied,
+are diagnostic only and can never make the replication gate pass.
 """
 
 from collections import defaultdict, deque
@@ -1726,13 +1729,18 @@ SUMMARY_DETERMINISTIC_VARIABLES = frozenset({
 
 
 def _comparison_array(actual, expected, rtol, atol):
-    """Compare arrays without masking finite/NaN/Inf disagreements."""
+    """Require identical dtype and bytes; numerical distances are diagnostics."""
     av, ev = np.asarray(actual), np.asarray(expected)
     if av.shape != ev.shape:
         return {"passed": False, "actual_shape": list(av.shape),
                 "expected_shape": list(ev.shape), "reason": "shape_mismatch"}
-    result = {"rtol": float(rtol), "atol": float(atol), "elements": int(ev.size)}
-    if np.issubdtype(av.dtype, np.number) and np.issubdtype(ev.dtype, np.number):
+    bitwise = (av.dtype == ev.dtype and not av.dtype.hasobject
+               and av.tobytes(order='C') == ev.tobytes(order='C'))
+    result = {"rtol": float(rtol), "atol": float(atol), "elements": int(ev.size),
+              "actual_dtype": str(av.dtype), "expected_dtype": str(ev.dtype),
+              "dtype_equal": av.dtype == ev.dtype, "bitwise_equal": bitwise,
+              "acceptance": "identical_dtype_and_array_bytes"}
+    if av.dtype.kind in 'biufc' and ev.dtype.kind in 'biufc':
         # Scientific arrays here are real. Retain integer equality when tolerances
         # are zero and do not confuse infinities with missing observations.
         equal = np.isclose(av, ev, rtol=rtol, atol=atol, equal_nan=True)
@@ -1759,11 +1767,23 @@ def _comparison_array(actual, expected, rtol, atol):
         equal = av == ev
     unequal = ~equal
     result["mismatched_elements"] = int(np.count_nonzero(unequal))
-    result["passed"] = not bool(np.any(unequal))
-    if not result["passed"]:
+    result["values_within_tolerance"] = not bool(np.any(unequal))
+    result["passed"] = bool(bitwise)
+    if np.any(unequal):
         first = tuple(int(v) for v in np.argwhere(unequal)[0])
         result["first_mismatch"] = {
             "index": list(first), "actual": str(av[first]), "expected": str(ev[first])
+        }
+    if not bitwise and av.dtype == ev.dtype and not av.dtype.hasobject:
+        abytes = np.frombuffer(av.tobytes(order='C'), dtype=np.uint8).reshape(-1, av.dtype.itemsize)
+        ebytes = np.frombuffer(ev.tobytes(order='C'), dtype=np.uint8).reshape(-1, ev.dtype.itemsize)
+        mismatch = np.any(abytes != ebytes, axis=1)
+        result["bitwise_mismatched_elements"] = int(np.count_nonzero(mismatch))
+        first = int(np.flatnonzero(mismatch)[0])
+        result["first_bitwise_mismatch"] = {
+            "index": list(map(int, np.unravel_index(first, ev.shape))),
+            "actual_hex": abytes[first].tobytes().hex(),
+            "expected_hex": ebytes[first].tobytes().hex(),
         }
     return result
 
@@ -1800,24 +1820,23 @@ def _comparison_variables(actual, expected, rtol, atol, tolerances=None):
             variables[name] = {"passed": False, "reason": "missing_variable"}
             continue
         av, ev = actual[name], expected[name]
-        if set(av.dims) != set(ev.dims):
+        if av.dims != ev.dims:
             variables[name] = {"passed": False, "reason": "dimension_mismatch",
                                "actual_dims": list(av.dims), "expected_dims": list(ev.dims)}
             continue
-        av = av.transpose(*ev.dims)
         vrtol, vatol = tolerances.get(name, (rtol, atol))
         variables[name] = _comparison_array(av.values, ev.values, vrtol, vatol)
     return variables, missing
 
 
-def compare_profile_datasets(actual, expected, rtol=1e-10, atol=1e-12, tolerances=None):
-    """Return JSON-serializable validation; profile order may differ.
+def compare_profile_datasets(actual, expected, rtol=0, atol=0, tolerances=None):
+    """Return bitwise validation, with identity-matched mismatch diagnostics.
 
     Match exact time/longitude/latitude, retaining the occurrence count for duplicate
     keys. Ambiguous identical-key profiles retain their relative order. Coverage is
     always part of ``passed``. If coverage differs, array diagnostics cover matching
-    occurrences only and are labelled explicitly. For tiny mixing diagnostics, use
-    ``atol=0`` (recommended) or pass variable-specific ``(rtol, atol)`` tolerances.
+    occurrences only and are labelled explicitly. A different profile order fails
+    even when identity-matched arrays agree. Tolerances affect diagnostics only.
     """
     ak, ek = _comparison_profile_keys(actual), _comparison_profile_keys(expected)
     available = defaultdict(deque)
@@ -1851,21 +1870,26 @@ def compare_profile_datasets(actual, expected, rtol=1e-10, atol=1e-12, tolerance
     for name in expected.coords:
         if name not in actual:
             coordinates[name] = {"passed": False, "reason": "missing_coordinate"}
+        elif aa[name].dims != ee[name].dims:
+            coordinates[name] = {"passed": False, "reason": "coordinate_dimension_mismatch"}
         else:
             coordinates[name] = _comparison_array(aa[name].values, ee[name].values, 0, 0)
     variables, missing_variables = _comparison_variables(aa, ee, rtol, atol, tolerances)
-    passed = coverage["passed"] and all(v["passed"] for v in coordinates.values()) and all(v["passed"] for v in variables.values())
+    order_matches = coverage["passed"] and ai == list(range(len(ak)))
+    passed = order_matches and all(v["passed"] for v in coordinates.values()) and all(v["passed"] for v in variables.values())
     return {
         "passed": bool(passed), "comparison": "legacy_profile_metrics",
         "array_comparison_scope": "all_profiles" if coverage["passed"] else "matched_profiles_only",
         "coverage": coverage, "coordinates": coordinates, "variables": variables,
+        "profile_order_matches": bool(order_matches),
+        "acceptance": "full_population_same_order_and_bitwise_reference_arrays",
         "missing_variables": missing_variables,
         "additional_variables": sorted(set(actual.data_vars) - set(expected.data_vars)),
         "failed_variables": [k for k, v in variables.items() if not v["passed"]],
     }
 
 
-def compare_summary_datasets(actual, expected, rtol=1e-10, atol=1e-12, tolerances=None):
+def compare_summary_datasets(actual, expected, rtol=0, atol=0, tolerances=None):
     """Strict comparison with separate deterministic/bootstrap diagnostics.
 
     The archived notebook did not store its random seed. Its bootstrap-derived
@@ -1878,7 +1902,8 @@ def compare_summary_datasets(actual, expected, rtol=1e-10, atol=1e-12, tolerance
     for name in expected.coords:
         coordinates[name] = (
             _comparison_array(actual[name].values, expected[name].values, 0, 0)
-            if name in actual else {"passed": False, "reason": "missing_coordinate"}
+            if name in actual and actual[name].dims == expected[name].dims
+            else {"passed": False, "reason": "missing_or_dimension_mismatched_coordinate"}
         )
     variables, missing_variables = _comparison_variables(actual, expected, rtol, atol, tolerances)
     deterministic = {k: v for k, v in variables.items() if k in SUMMARY_DETERMINISTIC_VARIABLES}
@@ -1983,6 +2008,13 @@ def iter_local_index(config, inventory=None):
             mask &= (dates < pd.Timestamp(config['end'])).to_numpy()
         for row in frame.loc[mask].itertuples(index=False):
             rel = str(row.file)
+            indexed_relative = rel
+            _indexed_identity(rel)  # Validate the filename before using its identity.
+            if config.get('local_layout', 'aggregate') == 'aggregate':
+                parts = Path(rel).parts
+                if len(parts) != 4:
+                    raise ValueError(f'Unexpected index path: {rel}')
+                rel = str(Path(parts[0]) / parts[1] / (parts[1] + '_prof.nc'))
             file_path = (root / 'dac' / rel).resolve()
             if not file_path.is_relative_to(root / 'dac'):
                 raise ValueError(f'Index path escapes archive: {rel}')
@@ -1992,59 +2024,135 @@ def iter_local_index(config, inventory=None):
             state['last_profile'] = max(state['last_profile'] or date, date)
             year = date[:4]
             state['years'][year] = state['years'].get(year, 0) + 1
-            yield {'path': str(file_path), 'source_file': rel, 'date': date,
+            yield {'path': str(file_path), 'source_file': rel, 'index_file': indexed_relative, 'date': date,
                    'longitude': float(row.longitude), 'latitude': float(row.latitude)}
 
 
-def _load_local_records(records, config):
-    """Use the installed Argopy GDAC preprocessing and research QC on local files."""
-    import argopy
-    from argopy.data_fetchers.gdac_data_processors import pre_process_multiprof
-    profiles = []
-    rejected = []
-    original_profiles = 0
+def _indexed_identity(relative):
+    match = re.fullmatch(r"[RD](\d+)_(\d+)(D?)\.nc", Path(relative).name)
+    if not match:
+        raise ValueError(f"Unexpected core index filename: {relative}")
+    return (int(match[1]), int(match[2]), 'D' if match[3] else 'A')
+
+
+def _decode_cf_time(variable):
+    """Decode CF dates with netCDF4/cftime's microsecond precision, without rounding to seconds."""
+    from netCDF4 import num2date
+    decoded = num2date(np.ma.masked_invalid(variable.values), variable.attrs['units'],
+                      calendar=variable.attrs.get('calendar', 'standard'),
+                      only_use_cftime_datetimes=False, only_use_python_datetimes=True)
+    return np.array([np.datetime64('NaT', 'ns') if np.ma.is_masked(t)
+                     else np.datetime64(t, 'ns') for t in decoded])
+
+
+def _primary_profile_indices(raw, records):
+    """Resolve indexed identities before Argopy can merge sampling schemes."""
+    def string(v):
+        return (v.decode() if isinstance(v, bytes) else str(v)).strip()
+    available = collections.defaultdict(list)
+    for i, (wmo, cycle, direction) in enumerate(zip(raw.PLATFORM_NUMBER.values,
+                                                  raw.CYCLE_NUMBER.values, raw.DIRECTION.values)):
+        available[(int(wmo), int(cycle), string(direction))].append(i)
+    chosen, rejected, seen = [], [], set()
     for record in records:
-        with xr.open_dataset(record['path'], engine='netcdf4') as opened:
-            # Argopy parses this unused history field without accepting blanks.
-            # It is discarded by profile2point anyway; retain all scientific/QC fields.
-            raw = opened.drop_vars('SCIENTIFIC_CALIB_DATE', errors='ignore').load()
-        original_profiles += raw.sizes.get('N_PROF', 0)
-        points = pre_process_multiprof(raw, access_point='BOX', access_point_opts={})
-        points = points.argo.filter_researchmode()
+        identity = _indexed_identity(record.get('index_file', record['source_file']))
+        if identity in seen:
+            raise ValueError(f'Duplicate indexed profile in batch: {identity}')
+        seen.add(identity)
+        candidates = available.get(identity, [])
+        if not candidates:
+            raise ValueError(f'Indexed identity absent from {record["path"]}: {identity}')
+        schemes = {i: string(raw.VERTICAL_SAMPLING_SCHEME.values[i]).lower()
+                   if 'VERTICAL_SAMPLING_SCHEME' in raw else '' for i in candidates}
+        primary = [i for i in candidates if schemes[i].startswith('primary sampling:')]
+        if len(primary) == 1:
+            chosen.append(primary[0])
+        elif len(candidates) == 1 and not primary:
+            i = candidates[0]
+            if schemes[i].startswith(('secondary sampling:', 'near-surface sampling:')):
+                rejected.append({'source_file': record['source_file'], 'identity': identity,
+                                 'reason': 'only_secondary_sampling_available'})
+            else:
+                chosen.append(i)
+        else:
+            raise ValueError(f'Ambiguous primary sampling for {identity}: {schemes}')
+    return chosen, rejected
+
+
+def _load_local_records(records, config):
+    """Read bounded primary profiles from frozen local files, then apply Argopy research QC.
+
+    Float aggregate files retain the representation used by historical ERDDAP.
+    No reference inputs are read here, and no scientific values are rounded.
+    """
+    import argopy
+    profiles, rejected = [], []
+    original_profiles = 0
+    groups = collections.defaultdict(list)
+    for record in records:
+        groups[record['path']].append(record)
+    names = {'PLATFORM_NUMBER', 'CYCLE_NUMBER', 'DIRECTION', 'DATA_MODE',
+             'JULD', 'JULD_QC', 'LONGITUDE', 'LATITUDE', 'POSITION_QC',
+             'VERTICAL_SAMPLING_SCHEME'}
+    names |= {p + suffix for p in ('PRES', 'TEMP', 'PSAL')
+              for suffix in ('', '_QC', '_ADJUSTED', '_ADJUSTED_QC', '_ADJUSTED_ERROR')}
+    for path, group in groups.items():
+        with xr.open_dataset(path, engine='netcdf4', decode_times=False) as opened:
+            indices, exclusions = _primary_profile_indices(opened, group)
+            rejected.extend(exclusions)
+            original_profiles += len(group)
+            if not indices:
+                continue
+            raw = opened[[n for n in names if n in opened]].isel(N_PROF=indices).load()
+        raw = raw.assign_coords(N_PROF=np.arange(len(indices)))
+        time = _decode_cf_time(raw.JULD)
+        raw = raw.rename({'JULD': 'TIME', 'JULD_QC': 'TIME_QC'})
+        raw['TIME'] = ('N_PROF', time)
+        missing = {'PRES', 'TEMP', 'PSAL', 'PRES_ADJUSTED', 'TEMP_ADJUSTED', 'PSAL_ADJUSTED'} - set(raw)
+        if missing:
+            rejected.append({'source_file': group[0]['source_file'],
+                             'reason': 'missing_' + '_'.join(sorted(missing))})
+            continue
+        # The GDAC convenience preprocessor rounds all pressure fields to 0.1
+        # dbar. Apply its structural transformations explicitly, preserving bytes.
+        points = raw.argo.cast_types().argo.profile2point().argo.filter_researchmode()
         if points.sizes.get('N_POINTS', 0) == 0:
-            rejected.append({'source_file': record['source_file'], 'reason': 'research_qc'})
+            rejected.append({'source_file': group[0]['source_file'], 'reason': 'research_qc'})
             continue
         mask = _inside_region(points.LONGITUDE, points.LATITUDE, config['bounds'])
-        mask &= (points.PRES >= 0) & (points.PRES < config['max_pressure'])
+        mask &= (points.PRES >= 0) & (points.PRES <= config['max_pressure'])
+        for name in ('PRES', 'TEMP', 'PSAL'):
+            if name not in points:
+                raise ValueError(f'Missing core parameter {name} in {path}')
+            mask &= np.isfinite(points[name])
         if config.get('start'):
             mask &= points.TIME >= np.datetime64(config['start'])
         if config.get('end'):
             mask &= points.TIME < np.datetime64(config['end'])
         points = points.where(mask, drop=True)
         if points.sizes.get('N_POINTS', 0) == 0:
-            rejected.append({'source_file': record['source_file'], 'reason': 'selection_after_qc'})
+            rejected.append({'source_file': group[0]['source_file'], 'reason': 'selection_after_qc'})
             continue
         needed = ['PRES', 'TEMP', 'PSAL', 'TIME', 'LATITUDE', 'LONGITUDE',
                   'PLATFORM_NUMBER', 'CYCLE_NUMBER', 'DIRECTION']
-        missing = {'PRES', 'TEMP', 'PSAL'} - set(points.data_vars)
-        if missing:
-            rejected.append({'source_file': record['source_file'], 'reason': 'missing_' + '_'.join(sorted(missing))})
-            continue
-        prof = points[[k for k in needed if k in points]].argo.point2profile()
+        prof = points[needed].sortby(['TIME', 'PRES']).argo.point2profile()
         if prof.sizes.get('N_LEVELS', 0) < 2:
-            rejected.append({'source_file': record['source_file'], 'reason': 'fewer_than_two_levels'})
+            rejected.append({'source_file': group[0]['source_file'], 'reason': 'fewer_than_two_levels'})
             continue
         for variable in ['PRES', 'TEMP', 'PSAL']:
             if 'N_LEVELS' not in prof[variable].dims:
                 prof[variable] = xr.broadcast(prof[variable], prof.N_LEVELS)[0].transpose('N_PROF', 'N_LEVELS')
-        prof['SOURCE_FILE'] = ('N_PROF', [record['source_file']] * prof.sizes['N_PROF'])
+        prof['SOURCE_FILE'] = ('N_PROF', [group[0]['source_file']] * prof.sizes['N_PROF'])
         profiles.append(prof)
+    accounting = {'raw_profiles': original_profiles, 'rejections': rejected,
+                  'argopy_path': argopy.__file__, 'source_layout': config.get('local_layout', 'aggregate'),
+                  'sampling': 'primary', 'time_decoder': 'netCDF4.num2date',
+                  'pressure_rounding': False}
     if not profiles:
-        return None, {'raw_profiles': original_profiles, 'rejections': rejected}
+        return None, accounting
     combined = xr.concat(profiles, dim='N_PROF', join='outer', combine_attrs='drop_conflicts')
     combined = combined.assign_coords(N_PROF=np.arange(combined.sizes['N_PROF']))
-    return combined, {'raw_profiles': original_profiles, 'rejections': rejected,
-                      'argopy_path': argopy.__file__}
+    return combined, accounting
 
 
 def _profile_tasks(config, inventory):
@@ -2183,7 +2291,7 @@ def _summary_task_impl(item, config):
                               'or increase --memory-limit')
         # Reference notebook used time order. Stable sorting also makes resuming
         # batches and different Dask completion orders immaterial to bootstrapping.
-        profiles = profiles.sortby('time')
+        profiles = _canonical_profile_order(profiles)
         origin = np.datetime64(summary_config['time_origin'], 'ns')
         horizon = np.datetime64(config['end'], 'ns') if config.get('end') else profiles.time.max().values.astype('datetime64[ns]')
         max_days = float((horizon - origin) / np.timedelta64(1, 'D'))
@@ -2270,9 +2378,29 @@ def run_pipeline(config, summaries=True):
             cluster.close()
 
 
+def _canonical_profile_order(profiles):
+    """Match Argopy's time order with its signed physical UID as the tie breaker.
+
+    This order depends only on local metadata and is independent of batching,
+    DAC ordering, and worker completion order. No reference matching is used.
+    """
+    names = ('platform_number', 'cycle_number', 'direction')
+    if all(name in profiles for name in names):
+        uid = (profiles.platform_number.values.astype(np.int64) * 100000
+               + profiles.cycle_number.values.astype(np.int64))
+        uid *= np.where(profiles.direction.values.astype(str) == 'A', 1, -1)
+        order = np.lexsort((uid, profiles.time.values))
+    else:
+        order = np.argsort(profiles.time.values, kind='stable')
+    return profiles.isel(time=order)
+
+
 def _open_profiles(paths):
-    return xr.open_mfdataset(sorted(map(str, paths)), combine='nested', concat_dim='time',
-                            data_vars='minimal', coords='minimal', compat='override')
+    opened = xr.open_mfdataset(sorted(map(str, paths)), combine='nested', concat_dim='time',
+                              data_vars='minimal', coords='minimal', compat='override')
+    ordered = _canonical_profile_order(opened)
+    ordered.set_close(opened.close)
+    return ordered
 
 
 def _legacy_summary(profiles, notebook, seed, n_boot):
@@ -2363,7 +2491,10 @@ def _validate_natre(config, args):
               'required_time': ['2014-01-01', '2024-01-01'],
               'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
               'gdac': config['gdac'], 'source_snapshot': _source_snapshot(config),
-              'summary_config': config['summary_config']}
+              'summary_config': config['summary_config'],
+              'comparison_policy': 'bitwise_reference_arrays_with_full_population_and_order',
+              'local_layout': config.get('local_layout', 'aggregate'),
+              'bootstrap_historical_realization_required': False}
     _json_write(output / 'validation.json', report)
     expected_paths = sorted(Path(args.reference_dir).glob('Mixing_Argo_NATRE_2m_????_resmode.nc'))
     expected_years = {p.name.split('_')[-2] for p in expected_paths}
@@ -2389,27 +2520,29 @@ def _validate_natre(config, args):
             report['status'] = 'mismatch_global_blocked'
             print(json.dumps({'status': report['status'], 'report': str(output / 'validation.json')}, indent=2))
             return report
-        # Compare the aggregate implementation on identical full reference inputs.
-        # Historical bootstraps were unseeded; they cannot be reproduced bitwise.
-        print('Calculating the full seeded regional summary', flush=True)
-        with _open_profiles(expected_paths) as expected:
-            expected = expected.load()
-            summary_config = dict(config['summary_config'])
-            actual_summary = aggregate_region(expected, summary_config)
-            _netcdf_write(actual_summary, output / 'recomputed_summary.nc')
-            print('Replaying original notebook scientific cells with the same seed', flush=True)
-            independent = _legacy_summary(expected, args.legacy_notebook,
-                                          summary_config['seed'], summary_config['n_boot'])
-            _netcdf_write(independent, output / 'seeded_legacy_summary.nc')
-            report['seeded_notebook_equivalence'] = compare_summary_datasets(actual_summary, independent, atol=0)
-            with xr.open_dataset(args.reference_summary) as historical:
-                report['historical_summary'] = compare_summary_datasets(actual_summary, historical, atol=0)
-        # The independently seeded reference establishes stochastic algorithm parity;
-        # historical deterministic fields must agree and full local input/output parity
-        # is mandatory. Do not accept an intersection of the profile populations.
+        # Generate the full result from the local-source partitions themselves.
+        # Historical inputs are only the comparison target, never summary inputs.
+        print('Calculating full regional summary from refreshed local profiles', flush=True)
+        local_stage = dict(config, source='local', output=str(output / 'local'))
+        local_manifest_path = output / 'local' / 'manifest.json'
+        local_manifest = json.loads(local_manifest_path.read_text())
+        local_paths = [path for group in local_manifest['regions'].values() for path in group]
+        summary_result = _summary_task(('region', local_paths), local_stage)
+        local_manifest['summaries'] = [summary_result]
+        local_manifest['summary_code_sha256'] = report['script_sha256']
+        _json_write(local_manifest_path, local_manifest)
+        with xr.open_dataset(summary_result['path']) as local_summary, xr.open_dataset(args.reference_summary) as historical:
+            missing_deterministic = SUMMARY_DETERMINISTIC_VARIABLES - set(historical.data_vars)
+            if missing_deterministic:
+                raise ValueError(f'Historical summary is missing deterministic targets: {sorted(missing_deterministic)}')
+            report['historical_summary'] = compare_summary_datasets(local_summary, historical)
+        report['local_regional_summary'] = summary_result['path']
+        report['bootstrap_comparison_policy'] = (
+            'Historical bootstrap estimates are explicitly exempt from replication acceptance; '
+            'all deterministic historical arrays must match bitwise. Bootstrap differences '
+            'are reported, not used to relax profile or deterministic comparisons.')
         report['passed'] = bool(report['legacy_raw_profiles']['passed']
                                 and report['local_profiles']['passed']
-                                and report['seeded_notebook_equivalence']['passed']
                                 and report['historical_summary']['deterministic_passed'])
         report['global_authorized'] = report['passed']
         report['status'] = 'passed' if report['passed'] else 'mismatch_global_blocked'
@@ -2432,7 +2565,9 @@ def validate_natre(config, args):
 def _parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('command', choices=['inventory', 'run', 'validate-natre'])
-    parser.add_argument('--gdac', default='/swot/SUM05/dbalwada/Argo_sync')
+    parser.add_argument('--gdac', default='/swot/SUM05/amf2288/argo_snapshots/gdac_20261109_138320')
+    parser.add_argument('--local-layout', choices=['aggregate', 'mono'], default='aggregate',
+                        help='Frozen float aggregate files reproduce the ERDDAP input representation; mono is diagnostic')
     parser.add_argument('--bounds', nargs=4, type=float, metavar=('WEST', 'EAST', 'SOUTH', 'NORTH'),
                         default=[-180., 180., -90., 90.])
     parser.add_argument('--start', help='Inclusive UTC date; omitted means earliest locally indexed profile')
@@ -2474,7 +2609,7 @@ def main(argv=None):
     if args.start and args.end and np.datetime64(args.start) >= np.datetime64(args.end):
         raise ValueError('start must precede exclusive end')
     config = {'gdac': str(Path(args.gdac).resolve()), 'bounds': args.bounds,
-              'start': args.start, 'end': args.end, 'source': 'local',
+              'start': args.start, 'end': args.end, 'source': 'local', 'local_layout': args.local_layout,
               'output': str(Path(args.output).resolve()), 'workers': args.workers,
               'batch_size': args.batch_size, 'memory_limit': args.memory_limit,
               'cell_size': args.cell_size or None, 'max_pressure': 2200.,
@@ -2505,7 +2640,9 @@ def main(argv=None):
         if not (validation.get('passed') and validation.get('global_authorized')
                 and validation.get('script_sha256') == config['code_sha256']
                 and validation.get('gdac') == config['gdac']
-                and validation.get('source_snapshot') == _source_snapshot(config)):
+                and validation.get('source_snapshot') == _source_snapshot(config)
+                and validation.get('local_layout') == config['local_layout']
+                and validation.get('comparison_policy') == 'bitwise_reference_arrays_with_full_population_and_order'):
             raise ValueError('NATRE validation did not pass for this script/archive; global processing is blocked')
     if config['cell_size'] is None and large_request:
         raise ValueError('Large/global requests require regional summary cells (--cell-size)')

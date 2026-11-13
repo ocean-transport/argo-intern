@@ -1,5 +1,201 @@
 **Argo mixing workflow: handoff for the next session**
 
+**November 13 completion — refreshed local NATRE replication PASSED. Read first.**
+
+The user reaffirmed the purpose: NATRE is the regression case for a general
+local-archive processing pipeline that can subsequently process global Argo.
+Reference values must not be inserted into local outputs. Global execution is
+still a separate step after reviewing NATRE.
+
+The remaining input discrepancy was resolved by inspecting the **float aggregate
+`<WMO>_prof.nc` files already present in the same frozen November 9 snapshot**.
+They differ from the mono-cycle files in that snapshot. Three controls spanning
+salinity and pressure/temperature differences reproduced the historical arrays
+directly from aggregate files. A complete independent diagnostic then read all
+193 aggregate files covering the 13,551 NATRE index candidates:
+
+- All **10,483** saved in-range raw profiles have **bitwise-identical pressure,
+  temperature, and salinity** after primary selection and research QC.
+- Standard `netCDF4.num2date` CF decoding, at its microsecond resolution,
+  reproduces **all 10,483 reference timestamps exactly**. No rounding to whole
+  seconds is applied. This avoids the old xarray nanosecond decoding artifacts;
+  a fractional-second regression test ensures genuine fractional times survive.
+- The accepted physical population is exactly **6,261**, with zero missing or
+  extra identities. All accepted profiles have exact P/T/S, coordinates, and CF
+  time in this diagnostic. No source files are missing or unreadable.
+- This establishes input parity for NATRE from the refreshed local archive,
+  without empirical P/T/S rounding or a reference-value lookup. It does not
+  by itself establish the subsequent scientific-output comparison.
+
+The complete report is
+`/swot/SUM05/amf2288/argo_mixing/natre_replication_20261113/aggregate_input_audit.json`.
+`verify_argo_snapshot.py --source-layout multi-only` reproduces this diagnostic;
+the default `mono-preferred` mode preserves the earlier source-selection policy.
+The alternate CF timestamp comparison is recorded alongside ordinary xarray
+decoding. Earlier claims that local input differences remain unresolved describe
+the **mono-cycle** investigation and are superseded by this aggregate result.
+
+Production changes in `process_argo_mixing.py`:
+
+- The default source is the refreshed archive and `--local-layout aggregate`.
+  The core index still selects physical profiles spatially and temporally;
+  their data come from the corresponding local aggregate file. There is no
+  remote fetch and no fallback to historical arrays. `--local-layout mono`
+  remains an explicit diagnostic choice.
+- Indexed identities are resolved before selecting primary sampling. Multiple
+  primary entries and absent indexed identities raise errors. Secondary-only
+  samples are excluded explicitly. The selected profiles then use the installed
+  Argopy research QC, retaining unrounded pressure and inclusive 2,200 dbar bounds.
+- Batches group reads by aggregate file; only requested profiles and needed
+  variables are loaded. Dates use standard CF decoding. Global profile order
+  is chronological with the signed Argopy physical UID as the tie breaker,
+  independently of references, batch sizes, and worker completion order. That
+  ordering matches the complete historical NATRE order, including all six ties.
+- Comparison acceptance now requires equal dtype and array bytes, including
+  NaN payloads and signed zeros. Profile coverage and order must match. Numerical
+  tolerances are diagnostic only. The review helper exposes top-level bitwise
+  results separately from value equality and complete schema identity.
+- Successful validation computes the regional summary from **local partitions**,
+  compares all historical deterministic variables bitwise, and reports historical
+  bootstrap differences as exempt. The global gate checks the validated source
+  layout and comparison policy as well as code and archive provenance.
+
+The actual production loader passed a 24-profile integration control spanning
+the accepted population: every P/T/S array, coordinate, and timestamp matched
+the saved raw reference bitwise. All 15 regression tests in
+`test_argo_replication.py` passed. AST comparison against the committed version
+confirmed the profile, regional, bootstrap, and saved-figure scientific kernels
+are unchanged; the changes concern loading, ordering, validation, and orchestration.
+
+The full fresh validation **completed successfully**, using 12 workers,
+64-profile batches, and 8 GiB per-worker budgets, at
+`/swot/SUM05/amf2288/argo_mixing/natre_replication_20261113/validation`.
+Its log is the adjacent `run.log`. The report `validation.json` records
+`status: passed`, `passed: true`, and the passing global-eligibility gate for this
+code/archive/layout. **No global processing was launched.** Review NATRE and
+global aggregation settings before requesting global execution.
+
+- The fresh reference replay completed all **169 batches**, with 6,261 accepted
+  profiles and zero failed batches. All 34 historical variables and three
+  coordinates pass bitwise comparison in the original order.
+- The refreshed **local-source** stage completed all **212 batches**, with
+  exactly 6,261 accepted profiles and zero failed batches. All 34 historical
+  variables and three coordinates pass bitwise comparison, in the same order,
+  with zero missing or extra profiles. Its 123 nonempty partitions are under
+  `validation/local/profiles/region`.
+- The full regional summary was calculated **from those local partitions**,
+  with 1,000 bootstrap replicates and seed `20261110`. All **17 deterministic
+  historical variables and both coordinates match bitwise**. The 32 historical
+  bootstrap-dependent variables differ, as explicitly permitted. The complete
+  local summary is `validation/local/summaries/region.nc`; it is not a subset
+  or a reference-input result.
+
+The producing script SHA256 is
+`abc425c7f264d7eac5982bac99714b42dc27edeede1865fb7a29abbb3f2bde24`.
+The original notebook and historical scientific datasets remain preserved.
+
+**Direct replacement for the original notebook's profile dataset:**
+`validation/local/NATRE_profiles_replica.nc`. This standalone export contains
+only the historical 34 data variables and three coordinates, with identical
+schema and descriptive attributes. **Every array is sourced from the new local
+partitions.** `export_natre_replica.py` copies only the reference's variable
+selection and descriptive metadata, then verifies all values against the
+reference. It checks again after writing and reopening the NetCDF, using both
+bitwise comparison and `xr.testing.assert_identical`. The adjacent
+`NATRE_profiles_replica.json` records this pass, both file hashes, and source
+provenance. The NetCDF container bytes differ because of encoding/compression;
+the decoded array bytes, dtypes, schema, and descriptive attributes match.
+Extra scientific diagnostics and physical identity fields remain in the original
+local partitions and their manifests, rather than being discarded.
+
+**Figures and review:** `NATRE_figure_replication_review.ipynb` now selects the
+new local run, verifies its provenance and bitwise gate, independently compares
+the saved deterministic summary arrays, and displays all ten historical figures
+followed by all ten local-source renderings. It executed without errors and
+contains 20 saved image outputs. Its scientific kernel was `Argo_Feb_25`; the
+installed base-environment notebook controller supplied `nbclient`/`nbformat`.
+No packages were installed or changed. The first controller attempt is recorded
+in `figure_review_execution.log` (missing `nbformat`); the successful execution
+is in `figure_review_execution_v2.log`. This did not affect scientific processing.
+Standalone local PNGs are under `natre_replication_20261113/figures`, with names
+`local_cell_06.png`, `local_cell_09.png`, etc., using original notebook cell
+indices. `figure_review.json` records all ten paths and hashes. Original plotting
+formulas and styles are retained; historical bootstrap realizations and identical
+PNG pixels are not required. No reference arrays were substituted into local
+figures. The review notebook remains read-only when executed.
+
+`natre_replication_20261113/environment.json` records dependency versions, import
+paths, and code/reference hashes. `test_argo_replication.py` contains the 15
+passing regression tests. Dataset exports, reports, logs, figures, and Dask spill
+are on `/swot`; only repository code/docs/notebooks changed in the workspace.
+All processing, export, and notebook-execution jobs have finished. No scientific
+or plotting work remains running from this validation.
+
+**November 13 review — bitwise requirement clarified; saved outputs checked read-only.**
+
+The user reiterated that the target is the figures in
+`plots_mixing_NATRE_gamman_analysis.ipynb`, produced by the Python workflow using
+the refreshed local Argo snapshot. **The underlying datasets must replicate the
+historical reference bitwise. Bootstrap estimates need not reproduce the
+historical random realization.** This supersedes any suggestion below to accept
+numerical tolerances or choose a different reference population. Neither close
+values, matching profile counts, nor visually similar figures establish success.
+Bootstrap-dependent fields must be identified explicitly; their exemption does
+not extend to deterministic inputs, profile calculations, or coordinates.
+
+The handoff, saved validation report, refreshed input audit, production comparison
+functions, and original/review notebook sources were reviewed. A new read-only
+check used `natre_figure_review.compare_datasets`, inspecting each variable's
+`bitwise_equal` result (equal dtype and C-order array bytes, with identical
+dimensions/shapes). No alignment, sorting, dtype conversion, or NaN/signed-zero
+normalization was applied:
+
+- The 169 saved `legacy_raw/profiles/region/*.nc` partitions in
+  `natre_validation_20261110`, concatenated in filename order, match **all 34
+  historical profile variables and all three coordinates bitwise across all
+  6,261 profiles**, directly against
+  `espe_code/data_files/Mixing_Argo_NATRE_2m_resmode_ALL.nc`. Profile order already
+  matches. This is confirmation of the saved reference-input replay, not a run
+  from the refreshed local archive.
+- The saved `reference_deterministic_check.nc` matches **all 17 deterministic
+  historical summary variables and both coordinates bitwise** against the
+  corresponding variables in `espe_code/NATRE_Argo_mixing_gamman.nc`.
+- The replay contains **14 additional diagnostic/identity variables**. Thus
+  historical-array parity is established, but complete dataset schema identity
+  is not. File-container bytes and attributes were not compared. Do not describe
+  these partition files as byte-identical copies of the historical NetCDF file.
+
+Recounting the saved refreshed input audit for the **6,261 accepted profiles**
+confirmed 3,933 bitwise pressure matches, 6,116 temperature matches, 1,749 salinity
+matches, and 1,748 profiles with all three arrays bitwise equal. Coordinates match
+numerically for all profiles; timestamps match exactly for 1,240. Only **1,139**
+profiles satisfy the audit's combined array/coordinate/timestamp exactness check.
+The local-source input mismatch is therefore still unresolved. There is still no
+refreshed local scientific summary to validate or use for replicated figures.
+
+**Validation implementation gaps identified:** production `_comparison_array`
+uses `np.isclose`; profile and summary comparison defaults retain `rtol=1e-10`,
+including validation calls that specify only `atol=0`. Even both tolerances set
+to zero would not establish dtype, NaN-payload, or signed-zero byte equality.
+The review helper reports per-variable byte equality, but its top-level
+`all_reference_variables_exact` flag checks values, not bytes. Future acceptance
+must explicitly require bitwise comparison and full population/order coverage,
+with historical bootstrap estimates reported separately. Additional variables,
+attributes, and serialization must also be reported separately from reference
+array parity rather than silently treating different schemas as identical.
+
+Next implementation work remains: repair primary-sampling selection; establish
+the causes and exact conversion rules, if any, for the remaining local-versus-
+ERDDAP differences; enforce the bitwise acceptance criterion; then produce and
+validate a fresh NATRE result. Do not substitute saved reference values into a
+purported local-source result or redefine the historical baseline to force a
+pass. Global processing remains unauthorized.
+
+This review changed only this handoff. No production/loader changes, scientific
+rerun, bootstrap rerun, or data-file writes were made. The read-only checks
+completed; their findings are recorded here and their detailed output was
+printed in the session rather than saved as a new report.
+
 **November 11 figure-review preparation — no new scientific run.**
 
 The user is leaving shortly and requested a notebook for reviewing exact figure

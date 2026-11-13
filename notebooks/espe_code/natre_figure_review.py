@@ -87,6 +87,7 @@ def compare_datasets(reference, candidate):
     reference_dimensions_equal = all(candidate.sizes.get(name) == size
                                      for name, size in reference.sizes.items())
     reference_exact = reference_dimensions_equal and all(r["values_exact"] for r in ref_rows)
+    reference_bitwise = reference_dimensions_equal and all(r["bitwise_equal"] for r in ref_rows)
     return {"summary": {
         "dimensions_equal": dimensions_equal,
         "reference_dimensions_equal": reference_dimensions_equal,
@@ -96,6 +97,10 @@ def compare_datasets(reference, candidate):
         "extra_candidate_variables": sum(r["status"] == "extra_candidate" for r in rows),
         "reference_variables_exact": sum(r["values_exact"] for r in ref_rows),
         "all_reference_variables_exact": reference_exact,
+        "reference_variables_bitwise": sum(r["bitwise_equal"] for r in ref_rows),
+        "all_reference_variables_bitwise": reference_bitwise,
+        "dataset_arrays_bitwise": reference_bitwise and dimensions_equal and len(reference.variables) == len(candidate.variables),
+        "coordinates_bitwise": all(r["bitwise_equal"] for r in ref_rows if r["coordinate"]),
         "dataset_values_exact": reference_exact and dimensions_equal and len(reference.variables) == len(candidate.variables),
         "coordinates_exact": all(r["values_exact"] for r in ref_rows if r["coordinate"]),
         "attributes_compared": False,

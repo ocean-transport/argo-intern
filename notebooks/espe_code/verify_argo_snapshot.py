@@ -169,7 +169,7 @@ def scan_index(gdac, expected, raw_reference_keys):
                   "header": header, **dict(counts)}
 
 
-def locate_source(gdac, row):
+def locate_source(gdac, row, source_layout="mono-preferred"):
     relative = Path(row["file"])
     if relative.is_absolute() or ".." in relative.parts or len(relative.parts) != 4:
         raise ValueError(f"Unsafe or unexpected GDAC index path: {relative}")
@@ -177,7 +177,12 @@ def locate_source(gdac, row):
     mono = [gdac / "dac" / relative, gdac / relative]
     multi = [base / relative.parts[0] / platform / f"{platform}_prof.nc"
              for base in (gdac / "dac", gdac)]
-    for kind, candidates in (("mono", mono), ("multi", multi)):
+    layouts = (("mono", mono), ("multi", multi))
+    if source_layout == "multi-only":
+        layouts = (("multi", multi),)
+    elif source_layout != "mono-preferred":
+        raise ValueError(f"Unknown source layout: {source_layout}")
+    for kind, candidates in layouts:
         existing = list(dict.fromkeys(p.resolve() for p in candidates if p.is_file()))
         if len(existing) > 1:
             raise ValueError(f"Ambiguous archive layout for {relative}: {existing}")
@@ -238,6 +243,17 @@ def inspect_file(task):
         with NETCDF_LOCK:
             with xr.open_dataset(source, engine="netcdf4") as opened:
                 ds = opened[[name for name in names if name in opened]].load()
+            # Independent CF time decoder: inspect nanosecond conversion effects
+            # without rounding times to seconds or substituting reference values.
+            from netCDF4 import Dataset, num2date
+            with Dataset(source) as opened:
+                numeric_time = opened.variables["JULD"]
+                decoded = num2date(numeric_time[:], units=numeric_time.units,
+                                   calendar=getattr(numeric_time, "calendar", "standard"),
+                                   only_use_cftime_datetimes=False,
+                                   only_use_python_datetimes=True)
+                cf_time = np.array([np.datetime64("NaT", "ns") if np.ma.is_masked(t)
+                                    else np.datetime64(t, "ns") for t in decoded])
         metadata["date_update"] = string(ds.DATE_UPDATE.values.item()) if "DATE_UPDATE" in ds else None
         metadata["sizes"] = dict(ds.sizes)
         by_identity = defaultdict(list)
@@ -288,7 +304,8 @@ def inspect_file(task):
             longitude, latitude = float(row.LONGITUDE), float(row.LATITUDE)
             time = np.datetime64(row.JULD.values, "ns")
             record.update(data_mode=mode, longitude=longitude, latitude=latitude,
-                          time=str(time), position_qc=string(row.POSITION_QC.values.item()),
+                          time=str(time), time_cf_microseconds=str(cf_time[chosen]),
+                          position_qc=string(row.POSITION_QC.values.item()),
                           time_qc=string(row.JULD_QC.values.item()))
             if not selected(longitude, latitude, time):
                 record["reason"] = "outside_actual_region_or_time"
@@ -333,6 +350,7 @@ def main():
     parser.add_argument("--reference-raw", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--workers", type=int, choices=range(1, 5), default=1)
+    parser.add_argument("--source-layout", choices=("mono-preferred", "multi-only"), default="mono-preferred")
     args = parser.parse_args()
     gdac, output = args.gdac.resolve(), args.output.resolve()
     if not output.is_relative_to(Path("/swot/SUM05/amf2288")) or output.is_relative_to(gdac):
@@ -350,7 +368,7 @@ def main():
             duplicate_index.append({"identity": list(key), "rows": index_rows})
             continue
         row = index_rows[0]
-        kind, path = locate_source(gdac, row)
+        kind, path = locate_source(gdac, row, args.source_layout)
         if path is None:
             missing_files.append({"identity": list(key), "index": row})
             continue
@@ -373,6 +391,8 @@ def main():
                         "latitude_exact": record["latitude"] == reference["latitude"],
                         "time_delta_ns": int(np.datetime64(record["time"], "ns").astype(np.int64)
                                              - reference["time"].astype(np.int64)),
+                        "time_cf_delta_ns": int(np.datetime64(record["time_cf_microseconds"], "ns").astype(np.int64)
+                                                - reference["time"].astype(np.int64)),
                     }
                     comparison["all_input_values_exact"] = (
                         all(v["exact_values"] for v in comparison["variables"].values())
@@ -414,6 +434,11 @@ def main():
         "all_raw_input_values_exact_comparisons": sum(c["all_input_values_exact"] for c in comparisons),
         "raw_array_exact_counts": {p: sum(c["variables"][p]["exact_values"] for c in comparisons) for p in PARAMETERS},
         "raw_array_bitwise_counts": {p: sum(c["variables"][p]["bitwise_equal"] for c in comparisons) for p in PARAMETERS},
+        "raw_times_cf_exact": sum(c["time_cf_delta_ns"] == 0 for c in comparisons),
+        "all_raw_inputs_exact_with_cf_time": sum(
+            all(v["bitwise_equal"] for v in c["variables"].values())
+            and c["longitude_exact"] and c["latitude_exact"] and c["time_cf_delta_ns"] == 0
+            for c in comparisons),
     }
     report = {
         "diagnostic_only": True, "global_authorized": False, "scientific_validation_gate_evaluated": False,
@@ -424,6 +449,8 @@ def main():
             "sampling": "One explicitly labeled primary entry per physical identity, or a sole entry without an explicit secondary label; ambiguities reported",
             "research_qc": "DATA_MODE D; POSITION_QC and JULD_QC 1; adjusted P/T/S finite and all adjusted QC 1; unrounded PRES_ADJUSTED_ERROR <20; 0<=PRES_ADJUSTED<=2200",
             "pressure": "Unrounded adjusted pressure, stably sorted ascending; no duplicate-row removal",
+            "source_layout": args.source_layout,
+            "alternate_time_decoder": "netCDF4.num2date, standard CF calendar at microsecond resolution; no whole-second rounding",
             "spacing": "mean(abs(diff(PRES))[PRES[:-1]<1000]) <=5 dbar using source dtype",
             "precision": "No timestamp normalization, salinity rounding, or tolerance relaxation",
             "reference_snapshot": "Saved ERDDAP response bytes define the reference; Fetched_date is not an immutable GDAC snapshot identifier",
