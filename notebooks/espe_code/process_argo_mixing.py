@@ -23,6 +23,23 @@ Run a selected region, including all available dates if start/end are omitted::
         --start 2014-01-01 --end 2024-01-01 --cell-size 0 \
         --output /swot/SUM05/amf2288/argo_mixing/natre
 
+For global profile processing without regional aggregation or bootstraps, use
+--profiles-only with both validate-natre and run. The saved profile partitions
+contain the TEOS-10 variables and mixing metrics needed for later summaries.
+For example, after a passing profile-only validation of this script::
+
+    python -B process_argo_mixing.py run --profiles-only --workers 50 \
+        --memory-limit 4GiB --batch-size 64 \
+        --validation-report /swot/SUM05/amf2288/argo_mixing/natre_profiles_50/validation.json \
+        --output /swot/SUM05/amf2288/argo_mixing/global_profiles
+
+Omitted bounds and dates select the entire local archive. The default 10-degree
+cells only partition profile files in this mode; no cell averages are computed.
+No remote archive refresh/download is performed. Profile-only validation checks
+both complete profile populations and never invokes a bootstrap, even on failure.
+Its passing report authorizes profile-only runs; a run including summaries needs
+the full validation. Future summaries can read the saved profile partitions.
+
 Global/large requests require --validation-report pointing to a passing NATRE
 report for this script and archive. No automatic global launch occurs. A mismatch
 returns exit code 2 and preserves the comparison report. Validation separates:
@@ -60,6 +77,7 @@ import os
 import re
 from pathlib import Path
 import sys
+import time
 import traceback
 import warnings
 
@@ -251,8 +269,9 @@ def process_profiles(ds, config=None):
         status fields on time.  Only profiles passing the legacy pressure
         resolution filter are included.  Batch accounting is in attrs.
         Unsupported gamma_n latitudes and explicit library failure sentinels
-        produce missing gamma-dependent metrics, with reason flags. Unexpected
-        exceptions propagate so infrastructure/programming errors are visible.
+        produce missing gamma-dependent metrics, with reason flags. A gamma_n
+        division by zero marks that profile's neutral density unavailable;
+        other exceptions propagate so infrastructure/programming errors are visible.
     """
     required = ("PRES", "TEMP", "PSAL", "TIME", "LONGITUDE", "LATITUDE")
     missing = [name for name in required if name not in ds]
@@ -382,7 +401,17 @@ def _process_profiles_legacy(DS, dz, max_depth, min_mean_res_in_upper_1000m, min
         if np.sum(ii) == 0:
             gamma_status[j] = 3
             continue
-        gamma_values, _, _ = nds.gamma_n(PSAL[ii,j],TEMP[ii,j],P[ii,j],Lon[j],Lat[j])
+        try:
+            gamma_values, _, _ = nds.gamma_n(PSAL[ii,j],TEMP[ii,j],P[ii,j],Lon[j],Lat[j])
+        except ZeroDivisionError as error:
+            # The installed gamma_n extrapolator can divide by zero for real
+            # QC-passing inputs (e.g. WMO 4902109 cycle 366). No density value
+            # was returned: retain the profile and its other measurements,
+            # leaving gamma-dependent fields missing with an explicit flag.
+            gamma_status[j] = 5
+            gamma_failed_count[j] = np.count_nonzero(ii)
+            stage_message[j] = "gamma_n ZeroDivisionError: " + str(error)
+            continue
         gamma_values = np.asarray(gamma_values, dtype=float)
         failed = ~np.isfinite(gamma_values) | (gamma_values <= 0)
         gamma_failed_count[j] = np.count_nonzero(failed)
@@ -464,7 +493,7 @@ def _process_profiles_legacy(DS, dz, max_depth, min_mean_res_in_upper_1000m, min
             )
         except ValueError as e:
             mixsea_status[i] = 3
-            stage_message[i] = "mixsea ValueError: " + str(e)
+            stage_message[i] += ("; " if stage_message[i] else "") + "mixsea ValueError: " + str(e)
             continue
             
         if not np.any(np.isfinite(diag['eps_st'])):
@@ -526,7 +555,7 @@ def _process_profiles_legacy(DS, dz, max_depth, min_mean_res_in_upper_1000m, min
                 SA_mean[j,i] = pps(sg1s[j])
             except np.linalg.LinAlgError as error:
                 polynomial_status[i] = 2
-                stage_message[i] = "polynomial LinAlgError: " + str(error)
+                stage_message[i] += ("; " if stage_message[i] else "") + "polynomial LinAlgError: " + str(error)
             
             
             
@@ -657,7 +686,7 @@ def _process_profiles_legacy(DS, dz, max_depth, min_mean_res_in_upper_1000m, min
     ds["mean_pressure_spacing_upper_1000"] = (("time",), mdpdz[iigood], {"units": "dbar"})
     ds["position_valid"] = (("time",), position_valid.astype(np.int8))
     for name, values, meanings in (
-        ("gamma_n_status", gamma_status, "computed unsupported_latitude invalid_position no_samples failed_samples"),
+        ("gamma_n_status", gamma_status, "computed unsupported_latitude invalid_position no_samples failed_samples arithmetic_failure"),
         ("mixsea_status", mixsea_status, "computed insufficient_samples equator_unsupported invalid_input invalid_position no_finite_epsilon"),
         ("polynomial_status", polynomial_status, "computed no_gamma fit_failure"),
         ("n2_status", n2_status, "computed insufficient_gamma"),
@@ -675,7 +704,7 @@ def _process_profiles_legacy(DS, dz, max_depth, min_mean_res_in_upper_1000m, min
             "min_resolution_micro": min_resolution_micro, "window_size": window_size,
             "finescale_spacing": window_size // 4, "poly_window_dbar": h, "poly_order": POLY_ORDER}, sort_keys=True),
         legacy_conventions="CT_from_t receives practical salinity; SA_fs stores CT_fs; N2 uses sorted gamma_n; original gradient signs and MLD criterion retained",
-        failure_handling="Unsupported gamma_n latitudes, nonpositive/error gamma_n results, invalid positions, equatorial Mixsea estimates and caught numerical-input failures are flagged; their unavailable metrics remain NaN",
+        failure_handling="Unsupported gamma_n latitudes, nonpositive/error gamma_n results, gamma_n division by zero, invalid positions, equatorial Mixsea estimates and caught numerical-input failures are flagged; their unavailable metrics remain NaN",
     )
     return ds
 
@@ -2214,6 +2243,8 @@ def _profile_task(task, config, signature):
         if (previous.get('signature') == signature and previous.get('status') == 'complete'
                 and (previous.get('accepted_profiles') == 0 or path.is_file())):
             return {**previous, 'resumed': True}
+    started = time.perf_counter()
+    timings = {}
     try:
         if 'raw_path' in task:
             with xr.open_dataset(task['raw_path']) as source:
@@ -2222,6 +2253,9 @@ def _profile_task(task, config, signature):
             accounting = {'raw_profiles': raw.sizes['N_PROF'], 'rejections': []}
         else:
             raw, accounting = _load_local_records(task['records'], config)
+        loaded = time.perf_counter()
+        timings['load'] = loaded - started
+        timings['process'] = timings['write'] = 0.
         if raw is None:
             accepted = 0
             attributes = {}
@@ -2230,12 +2264,15 @@ def _profile_task(task, config, signature):
             with warnings.catch_warnings():
                 warnings.simplefilter('ignore', RuntimeWarning)
                 result = process_profiles(raw, config['profile_config'])
+            processed = time.perf_counter()
+            timings['process'] = processed - loaded
             accepted = result.sizes.get('time', 0)
             attributes = {k: v for k, v in result.attrs.items()
                           if isinstance(v, (int, float, str))}
             if accepted:
                 result.attrs.update(run_signature=signature, source_mode=config['source'])
                 _netcdf_write(result, path)
+                timings['write'] = time.perf_counter() - processed
         status = {'id': task['id'], 'region': task['region'], 'status': 'complete',
                   'signature': signature, 'path': str(path) if accepted else None,
                   'accepted_profiles': accepted, 'accounting': accounting,
@@ -2243,6 +2280,8 @@ def _profile_task(task, config, signature):
     except Exception:
         status = {'id': task['id'], 'region': task['region'], 'status': 'failed',
                   'signature': signature, 'error': traceback.format_exc()}
+    timings['total'] = time.perf_counter() - started
+    status['timings_seconds'] = timings
     _json_write(status_path, status)
     return status
 
@@ -2317,6 +2356,7 @@ def _summary_task(item, config):
 
 
 def run_pipeline(config, summaries=True):
+    started = time.perf_counter()
     config = dict(config, source_snapshot=_source_snapshot(config))
     output = _data_directory(config['output'])
     signature = _signature(config)
@@ -2325,7 +2365,10 @@ def run_pipeline(config, summaries=True):
         old = json.loads(manifest_path.read_text())
         if old.get('signature') != signature:
             raise ValueError(f'{output} belongs to a different configuration; choose a new output directory')
-    manifest = {'signature': signature, 'config': config, 'status': 'running'}
+    manifest = {'signature': signature, 'config': config, 'status': 'running',
+                'processing_stage': 'profiles_and_summaries' if summaries else 'profiles',
+                'summaries_status': 'pending' if summaries else 'deferred',
+                'timings_seconds': {}}
     _json_write(manifest_path, manifest)
     inventory = {}
     results, client, cluster = [], None, None
@@ -2339,11 +2382,15 @@ def run_pipeline(config, summaries=True):
                                    local_directory=str(spill), dashboard_address=None)
             client = Client(cluster)
         job = functools.partial(_profile_task, config=config, signature=signature)
+        accepted_profiles = 0
         for result in _bounded_map(job, _profile_tasks(config, inventory), client,
                                    2 * config['workers']):
             results.append(result)
+            accepted_profiles += result.get('accepted_profiles', 0)
             print(f"{config['source']}: {len(results)} batches finished; "
-                  f"{sum(r.get('accepted_profiles', 0) for r in results)} accepted profiles", flush=True)
+                  f"{accepted_profiles} accepted profiles", flush=True)
+        # Includes worker startup, index selection, loading, QC, computation and IO.
+        manifest['timings_seconds']['profiles_wall'] = time.perf_counter() - started
         failed = [r for r in results if r['status'] != 'complete']
         groups = collections.defaultdict(list)
         for result in results:
@@ -2351,13 +2398,15 @@ def run_pipeline(config, summaries=True):
                 groups[result['region']].append(result['path'])
         _json_write(output / 'inventory.json', inventory)
         manifest.update(inventory=inventory, batches=len(results),
-                        accepted_profiles=sum(r.get('accepted_profiles', 0) for r in results),
+                        accepted_profiles=accepted_profiles,
+                        resumed_batches=sum(bool(r.get('resumed')) for r in results),
                         failed_batches=failed, regions=dict(groups))
         if failed:
             raise RuntimeError(f'{len(failed)} processing batches failed; see manifest/status files')
         if not groups:
             raise RuntimeError('No profiles passed selection and quality/resolution criteria')
         if summaries:
+            summary_started = time.perf_counter()
             resolved_summary = dict(config['summary_config'])
             if not resolved_summary.get('time_origin'):
                 resolved_summary['time_origin'] = inventory['first_profile'][:4] + '-01-01'
@@ -2365,12 +2414,15 @@ def run_pipeline(config, summaries=True):
             summary_job = functools.partial(_summary_task, config=dict(config, summary_config=resolved_summary))
             manifest['summaries'] = list(_bounded_map(summary_job, sorted(groups.items()),
                                                      client, config['workers']))
+            manifest['timings_seconds']['summaries_wall'] = time.perf_counter() - summary_started
+            manifest['summaries_status'] = 'complete'
         manifest['status'] = 'complete'
         return manifest
     except Exception:
         manifest.update(status='failed', error=traceback.format_exc(), inventory=inventory)
         raise
     finally:
+        manifest['timings_seconds']['total_wall'] = time.perf_counter() - started
         _json_write(manifest_path, manifest)
         if client is not None:
             client.close()
@@ -2487,6 +2539,8 @@ def _validate_natre(config, args):
     """Never promote common-profile agreement to full-archive equivalence."""
     output = _data_directory(config['output'])
     report = {'passed': False, 'global_authorized': False,
+              'validation_scope': 'profiles' if args.profiles_only else 'profiles_and_summaries',
+              'summaries_status': 'deferred' if args.profiles_only else 'pending',
               'required_region': [-38, -20, 19, 32],
               'required_time': ['2014-01-01', '2024-01-01'],
               'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
@@ -2511,7 +2565,17 @@ def _validate_natre(config, args):
                 result = compare_profile_datasets(actual, expected, atol=0)
             report[mode + '_profiles'] = result
             report[mode + '_inventory'] = manifest['inventory']
+            report[mode + '_timings_seconds'] = manifest['timings_seconds']
             _json_write(output / 'validation.json', report)
+        if args.profiles_only:
+            # Do not call summary_regression here, including on profile mismatch:
+            # that diagnostic executes bootstraps as well as deterministic means.
+            report['passed'] = bool(report['legacy_raw_profiles']['passed']
+                                    and report['local_profiles']['passed'])
+            report['global_authorized'] = report['passed']
+            report['status'] = 'passed' if report['passed'] else 'mismatch_global_blocked'
+            print(json.dumps({'status': report['status'], 'report': str(output / 'validation.json')}, indent=2))
+            return report
         if not report['local_profiles']['passed']:
             report['summary_regression'] = summary_regression(
                 expected_paths, args.reference_summary, args.legacy_notebook,
@@ -2529,6 +2593,7 @@ def _validate_natre(config, args):
         local_paths = [path for group in local_manifest['regions'].values() for path in group]
         summary_result = _summary_task(('region', local_paths), local_stage)
         local_manifest['summaries'] = [summary_result]
+        local_manifest.update(processing_stage='profiles_and_summaries', summaries_status='complete')
         local_manifest['summary_code_sha256'] = report['script_sha256']
         _json_write(local_manifest_path, local_manifest)
         with xr.open_dataset(summary_result['path']) as local_summary, xr.open_dataset(args.reference_summary) as historical:
@@ -2537,6 +2602,7 @@ def _validate_natre(config, args):
                 raise ValueError(f'Historical summary is missing deterministic targets: {sorted(missing_deterministic)}')
             report['historical_summary'] = compare_summary_datasets(local_summary, historical)
         report['local_regional_summary'] = summary_result['path']
+        report['summaries_status'] = 'complete'
         report['bootstrap_comparison_policy'] = (
             'Historical bootstrap estimates are explicitly exempt from replication acceptance; '
             'all deterministic historical arrays must match bitwise. Bootstrap differences '
@@ -2574,9 +2640,11 @@ def _parser():
     parser.add_argument('--end', help='Exclusive UTC date; omitted means all locally indexed dates')
     parser.add_argument('--output', default='/swot/SUM05/amf2288/argo_mixing/natre_validation')
     parser.add_argument('--workers', type=int, default=8)
+    parser.add_argument('--profiles-only', action='store_true',
+                        help='Save processed profiles only; defer all regional aggregation and bootstraps (also applies to validate-natre)')
     parser.add_argument('--batch-size', type=int, default=64)
     parser.add_argument('--memory-limit', default='8GiB')
-    parser.add_argument('--cell-size', type=float, default=10., help='Degrees per regional summary cell; 0 means one selected region')
+    parser.add_argument('--cell-size', type=float, default=10., help='Degrees per profile storage / summary cell; 0 means one selected region')
     parser.add_argument('--seed', type=int, default=20261110)
     parser.add_argument('--n-boot', type=int, default=1000)
     parser.add_argument('--density-min', type=float, default=26.75)
@@ -2590,6 +2658,21 @@ def _parser():
     parser.add_argument('--legacy-notebook', default=str(Path(__file__).with_name('plots_mixing_NATRE_gamman_analysis.ipynb')))
     parser.add_argument('--validation-report', help='Passing validate-natre JSON required before run')
     return parser
+
+
+def _require_global_validation(config, validation, profiles_only):
+    """A profile-only regression cannot certify the optional summary stage."""
+    if not (validation.get('passed') and validation.get('global_authorized')
+            and validation.get('script_sha256') == config['code_sha256']
+            and validation.get('gdac') == config['gdac']
+            and validation.get('source_snapshot') == _source_snapshot(config)
+            and validation.get('local_layout') == config['local_layout']
+            and validation.get('comparison_policy') == 'bitwise_reference_arrays_with_full_population_and_order'):
+        raise ValueError('NATRE validation did not pass for this script/archive; global processing is blocked')
+    scope = validation.get('validation_scope', 'profiles_and_summaries')
+    allowed = {'profiles', 'profiles_and_summaries'} if profiles_only else {'profiles_and_summaries'}
+    if scope not in allowed:
+        raise ValueError('This NATRE report only validates profiles; use --profiles-only or complete full validation')
 
 
 def main(argv=None):
@@ -2637,16 +2720,10 @@ def main(argv=None):
         if not args.validation_report:
             raise ValueError('Global/large runs require --validation-report from a passing NATRE validation')
         validation = json.loads(Path(args.validation_report).read_text())
-        if not (validation.get('passed') and validation.get('global_authorized')
-                and validation.get('script_sha256') == config['code_sha256']
-                and validation.get('gdac') == config['gdac']
-                and validation.get('source_snapshot') == _source_snapshot(config)
-                and validation.get('local_layout') == config['local_layout']
-                and validation.get('comparison_policy') == 'bitwise_reference_arrays_with_full_population_and_order'):
-            raise ValueError('NATRE validation did not pass for this script/archive; global processing is blocked')
-    if config['cell_size'] is None and large_request:
+        _require_global_validation(config, validation, args.profiles_only)
+    if config['cell_size'] is None and large_request and not args.profiles_only:
         raise ValueError('Large/global requests require regional summary cells (--cell-size)')
-    run_pipeline(config)
+    run_pipeline(config, summaries=not args.profiles_only)
     return 0
 
 

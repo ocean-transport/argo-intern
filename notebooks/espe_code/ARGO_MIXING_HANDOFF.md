@@ -1,6 +1,253 @@
 **Argo mixing workflow: handoff for the next session**
 
-**November 13 completion — refreshed local NATRE replication PASSED. Read first.**
+**November 13, 2026, 23:46 EST — global profile recovery COMPLETE.**
+
+The user requested repair and rerun of the failed batch. The complete recovered
+global inventory is now:
+
+`/swot/SUM05/amf2288/argo_mixing/global_repair_20261113/manifest.json`
+
+- **53,364 completed batches, zero failed processing batches.**
+- **3,398,922 candidates accounted for; 1,117,885 accepted profiles saved** in
+  **25,686 nonempty NetCDF partitions**. Acceptance retains the existing QC and
+  resolution rules; it does not guarantee every diagnostic is available.
+- **53,363 original successful batches reused**, with only the failed batch
+  `x011_y012/part_0000090` rerun. Its 64 candidates yielded 39 accepted profiles;
+  the final rerun took 33.35 seconds.
+- `processing_stage: profiles`, `summaries_status: deferred`: no regional
+  aggregation or bootstrap was run during recovery or revalidation.
+- `recovery_exit_code` is **0**. The recovery command has finished.
+
+**Four profiles in the recovered batch have missing neutral density, explicitly
+flagged.** They are ascending cycles **366, 367, 369, 370 of WMO 4902109**.
+The frozen aggregate contains very low salinity values (approximately
+0.046–0.099 PSU in the retained, depth-binned samples) that passed the existing
+research QC. The installed `neutral_density.gamma_n` raises `ZeroDivisionError`
+for these inputs; a Python diagnostic traces the error through its extrapolator
+into the equation-of-state calculation. Source measurements and QC criteria were
+not changed. The repair catches only this exception at the per-profile gamma_n
+call, keeps the profile and its other variables, and leaves neutral density and
+dependent unavailable results as NaN. `gamma_n_status = 5` means
+`arithmetic_failure`; `gamma_n_failed_sample_count` records the unavailable
+sample count, and `stage_message` retains the exception. Other gamma_n exceptions
+still propagate. Existing valid scientific formulas are unchanged.
+
+The repaired script SHA256 is
+`02f02d1a121822205610179195ea3be784b7bb1a22a97ae6dcf6eb0d6a49820e`.
+Its frozen copy is `global_repair_20261113/provenance/process_argo_mixing.py`.
+Validation completed **before** the final production rerun:
+
+- All **21 regression tests passed**, including isolation of gamma arithmetic
+  failure and propagation of unexpected exceptions.
+- Fresh **NATRE profile-only validation passed**, exit code 0. Both historical
+  input replay and local-archive runs produced exactly **6,261 profiles**;
+  all **34 historical variables and three coordinates matched bitwise**, with
+  matching order and complete coverage. The report is
+  `global_repair_20261113/natre_validation/validation.json`.
+- The repaired batch's **35 unaffected profiles** match independent execution
+  of the original frozen script bitwise across **41 numerical variables and
+  three coordinates**. Identity strings match exactly; NetCDF normalizes their
+  Unicode storage widths. The original binned P/T/S values of the first failing
+  profile also match bitwise. The saved final production partition was reopened
+  and compared against the verified candidate for every variable.
+- All original checkpoint counts, accepted-profile totals, saved paths, and
+  candidate accounting were audited. Preexisting output sizes and nanosecond
+  modification times remained unchanged; the original manifest bytes and
+  producing script were preserved. This is not a claim that every old NetCDF
+  array was reread or rehashed during recovery.
+
+**Use the recovered manifest's `regions` paths for subsequent analysis.** It is
+a consolidated view referencing the original successful NetCDFs and the new file
+under `global_repair_20261113/repaired_batch/profiles/x011_y012/part_0000090.nc`.
+Its `recovery` section records both producing code hashes and their validation
+provenance. This view is **not** a `run_pipeline` restart directory.
+
+The original `global_profiles_20261109` manifest, failure checkpoint, frozen code,
+log and exit code remain unchanged as historical evidence. Its initial pass
+ended November 13 at **23:13:36 EST**, with 1,117,846 accepted profiles and one
+failed batch. A new `global_profiles_20261109/recovery.json` points to the complete
+recovered manifest. Do not rerun the old `run.sh`: it executes the original script
+without this repair. Earlier statements below that the global job is running or
+still requires repair are superseded by this completion record.
+
+Further recovery evidence under `global_repair_20261113`: `task.json` (original
+batch fingerprint verified), `diagnosis.json`, `gamma_python_trace.txt`,
+`batch_verification.json`, `code_change_audit.json`, `preserved_files.json`,
+`repaired_batch/manifest.json`, `recovery.log`, and the exact diagnostic,
+validation and recovery helpers under `provenance/`. Intermediate diagnostic
+checks initially assumed one affected profile and strict Unicode width identity;
+the completed `batch_verification.json` covers all four affected profiles and
+keeps bitwise acceptance for every numerical array. No incomplete diagnostic was
+used as the production recovery gate.
+
+**Global run launched November 13, 2026 at 12:02:03 EST / 17:02:03 UTC.**
+
+The user authorized global execution and explicitly confirmed: **keep regional
+aggregation deferred (the prepared workflow)**. All per-profile processing runs;
+regional averages and bootstrap confidence intervals remain deferred.
+
+The global job is running in the detached remote tmux session
+**`argo_global_profiles`**, with **50 single-threaded workers**, 4 GiB per worker
+and 64-candidate batches. It uses the validated frozen November 9 local aggregate
+archive, with full global bounds and no start/end date restrictions. The scientific
+QC, eligibility and depth settings remain those validated against NATRE.
+
+Run directory: `/swot/SUM05/amf2288/argo_mixing/global_profiles_20261109`.
+
+- `run.log`: live processing progress and diagnostics.
+- `manifest.json`: configuration and overall running/complete/failed status;
+  final coverage and failure accounting are written at completion.
+- `profiles/<cell>/*.nc` and adjacent JSON: saved profile datasets and per-batch
+  checkpoints; the cells organize storage only.
+- `launch.json`: exact command, host, provenance, and deferred-stage settings.
+- `started_utc`, `finished_utc`, `exit_code`: shell lifecycle records. The latter
+  two are created when the launched command exits; success requires exit code 0
+  and a complete manifest with no failed batches.
+- `run.sh`: launch/resume command, protected by a file lock against concurrent
+  duplicate execution.
+- `provenance/process_argo_mixing.py`: preserved read-only copy of the exact
+  NATRE-validated script, SHA256
+  `94875796f9e929ac137fd98b8f6fb5d182140a80b634d390072f8e126fec4593`.
+  The job executes this copy so later repository edits cannot affect it.
+  `provenance/natre_validation.json` and `natre_benchmark.json` preserve the gate
+  report and timing evidence used at launch.
+
+The script's actual global validation gate passed and its manifest confirms
+`processing_stage: profiles`, `summaries_status: deferred`, global bounds,
+and null start/end dates. `summary_config.n_boot: 1000` is an unused configuration
+default in this mode; no bootstrap or regional summary executes.
+
+Startup verification confirmed **50 live worker processes** (about 18.94 GiB
+combined resident memory at that check). The first **546 batches** completed with
+**725 accepted profiles**, **28 nonempty saved partitions**, and **zero failed
+batches**. These are early progress counts, not final totals or a global QC rate.
+A saved South Atlantic partition was reopened successfully and contains TEOS-10,
+neutral-density and mixing fields plus source identities and processing flags.
+The manifest was still `running` and no exit code had yet been written.
+
+Expected runtime remains **16–24 hours** (approximately November 14,
+04:02–12:02 EST if uninterrupted). This is a planning estimate, not a completed
+global benchmark. The remote tmux job survives laptop shutdown and SSH loss;
+server failure can still interrupt it. Successful batches are checkpointed.
+Do not launch another copy while this session/job is active. Monitor with:
+
+```bash
+tail -f /swot/SUM05/amf2288/argo_mixing/global_profiles_20261109/run.log
+```
+
+**November 13 update — global profile processing; defer all regional summaries and bootstraps.**
+
+The user now wants the full global archive processed into profile datasets
+(TEOS-10 variables, neutral density, mixing metrics and diagnostics), with no
+bootstrapped confidence intervals yet. Use the same frozen local aggregate
+files that passed NATRE. The archive is already downloaded; do not refresh it
+or substitute remote/mono-cycle inputs. All available locations and dates are
+selected; the existing research QC, resolution and pressure/depth criteria
+still determine which profiles/levels produce scientific outputs.
+
+A read-only global preflight found **3,434,826 core-index rows** and all
+**20,697 referenced float aggregate files present** (84,839,577,804 bytes in
+total). There are **3,398,922 candidates with usable index dates/positions**
+under the current global selection, before research QC and scientific eligibility.
+No selected row has a missing longitude. Presence is a metadata check, not a
+claim that all global files have already passed loading or scientific processing.
+
+`process_argo_mixing.py` now accepts **`--profiles-only`** for both `run` and
+`validate-natre`. This skips the entire regional aggregation stage, including
+every bootstrap and any bootstrap-based failure diagnostic. It retains the full
+processed profile partitions for aggregation later. The default 10-degree cells
+only organize output files in this mode. They do not restrict coverage or average
+profiles. The default density bins and bootstrap count in `summary_config` are
+unused when summaries are deferred.
+
+Manifests explicitly record `processing_stage: profiles` and
+`summaries_status: deferred`, plus measured wall time and resumed-batch counts.
+Per-batch status files record loading, processing and writing times. Timing fields
+measure elapsed time, not CPU time. Profile progress counting is now linear in
+the number of batches. Existing checkpoint/restart behavior is preserved;
+worker count and per-worker memory budget can change on restart without altering
+the numerical configuration. The scientific kernels, source loader, QC, time
+decoding and profile ordering are unchanged from the successful full NATRE run.
+
+A passing profile-only validation authorizes global **profile-only** execution.
+It cannot authorize summaries. The gate still requires matching code hash,
+archive identity, source layout, comparison policy and complete bitwise profile
+comparisons for both the reference replay and local source. The old full report
+remains evidence for the earlier script; it is not relabeled as a pass for new code.
+
+New validation/50-worker benchmark (separate from the preserved full replication):
+
+```bash
+/home/amf2288/miniconda3/envs/Argo_Feb_25/bin/python -B \
+  notebooks/espe_code/process_argo_mixing.py validate-natre \
+  --profiles-only --workers 50 --memory-limit 4GiB --batch-size 64 \
+  --gdac /swot/SUM05/amf2288/argo_snapshots/gdac_20261109_138320 \
+  --output /swot/SUM05/amf2288/argo_mixing/natre_profiles_50
+```
+
+The new validation **completed successfully**, exit code **0**. Both reference
+replay and local-source outputs contain exactly **6,261 accepted profiles**;
+all **34 historical variables and three coordinates match bitwise**, including
+profile order, with no missing or extra profiles and no failed processing batches.
+There were no resumed batches. **No summaries or bootstraps were run.**
+
+Its report is `natre_profiles_50/validation.json`, log `run.log`, and shell exit
+status `exit_code`. It ran in a detached server-side tmux session named
+`argo_natre_profiles50`. No new global processing has been launched by this update.
+
+Measured profile-stage wall times (include worker startup, index selection,
+loading/QC, calculations and writes; exclude the subsequent reference comparison):
+
+- Reference replay: **187.815 s / 3.13 min**, 169 batches.
+- Local archive: **235.593 s / 3.93 min**, 212 batches, 13,551 candidates.
+- Prior local run with 12 workers: **478.732 s / 7.98 min**, same population.
+  Thus 50 workers yielded about **2.03x** the observed end-to-end throughput,
+  rather than assuming ideal CPU-count scaling. These are separate runs on the
+  shared server, not a controlled scaling experiment.
+
+For **3,398,922 global candidates**, direct extrapolation of the 50-worker local
+measurement is **16.41 hours**. Use **16–24 hours** as the planning estimate for
+profile-only global processing, allowing for regional differences in eligibility,
+profile complexity, IO and server load. The corresponding 12-worker profile-only
+extrapolation is about **33.35 hours**. The earlier **36–60 hour / 12-worker**
+estimate included regional aggregation and 1,000-replicate bootstraps. The new
+estimate changes both worker count and stages; it is not a measurement of global
+bootstrap savings alone. The old NATRE regional-summary stage itself took about
+**587.54 s / 9.79 min**, and is now entirely omitted. No extra network-download
+time is needed for the existing archive. `benchmark.json` beside the new report
+records these measurements and assumptions. Global execution has not yet tested
+the full archive's runtime or scientific eligibility.
+
+All **19 regression tests** passed, including no-summary execution, no bootstrap
+diagnostics on profile mismatch, and validation-scope/code/archive gate checks.
+AST comparison with the earlier successful script found changes only in
+`_profile_task`, `run_pipeline`, `_validate_natre`, `_parser`, and `main`, plus
+the new `_require_global_validation` helper. All scientific/loading/order
+functions are unchanged. The updated producing script SHA256 is
+`94875796f9e929ac137fd98b8f6fb5d182140a80b634d390072f8e126fec4593`.
+
+That exact-script report passed. The prepared global command is:
+
+```bash
+/home/amf2288/miniconda3/envs/Argo_Feb_25/bin/python -B \
+  notebooks/espe_code/process_argo_mixing.py run \
+  --profiles-only --workers 50 --memory-limit 4GiB --batch-size 64 \
+  --gdac /swot/SUM05/amf2288/argo_snapshots/gdac_20261109_138320 \
+  --validation-report /swot/SUM05/amf2288/argo_mixing/natre_profiles_50/validation.json \
+  --output /swot/SUM05/amf2288/argo_mixing/global_profiles_20261109
+```
+
+Launch the global command inside tmux on the remote server and redirect its log
+to the same `/swot` output directory after creating that directory. No bounds or
+date flags are supplied, so the complete frozen archive is considered. Fifty
+single-threaded numerical workers have a combined 200 GiB worker-memory budget;
+the host had approximately 435 GiB available when checked. Summaries can later
+read the manifest's saved profile paths without repeating Argo loading, TEOS-10
+or mixing calculations. A dedicated CLI for summary-only execution is not yet
+implemented; the existing `aggregate_region`/`_summary_task` functions already
+consume these saved partitions.
+
+**Earlier November 13 completion — full refreshed local NATRE replication PASSED.**
 
 The user reaffirmed the purpose: NATRE is the regression case for a general
 local-archive processing pipeline that can subsequently process global Argo.
