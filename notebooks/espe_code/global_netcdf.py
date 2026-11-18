@@ -266,8 +266,9 @@ def merge_binned_grids(pressure, density):
     dnames = {k: k + '_density' for k, v in density.data_vars.items()
               if 'neutral_density_bin' in v.dims and k != 'neutral_density_bin_bounds'}
     merged = xr.merge([pressure.rename(pnames), density.rename(dnames)],
-                      compat='identical', join='exact', combine_attrs='drop')
-    merged.attrs.update(
+                      compat='identical', join='exact', combine_attrs='override')
+    # combine_attrs also applies to variables; replace only the Dataset attrs.
+    merged.attrs = dict(
         description='Global 3-degree observation-weighted means on separate pressure and neutral-density bins',
         pressure_variable_suffix='_pressure', density_variable_suffix='_density',
         pressure_grid_attrs_json=json.dumps(dict(pressure.attrs), default=_json_numpy),
@@ -317,7 +318,7 @@ def save_binned_grids(pressure, density, output_path, binning_report):
     report = {'status': 'complete', 'output_file': str(output_path),
               'file_bytes': output_path.stat().st_size, 'sha256': _digest(output_path),
               'source_binning_signature': binning_report['signature'],
-              'verification': 'all variables, coordinates, dimensions, dtypes and bytes match both source grids'}
+              'verification': 'all variables, coordinates, dimensions, dtypes, bytes and variable attributes match both source grids'}
     _json_write(output_path.with_suffix('.json'), report)
     print(f'PASS: both binned grids saved bitwise in {output_path}', flush=True)
     return report
@@ -330,3 +331,8 @@ def _check_arrays(actual, expected):
         a, b = actual[name], expected[name]
         if a.dims != b.dims or a.shape != b.shape or a.dtype != b.dtype or a.values.tobytes() != b.values.tobytes():
             raise AssertionError(f'Binned roundtrip differs: {name}')
+        # Compare metadata independently, without another read of the arrays.
+        try:
+            xr.testing.assert_identical(xr.Dataset(attrs=a.attrs), xr.Dataset(attrs=b.attrs))
+        except AssertionError as exc:
+            raise AssertionError(f'Binned variable attributes differ: {name}') from exc

@@ -62,8 +62,16 @@ class GlobalNetCDFTest(unittest.TestCase):
                 'longitude_bounds': (('longitude', 'bounds'), [[0., 3.]]),
                 'cell_profile_count': (('latitude', 'longitude'), [[1]]),
             }, coords={**coords, dim: levels}, attrs={'accepted_profiles': np.int64(1)})
+            ds.attrs['vertical_bin_width'] = 50. if dim == 'pressure_bin' else .05
+            ds.Pdia.attrs = {'units': 'K2 s-1', 'weighting': 'equal weight per finite saved Zfs observation'}
+            ds.Pdia_count.attrs = {'units': '1'}
+            ds[dim].attrs = {'units': 'dbar' if dim == 'pressure_bin' else 'kg m-3',
+                             'bounds': dim + '_bounds'}
+            ds.latitude.attrs = {'units': 'degrees_north', 'bounds': 'latitude_bounds'}
+            ds.longitude.attrs = {'units': 'degrees_east', 'bounds': 'longitude_bounds'}
             grids.append(ds)
         merged = merge_binned_grids(*grids)
+        self.assertNotIn('vertical_bin_width', merged.attrs)
         self.assertEqual(merged.Pdia_pressure.dims, ('pressure_bin', 'latitude', 'longitude'))
         self.assertEqual(merged.Pdia_density.dims, ('neutral_density_bin', 'latitude', 'longitude'))
         for actual, expected in zip(split_binned_grids(merged), grids):
@@ -76,6 +84,11 @@ class GlobalNetCDFTest(unittest.TestCase):
             with xr.open_dataset(out, engine='netcdf4') as d:
                 for actual, expected in zip(split_binned_grids(d), grids):
                     xr.testing.assert_identical(actual, expected)
+            # A cached file with missing metadata must not be silently reused.
+            with Dataset(out, 'r+') as d:
+                d['Pdia_pressure'].delncattr('units')
+            with self.assertRaisesRegex(AssertionError, 'attributes differ: Pdia'):
+                save_binned_grids(*grids, out, report)
 
 
 if __name__ == '__main__':
