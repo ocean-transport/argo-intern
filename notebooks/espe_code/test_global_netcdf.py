@@ -84,6 +84,19 @@ class GlobalNetCDFTest(unittest.TestCase):
             with xr.open_dataset(out, engine='netcdf4') as d:
                 for actual, expected in zip(split_binned_grids(d), grids):
                     xr.testing.assert_identical(actual, expected)
+            # New native Kiso fields must not collide with renamed pressure
+            # fields, and adding them must not invalidate the original product.
+            with Dataset(out, 'r+') as d:
+                d.createDimension('isopycnal_density', 2)
+                d.createVariable('isopycnal_density', 'f8', ('isopycnal_density',))[:] = [25., 25.05]
+                d.createVariable('KisoT', 'f8', ('isopycnal_density', 'latitude', 'longitude'))[:] = 100.
+                d.createVariable('KisoT_pressure', 'f8', ('pressure_bin', 'latitude', 'longitude'))[:] = 200.
+            with xr.open_dataset(out, engine='netcdf4') as d:
+                pressure, density = split_binned_grids(d)
+                self.assertNotIn('isopycnal_density', pressure.dims)
+                self.assertNotIn('isopycnal_density', density.dims)
+                np.testing.assert_array_equal(pressure.KisoT.values, np.full((2, 1, 1), 200.))
+            save_binned_grids(*grids, out, report)
             # A cached file with missing metadata must not be silently reused.
             with Dataset(out, 'r+') as d:
                 d['Pdia_pressure'].delncattr('units')

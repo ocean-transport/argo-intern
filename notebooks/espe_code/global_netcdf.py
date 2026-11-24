@@ -279,8 +279,10 @@ def merge_binned_grids(pressure, density):
 
 def split_binned_grids(combined):
     """Views of the two grids; no new computation or disk read until requested."""
-    pressure = combined.drop_dims('neutral_density_bin')
-    density = combined.drop_dims('pressure_bin')
+    # The pooled Kiso product has its own density windows. Exclude those native
+    # fields before renaming KisoT_pressure to KisoT in the pressure-grid view.
+    pressure = combined.drop_dims(['neutral_density_bin', 'isopycnal_density'], errors='ignore')
+    density = combined.drop_dims(['pressure_bin', 'isopycnal_density'], errors='ignore')
     pressure = pressure.rename({k: k.removesuffix('_pressure') for k in pressure.data_vars if k.endswith('_pressure')})
     density = density.rename({k: k.removesuffix('_density') for k in density.data_vars if k.endswith('_density')})
     pressure.attrs = json.loads(combined.attrs['pressure_grid_attrs_json'])
@@ -303,7 +305,7 @@ def save_binned_grids(pressure, density, output_path, binning_report):
             if previous.attrs.get('binning_signature') != binning_report['signature']:
                 raise FileExistsError(f'Existing binned file has different settings: {output_path}')
             for actual, expected in zip(split_binned_grids(previous), (pressure, density)):
-                _check_arrays(actual, expected)
+                _check_arrays(actual, expected, allow_additions=True)
         print(f'Reusing verified binned NetCDF: {output_path}', flush=True)
         return {'status': 'complete', 'output_file': str(output_path), 'file_bytes': output_path.stat().st_size}
     temporary = output_path.with_suffix('.nc.partial')
@@ -324,8 +326,10 @@ def save_binned_grids(pressure, density, output_path, binning_report):
     return report
 
 
-def _check_arrays(actual, expected):
-    if set(actual.variables) != set(expected.variables):
+def _check_arrays(actual, expected, allow_additions=False):
+    inventory_matches = (set(expected.variables).issubset(actual.variables) if allow_additions
+                         else set(actual.variables) == set(expected.variables))
+    if not inventory_matches:
         raise AssertionError('Variable inventory differs')
     for name in expected.variables:
         a, b = actual[name], expected[name]
